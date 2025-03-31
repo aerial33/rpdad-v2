@@ -3,9 +3,9 @@ import React from 'react'
 const BeforeLogin: React.FC = () => {
   return (
     <div>
-      <p>
-        <b>Welcome to your dashboard!</b>
-        {' This is where site admins will log in to manage your website.'}
+      <p style={{ textAlign: 'center', paddingBottom: '20px' }}>
+        <b>Bienvenue sur votre tableau de bord !</b> <br />
+        {" C'est ici que les administrateurs du site se connecteront pour gérer votre site web."}
       </p>
     </div>
   )
