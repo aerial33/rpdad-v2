@@ -6,9 +6,10 @@ import React, { useEffect, useState } from 'react'
 
 import type { Header } from '@/payload-types'
 
-import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav'
-
+import { RpdadLogo } from '@/graphics/LogoRpdad/logo'
+import { Facebook, Instagram, Linkedin, SearchIcon, Youtube } from 'lucide-react'
+import { MobileMenu } from './Nav/MobileNav'
+import { NavbarMedium } from './Nav/NavMedium'
 interface HeaderClientProps {
   data: Header
 }
@@ -31,11 +32,42 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
+      <div className="py-4 flex justify-between items-center">
         <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+          <RpdadLogo />
         </Link>
-        <HeaderNav data={data} />
+        {/* <HeaderNav data={data} /> */}
+        <NavbarMedium data={data} />
+        <div className="flex items-center gap-4">
+          <ul className="text-muted-foreground flex items-center space-x-4">
+            <li className="hover:text-primary font-medium">
+              <a href="#">
+                <Facebook className="size-5" />
+              </a>
+            </li>
+            <li className="hover:text-primary font-medium">
+              <a href="#">
+                <Youtube className="size-5" />
+              </a>
+            </li>
+            <li className="hover:text-primary font-medium">
+              <a href="#">
+                <Linkedin className="size-5" />
+              </a>
+            </li>
+            <li className="hover:text-primary font-medium">
+              <a href="#">
+                <Instagram className="size-5" />
+              </a>
+            </li>
+          </ul>
+          <Link href="/search">
+            <span className="sr-only">Search</span>
+            <SearchIcon className="w-5 hover:text-primary font-medium" />
+          </Link>
+          <MobileMenu data={data} />
+          {/* <CTA label="Contactez-nous" link="/contact" variant="default" /> */}
+        </div>
       </div>
     </header>
   )
