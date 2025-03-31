@@ -1,3 +1,4 @@
+//todo: add the cta and dynamic social media links
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
@@ -41,22 +42,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <div className="flex items-center gap-4">
           <ul className="text-muted-foreground flex items-center space-x-4">
             <li className="hover:text-primary font-medium">
-              <a href="#">
+              <a href="https://www.facebook.com/rpdadgironde" target="_blank">
                 <Facebook className="size-5" />
               </a>
             </li>
             <li className="hover:text-primary font-medium">
-              <a href="#">
+              <a href="https://www.youtube.com/@RPDAD33" target="_blank">
                 <Youtube className="size-5" />
               </a>
             </li>
             <li className="hover:text-primary font-medium">
-              <a href="#">
+              <a
+                href="https://www.linkedin.com/company/rpdad33/posts/?feedView=all"
+                target="_blank"
+              >
                 <Linkedin className="size-5" />
               </a>
             </li>
             <li className="hover:text-primary font-medium">
-              <a href="#">
+              <a href="https://www.instagram.com/rpdad_33/" target="_blank">
                 <Instagram className="size-5" />
               </a>
             </li>
