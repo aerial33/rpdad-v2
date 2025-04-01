@@ -191,7 +191,16 @@ export interface Page {
       | null;
     media?: (string | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | EditorialBlock | MapBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | EditorialBlock
+    | MapBlock
+    | ActuBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -753,6 +762,54 @@ export interface MapBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActuBlock".
+ */
+export interface ActuBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  badgeText?: string | null;
+  buttonText?: string | null;
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  populateBy?: ('collection' | 'selection' | 'manual') | null;
+  relationTo?: 'posts' | null;
+  categories?: (string | Category)[] | null;
+  limit?: number | null;
+  selectedDocs?:
+    | {
+        relationTo: 'posts';
+        value: string | Post;
+      }[]
+    | null;
+  manualEvents?:
+    | {
+        month: string;
+        day: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  variant?: ('default' | 'flamingo') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'actu';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1043,6 +1100,7 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         editorial?: T | EditorialBlockSelect<T>;
         map?: T | MapBlockSelect<T>;
+        actu?: T | ActuBlockSelect<T>;
       };
   meta?:
     | T
@@ -1160,6 +1218,34 @@ export interface EditorialBlockSelect<T extends boolean = true> {
 export interface MapBlockSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActuBlock_select".
+ */
+export interface ActuBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  badgeText?: T;
+  buttonText?: T;
+  introContent?: T;
+  populateBy?: T;
+  relationTo?: T;
+  categories?: T;
+  limit?: T;
+  selectedDocs?: T;
+  manualEvents?:
+    | T
+    | {
+        month?: T;
+        day?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  variant?: T;
   id?: T;
   blockName?: T;
 }

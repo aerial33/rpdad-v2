@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
+import { ActuBlock } from '@/blocks/ActuBlock/Component'
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
@@ -17,6 +18,7 @@ const blockComponents = {
   mediaBlock: MediaBlock,
   editorial: EditorialBlock,
   map: MapBlock,
+  actu: ActuBlock,
 }
 
 export const RenderBlocks: React.FC<{

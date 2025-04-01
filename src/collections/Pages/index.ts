@@ -1,7 +1,17 @@
 import type { CollectionConfig } from 'payload'
 
+import { Actu } from '@/blocks/ActuBlock/config'
+import { editorial } from '@/blocks/editorial/config'
+import { map } from '@/blocks/map/config'
 import { slugField } from '@/fields/slug'
 import { hero } from '@/heros/config'
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
@@ -12,16 +22,6 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
-
-import { editorial } from '@/blocks/editorial/config'
-import { map } from '@/blocks/map/config'
-import {
-  MetaDescriptionField,
-  MetaImageField,
-  MetaTitleField,
-  OverviewField,
-  PreviewField,
-} from '@payloadcms/plugin-seo/fields'
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
@@ -76,7 +76,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, editorial, map],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, editorial, map, Actu],
               required: true,
               admin: {
                 initCollapsed: true,

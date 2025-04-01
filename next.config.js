@@ -18,6 +18,10 @@ const nextConfig = {
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      {
+        hostname: 'www.rpdad.fr',
+        protocol: 'https',
+      },
     ],
   },
   reactStrictMode: true,
