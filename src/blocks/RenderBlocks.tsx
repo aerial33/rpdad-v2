@@ -7,13 +7,16 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
-
+import { EditorialBlock } from '@/blocks/editorial/editorial'
+import { MapBlock } from '@/blocks/map/map-gironde'
 const blockComponents = {
   archive: ArchiveBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  editorial: EditorialBlock,
+  map: MapBlock,
 }
 
 export const RenderBlocks: React.FC<{
