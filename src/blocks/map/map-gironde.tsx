@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 import Link from 'next/link'
 
-import { MapGironde } from '@/components/geomap/gironde'
+import { Arrondissement } from '@/components/geomap/arrondissement'
 import { FadeUp } from '@/components/motion/animations'
 import { Badge } from '@/components/ui/badge'
 
@@ -86,13 +86,14 @@ export function MapBlock() {
           )}
         </FadeUp>
         <div className="p-4">
-          <MapGironde
+          <Arrondissement />
+          {/* <MapGironde
             highlightedAreaId={selectedArea?.id || null}
             onAreaClick={handleAreaClick}
             width={800}
             height={800}
             className="shadow"
-          />
+          /> */}
         </div>
       </div>
     </section>

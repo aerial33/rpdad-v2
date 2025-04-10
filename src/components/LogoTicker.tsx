@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 import { Badge } from '@/components/ui/badge'
-
+import Link from 'next/link'
 export const LogoTicker = () => {
   return (
     <>
@@ -47,49 +47,69 @@ const LogoList = ({
 }
 
 const departementLogo = () => {
-  return <Image src="/img/departemental-gironde.jpg" alt="departement" width={100} height={100} />
+  return (
+    <Link href="https://www.gironde.fr/" target="_blank" rel="noopener noreferrer">
+      <Image src="/img/departement-gironde.png" alt="departement" width={200} height={200} />
+    </Link>
+  )
 }
 
-const arsLogo = () => {
-  return <Image src="/img/ars.jpg" alt="ars" width={100} height={100} />
-}
+// const arsLogo = () => {
+//   return <Image src="/img/ars.jpg" alt="ars" width={100} height={100} />
+// }
 
 const carsatLogo = () => {
-  return <Image src="/img/carsat-partenaires.png" alt="carstat" width={200} height={200} />
+  return (
+    <Link href="https://www.carsat-aquitaine.fr/" target="_blank" rel="noopener noreferrer">
+      <Image src="/img/carsat.png" alt="carstat" width={200} height={200} />
+    </Link>
+  )
 }
 
-const cnraclLogo = () => {
-  return <Image src="/img/cnracl.jpg" alt="cnracl" width={100} height={50} />
-}
+// const cnraclLogo = () => {
+//   return <Image src="/img/cnracl.jpg" alt="cnracl" width={100} height={50} />
+// }
 
-const direccteLogo = () => {
-  return <Image src="/img/direccte-aquitaine.png" alt="direccte" width={100} height={100} />
-}
-const mdphLogo = () => {
-  return <Image src="/img/mdph.png" alt="mdph" width={150} height={150} />
-}
+// const direccteLogo = () => {
+//   return <Image src="/img/direccte-aquitaine.png" alt="direccte" width={100} height={100} />
+// }
+// const mdphLogo = () => {
+//   return <Image src="/img/mdph.png" alt="mdph" width={150} height={150} />
+// }
 const cnsaLogo = () => {
-  return <Image src="/img/cnsa.jpg" alt="cnsa" width={150} height={150} />
+  return (
+    <Link href="https://www.cnsa.fr/" target="_blank" rel="noopener noreferrer">
+      <Image src="/img/cnsa.png" alt="cnsa" width={150} height={150} />
+    </Link>
+  )
 }
 const msaLogo = () => {
-  return <Image src="/img/msa.jpg" alt="msa" width={150} height={150} />
+  return (
+    <Link href="https://www.msa.fr" target="_blank" rel="noopener noreferrer">
+      <Image src="/img/msa.png" alt="msa" width={150} height={150} />
+    </Link>
+  )
 }
 const unccasLogo = () => {
   return <Image src="/img/unccas.png" alt="unccas" width={150} height={150} />
 }
-const cpstiLogo = () => {
-  return <Image src="/img/cpsti.png" alt="cpsti" width={150} height={150} />
+const udccas = () => {
+  return (
+    <Link href="https://www.unccas.org/gironde-33" target="_blank" rel="noopener noreferrer">
+      <Image src="/img/udccas.png" alt="udccas" width={150} height={150} />
+    </Link>
+  )
 }
 
 const logos = [
   { id: 1, component: departementLogo },
-  { id: 2, component: arsLogo },
+  // { id: 2, component: arsLogo },
   { id: 3, component: carsatLogo },
-  { id: 4, component: cnraclLogo },
-  { id: 5, component: direccteLogo },
-  { id: 6, component: mdphLogo },
+  // { id: 4, component: cnraclLogo },
+  // { id: 5, component: direccteLogo },
+  // { id: 6, component: mdphLogo },
   { id: 7, component: cnsaLogo },
   { id: 8, component: msaLogo },
   { id: 9, component: unccasLogo },
-  { id: 10, component: cpstiLogo },
+  { id: 10, component: udccas },
 ]
