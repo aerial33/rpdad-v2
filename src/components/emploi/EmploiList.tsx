@@ -2,12 +2,29 @@ import { EmploiGrid, EmploiItem } from './EmploiGrid'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import type { Config } from 'src/payload-types'
+
+// Définition du type pour un emploi dans la collection
+type EmploiDocument = {
+  id: string
+  title: string
+  subtitle?: string
+  slug?: string
+  category?: string
+  location?: string
+  featuredImage?: {
+    url: string
+    alt: string
+    width: number
+    height: number
+  }
+}
 
 async function getEmplois(limit = 6) {
   const payload = await getPayload({ config: configPromise })
 
   const emplois = await payload.find({
-    collection: 'emplois',
+    collection: 'emplois' as keyof Config['collections'],
     depth: 1,
     limit,
     sort: '-publishedAt',
@@ -18,22 +35,23 @@ async function getEmplois(limit = 6) {
     },
   })
 
-  return emplois.docs.map((emploi) => {
-    const featuredImage = emploi.featuredImage as any
+  // Utiliser une assertion de type pour les documents retournés
+  return (emplois.docs as unknown as EmploiDocument[]).map((emploi) => {
+    const featuredImage = emploi.featuredImage
 
     return {
       id: emploi.id,
-      title: emploi.title as string,
-      summary: emploi.subtitle as string,
-      slug: emploi.slug as string,
-      category: emploi.category as string,
-      location: emploi.location as string,
+      title: emploi.title,
+      summary: emploi.subtitle,
+      slug: emploi.slug,
+      category: emploi.category,
+      location: emploi.location,
       image: featuredImage
         ? {
-            url: featuredImage.url as string,
-            alt: featuredImage.alt as string,
-            width: featuredImage.width as number,
-            height: featuredImage.height as number,
+            url: featuredImage.url,
+            alt: featuredImage.alt,
+            width: featuredImage.width,
+            height: featuredImage.height,
           }
         : undefined,
     } as EmploiItem

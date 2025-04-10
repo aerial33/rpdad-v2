@@ -91,7 +91,11 @@ const msaLogo = () => {
   )
 }
 const unccasLogo = () => {
-  return <Image src="/img/unccas.png" alt="unccas" width={150} height={150} />
+  return (
+    <Link href="https://www.unccas.org/gironde-33" target="_blank" rel="noopener noreferrer">
+      <Image src="/img/unccas.png" alt="unccas" width={150} height={150} />
+    </Link>
+  )
 }
 const udccas = () => {
   return (

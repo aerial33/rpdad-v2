@@ -2,6 +2,7 @@ import { EmploiGrid, EmploiItem } from '@/components/emploi/EmploiGrid'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import { Config } from 'src/payload-types'
 
 type EmploiBlockProps = {
   heading?: string
@@ -68,7 +69,7 @@ async function getEmplois(props: EmploiBlockProps): Promise<EmploiItem[]> {
   }
 
   const emplois = await payload.find({
-    collection: 'emplois',
+    collection: 'emplois' as keyof Config['collections'],
     depth: 1,
     limit,
     sort: '-publishedAt',

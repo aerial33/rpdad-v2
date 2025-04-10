@@ -1,5 +1,5 @@
 import type { Block } from 'payload'
-
+import type { Config } from 'src/payload-types'
 export const EmploiBlock: Block = {
   slug: 'emploiBlock',
   interfaceName: 'EmploiBlock',
@@ -55,7 +55,7 @@ export const EmploiBlock: Block = {
       },
       hasMany: true,
       label: 'Sélection des offres',
-      relationTo: 'emplois',
+      relationTo: 'emplois' as keyof Config['collections'],
     },
     {
       name: 'categories',
