@@ -25,6 +25,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
   const linkResult: GroupField = {
     name: 'link',
     type: 'group',
+    label: 'Lien',
     admin: {
       hideGutter: true,
     },
@@ -42,11 +43,11 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
             defaultValue: 'reference',
             options: [
               {
-                label: 'Internal link',
+                label: 'Lien interne',
                 value: 'reference',
               },
               {
-                label: 'Custom URL',
+                label: 'URL personnalisée',
                 value: 'custom',
               },
             ],
@@ -60,7 +61,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
               },
               width: '50%',
             },
-            label: 'Open in new tab',
+            label: 'Ouvrir dans un nouvel onglet',
           },
         ],
       },
@@ -74,7 +75,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       admin: {
         condition: (_, siblingData) => siblingData?.type === 'reference',
       },
-      label: 'Document to link to',
+      label: 'Page à lier',
       relationTo: ['pages', 'posts'],
       required: true,
     },
@@ -84,7 +85,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       admin: {
         condition: (_, siblingData) => siblingData?.type === 'custom',
       },
-      label: 'Custom URL',
+      label: 'URL personnalisée',
       required: true,
     },
   ]
@@ -128,7 +129,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       name: 'appearance',
       type: 'select',
       admin: {
-        description: 'Choose how the link should be rendered.',
+        description: 'Choisissez comment le lien doit être rendu.',
       },
       defaultValue: 'default',
       options: appearanceOptionsToUse,

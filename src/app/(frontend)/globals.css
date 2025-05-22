@@ -269,3 +269,26 @@
     padding-inline: 2rem;
   }
 }
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slide {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.animation-appear {
+  animation: fade-in-scale 0.5s ease-in-out;
+}
+.animation-slide {
+  animation: slide 0.75s ease-in-out;
+}

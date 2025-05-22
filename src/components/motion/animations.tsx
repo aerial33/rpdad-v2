@@ -48,13 +48,69 @@ export const FadeUp = ({
     <motion.div
       // ref={ref}
       variants={{
-        hidden: { opacity: 0, y: 10 },
+        hidden: { opacity: 0, y: 30 },
         visible: { opacity: 1, y: 0 },
       }}
       viewport={{ once: true }}
       initial="hidden"
       whileInView="visible"
       // animate={isInView ? "visible" : "hidden"}
+      transition={{ duration, ease: 'easeIn', delay: delay }}
+      className={cn(className)}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+export const FadeRight = ({
+  children,
+  delay = 0,
+  duration = 0.6,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+  delay?: number
+  duration?: number
+}) => {
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, x: 30 },
+        visible: { opacity: 1, x: 0 },
+      }}
+      viewport={{ once: true }}
+      initial="hidden"
+      whileInView="visible"
+      transition={{ duration, ease: 'easeIn', delay: delay }}
+      className={cn(className)}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+export const FadeLeft = ({
+  children,
+  delay = 0,
+  duration = 0.6,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+  delay?: number
+  duration?: number
+}) => {
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, x: -30 },
+        visible: { opacity: 1, x: 0 },
+      }}
+      viewport={{ once: true }}
+      initial="hidden"
+      whileInView="visible"
       transition={{ duration, ease: 'easeIn', delay: delay }}
       className={cn(className)}
     >
