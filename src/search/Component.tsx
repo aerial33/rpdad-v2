@@ -1,9 +1,9 @@
 'use client'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import React, { useState, useEffect } from 'react'
 import { useDebounce } from '@/utilities/useDebounce'
 import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 export const Search: React.FC = () => {
   const [value, setValue] = useState('')
@@ -23,17 +23,17 @@ export const Search: React.FC = () => {
         }}
       >
         <Label htmlFor="search" className="sr-only">
-          Search
+          Rechercher
         </Label>
         <Input
           id="search"
           onChange={(event) => {
             setValue(event.target.value)
           }}
-          placeholder="Search"
+          placeholder="Rechercher..."
         />
         <button type="submit" className="sr-only">
-          submit
+          Rechercher
         </button>
       </form>
     </div>
