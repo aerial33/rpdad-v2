@@ -1,3 +1,4 @@
+'use client'
 import { motion } from 'framer-motion'
 
 import Image from 'next/image'
@@ -23,7 +24,7 @@ export const LogoTicker = () => {
   )
 }
 
-const LogoList = ({
+export const LogoList = ({
   list,
   duration = 70,
 }: {

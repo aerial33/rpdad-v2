@@ -39,6 +39,10 @@ export const hero: Field = {
           label: 'Hero Grid',
           value: 'heroGrid',
         },
+        {
+          label: 'Hero Primary',
+          value: 'heroPrimary',
+        },
       ],
       required: true,
     },

@@ -22,6 +22,26 @@ const nextConfig = {
         hostname: 'www.rpdad.fr',
         protocol: 'https',
       },
+      {
+        hostname: 'assets.aceternity.com',
+        protocol: 'https',
+      },
+      {
+        hostname: 'images.unsplash.com',
+        protocol: 'https',
+      },
+      {
+        hostname: 'picsum.photos',
+        protocol: 'https',
+      },
+      {
+        hostname: 'sandbox-tailwind-template.netlify.app',
+        protocol: 'https',
+      },
+      {
+        hostname: 'images.pexels.com',
+        protocol: 'https',
+      },
     ],
   },
   reactStrictMode: true,

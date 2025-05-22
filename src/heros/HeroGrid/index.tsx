@@ -7,9 +7,21 @@ import Image from 'next/image'
 
 import { LogoTicker } from '@/components/LogoTicker'
 import { FadeUp } from '@/components/motion/animations'
+import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
+import { Page } from '@/payload-types'
 
-export const HeroGrid = () => {
+type HeroGridType =
+  | {
+      children?: React.ReactNode
+      richText?: never
+    }
+  | (Omit<Page['hero'], 'richText'> & {
+      children?: never
+      richText?: Page['hero']['richText']
+    })
+
+export const HeroGrid: React.FC<HeroGridType> = ({ children, richText }) => {
   return (
     <>
       <section className="from-flamingo-lighter to-flamingo-lightest rounded-b-4xl bg-gradient-to-t py-12 shadow md:pt-24">
@@ -19,15 +31,9 @@ export const HeroGrid = () => {
               <div className="text-flamingo mb-2 text-sm font-semibold tracking-tight">
                 Un service proche de chez vous
               </div>
-              <h1 className="text-4xl leading-snug font-bold text-gray-800 lg:text-5xl lg:leading-tight">
-                Réseau Public Départemental{' '}
-                <span className="gradient-primary">d&apos;aide à domicile</span> de la Gironde
-              </h1>
-              <p className="py-5 text-lg leading-normal text-gray-500 lg:text-xl xl:text-xl">
-                Branche médico-sociale de l&apos;UDCCAS 33 (Union Départementale des Centres
-                Communaux d&apos;Action Sociale de la Gironde) <br />
-                Aide à la vie quotidienne pour les personnes âgées ou en situation de handicap
-              </p>
+              <div className="prose prose-lg">
+                {children || (richText && <RichText data={richText} enableGutter={false} />)}
+              </div>
 
               <div className="mt-2 flex flex-wrap gap-4">
                 <Button size="lg" className="gap-2">

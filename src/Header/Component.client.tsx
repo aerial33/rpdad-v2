@@ -41,18 +41,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <NavbarMedium data={data} />
         </div>
         <div className="lg:flex hidden items-center gap-4">
-          <ul className="text-muted-foreground flex items-center space-x-4">
-            <li className="hover:text-primary font-medium">
+          <ul className="text-foreground flex items-center space-x-4">
+            <li className="hover:text-muted-foreground ">
               <a href="https://www.facebook.com/rpdadgironde" target="_blank">
                 <Facebook className="size-5" />
               </a>
             </li>
-            <li className="hover:text-primary font-medium">
+            <li className="hover:text-muted-foreground ">
               <a href="https://www.youtube.com/@RPDAD33" target="_blank">
                 <Youtube className="size-5" />
               </a>
             </li>
-            <li className="hover:text-primary font-medium">
+            <li className="hover:text-muted-foreground ">
               <a
                 href="https://www.linkedin.com/company/rpdad33/posts/?feedView=all"
                 target="_blank"
@@ -60,7 +60,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <Linkedin className="size-5" />
               </a>
             </li>
-            <li className="hover:text-primary font-medium">
+            <li className="hover:text-muted-foreground ">
               <a href="https://www.instagram.com/rpdad_33/" target="_blank">
                 <Instagram className="size-5" />
               </a>
@@ -68,7 +68,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </ul>
           <Link href="/search">
             <span className="sr-only">Search</span>
-            <SearchIcon className="w-5 hover:text-primary font-medium" />
+            <SearchIcon className="w-5 hover:text-muted-foreground font-medium text-foreground" />
           </Link>
         </div>
         <MobileMenu data={data} />
