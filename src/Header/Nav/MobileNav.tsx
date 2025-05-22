@@ -2,7 +2,17 @@
 
 //todo: fix the submenu
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowDown, ArrowRight, Menu as MenuIcon, X } from 'lucide-react'
+import {
+  ArrowDown,
+  ArrowRight,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Menu as MenuIcon,
+  SearchIcon,
+  X,
+  Youtube,
+} from 'lucide-react'
 
 import { useState } from 'react'
 
@@ -39,7 +49,7 @@ export function MobileMenu({ data }: { data: HeaderType }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="bg-background/80 fixed inset-0 z-50 backdrop-blur-xl"
+            className="bg-flamingo-lighter fixed inset-0 z-50"
             onClick={closeMenu}
           >
             {/* Contenu du menu mobile */}
@@ -48,7 +58,7 @@ export function MobileMenu({ data }: { data: HeaderType }) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="bg-background fixed top-0 right-0 h-full w-full p-6"
+              className=" fixed top-0 right-0 h-full w-full p-6 flex flex-col space-y-6"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between">
@@ -61,7 +71,7 @@ export function MobileMenu({ data }: { data: HeaderType }) {
                   <X width={32} height={32} />
                 </button>
               </div>
-              <div className="flex h-screen flex-col space-y-6 overflow-y-scroll pt-10">
+              <div className="flex h-screen flex-col space-y-6 overflow-y-scroll pt-10 mt-10">
                 {data.navItems?.map((item) => {
                   // Si c'est un lien simple sans sous-menu
                   if (item.link) {
@@ -135,6 +145,37 @@ export function MobileMenu({ data }: { data: HeaderType }) {
                     </div>
                   )
                 })}
+              </div>
+              <div className="flex items-center gap-6 self-center">
+                <ul className="text-muted-foreground flex items-center space-x-6">
+                  <li className="hover:text-primary font-medium">
+                    <a href="https://www.facebook.com/rpdadgironde" target="_blank">
+                      <Facebook className="size-6" />
+                    </a>
+                  </li>
+                  <li className="hover:text-primary font-medium">
+                    <a href="https://www.youtube.com/@RPDAD33" target="_blank">
+                      <Youtube className="size-6" />
+                    </a>
+                  </li>
+                  <li className="hover:text-primary font-medium">
+                    <a
+                      href="https://www.linkedin.com/company/rpdad33/posts/?feedView=all"
+                      target="_blank"
+                    >
+                      <Linkedin className="size-6" />
+                    </a>
+                  </li>
+                  <li className="hover:text-primary font-medium">
+                    <a href="https://www.instagram.com/rpdad_33/" target="_blank">
+                      <Instagram className="size-6" />
+                    </a>
+                  </li>
+                </ul>
+                <Link href="/search">
+                  <span className="sr-only">Search</span>
+                  <SearchIcon className="w-6 hover:text-primary font-medium" />
+                </Link>
               </div>
             </motion.div>
           </motion.div>

@@ -491,7 +491,7 @@ export interface ContentBlock {
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'content';
+  blockType: 'contenu';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1094,7 +1094,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         cta?: T | CallToActionBlockSelect<T>;
-        content?: T | ContentBlockSelect<T>;
+        contenu?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;

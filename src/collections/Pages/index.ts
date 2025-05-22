@@ -61,6 +61,7 @@ export const Pages: CollectionConfig<'pages'> = {
   fields: [
     {
       name: 'title',
+      label: 'Titre',
       type: 'text',
       required: true,
     },
@@ -69,12 +70,13 @@ export const Pages: CollectionConfig<'pages'> = {
       tabs: [
         {
           fields: [hero],
-          label: 'Hero',
+          label: 'Haut de page',
         },
         {
           fields: [
             {
               name: 'layout',
+              label: 'Structure',
               type: 'blocks',
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, editorial, map, Actu],
               required: true,
@@ -83,7 +85,7 @@ export const Pages: CollectionConfig<'pages'> = {
               },
             },
           ],
-          label: 'Content',
+          label: 'Contenu',
         },
         {
           name: 'meta',
@@ -116,6 +118,7 @@ export const Pages: CollectionConfig<'pages'> = {
     },
     {
       name: 'publishedAt',
+      label: 'Date de publication',
       type: 'date',
       admin: {
         position: 'sidebar',

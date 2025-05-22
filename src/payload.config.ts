@@ -1,7 +1,6 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 
-import { en } from '@payloadcms/translations/languages/en'
 import { fr } from '@payloadcms/translations/languages/fr'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -69,9 +68,8 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   i18n: {
-    supportedLanguages: { fr, en },
+    supportedLanguages: { fr },
     translations: {
-      en,
       fr,
     },
   },

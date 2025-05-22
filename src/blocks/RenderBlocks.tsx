@@ -6,7 +6,6 @@ import { ActuBlock } from '@/blocks/ActuBlock/Component'
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
-import { EmploiBlock } from '@/blocks/EmploiBlock/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { EditorialBlock } from '@/blocks/editorial/editorial'
@@ -14,14 +13,13 @@ import { MapBlock } from '@/blocks/map/map-gironde'
 
 const blockComponents = {
   archive: ArchiveBlock,
-  content: ContentBlock,
+  contenu: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   editorial: EditorialBlock,
   map: MapBlock,
   actu: ActuBlock,
-  emploiBlock: EmploiBlock,
 }
 
 export const RenderBlocks: React.FC<{

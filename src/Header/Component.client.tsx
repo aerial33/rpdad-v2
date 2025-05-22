@@ -34,12 +34,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   return (
     <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
       <div className="py-4 flex justify-between items-center">
-        <Link href="/">
-          <RpdadLogo />
-        </Link>
-        {/* <HeaderNav data={data} /> */}
-        <NavbarMedium data={data} />
-        <div className="flex items-center gap-4">
+        <div className="flex items-center space-x-12">
+          <Link href="/">
+            <RpdadLogo />
+          </Link>
+          <NavbarMedium data={data} />
+        </div>
+        <div className="lg:flex hidden items-center gap-4">
           <ul className="text-muted-foreground flex items-center space-x-4">
             <li className="hover:text-primary font-medium">
               <a href="https://www.facebook.com/rpdadgironde" target="_blank">
@@ -69,9 +70,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <span className="sr-only">Search</span>
             <SearchIcon className="w-5 hover:text-primary font-medium" />
           </Link>
-          <MobileMenu data={data} />
-          {/* <CTA label="Contactez-nous" link="/contact" variant="default" /> */}
         </div>
+        <MobileMenu data={data} />
+        {/* <CTA label="Contactez-nous" link="/contact" variant="default" /> */}
       </div>
     </header>
   )
