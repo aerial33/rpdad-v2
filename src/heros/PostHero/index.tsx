@@ -39,7 +39,9 @@ export const PostHero: React.FC<{
           </div>
 
           <div className="">
-            <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl">{title}</h1>
+            <h1 className="mb-6 text-balance text-3xl md:text-5xl lg:text-6xl text-left">
+              {title}
+            </h1>
           </div>
 
           <div className="flex flex-col md:flex-row gap-4 md:gap-16">
@@ -64,7 +66,7 @@ export const PostHero: React.FC<{
       </div>
       <div className="min-h-[80vh] select-none">
         {heroImage && typeof heroImage !== 'string' && (
-          <Media fill priority imgClassName="-z-10 object-cover" resource={heroImage} />
+          <Media fill priority imgClassName="-z-10 object-cover object-top" resource={heroImage} />
         )}
         <div className="absolute pointer-events-none left-0 bottom-0 w-full h-1/2 bg-linear-to-t from-black to-transparent" />
       </div>
