@@ -297,3 +297,8 @@
 .animation-slide {
   animation: slide 0.75s ease-in-out;
 }
+@layer components {
+  .feature-paragraph {
+    @apply mb-3 text-xl leading-7 font-light text-gray-500 md:text-2xl md:leading-8;
+  }
+}

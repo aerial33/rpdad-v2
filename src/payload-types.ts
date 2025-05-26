@@ -203,6 +203,7 @@ export interface Page {
     | BentoCardBlock
     | ContentBlock
     | ContentWithImage
+    | ContentSectionBlock
   )[];
   meta?: {
     title?: string | null;
@@ -849,6 +850,66 @@ export interface ContentWithImage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentSectionBlock".
+ */
+export interface ContentSectionBlock {
+  images?:
+    | {
+        image: string | Media;
+        alt: string;
+        id?: string | null;
+      }[]
+    | null;
+  cardInfo: {
+    value: string;
+    label: string;
+  };
+  title: string;
+  paragraphs?:
+    | {
+        content: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Texte qui sera mis en évidence dans le contenu
+   */
+  highlight?: string | null;
+  button: {
+    text: string;
+    href: string;
+    icon?: ('arrow-right' | 'arrow-left' | 'external-link' | 'download' | 'none') | null;
+  };
+  dotPatterns?: {
+    top?: {
+      enabled?: boolean | null;
+      className?: string | null;
+      rows?: number | null;
+      cols?: number | null;
+      dotSize?: ('sm' | 'md' | 'lg') | null;
+      dotColor?: ('bg-flamingo' | 'bg-primary-dark' | 'bg-primary' | 'bg-secondary') | null;
+      gap?: ('sm' | 'md' | 'lg') | null;
+    };
+    bottom?: {
+      enabled?: boolean | null;
+      className?: string | null;
+      variant?: ('normal' | 'dense' | 'sparse') | null;
+      rows?: number | null;
+      cols?: number | null;
+      dotSize?: ('sm' | 'md' | 'lg') | null;
+      dotColor?: ('bg-flamingo' | 'bg-primary-dark' | 'bg-primary' | 'bg-secondary') | null;
+    };
+  };
+  /**
+   * Classes CSS personnalisées pour le background de la section
+   */
+  bgClass?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contentSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1133,7 +1194,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         callToAction?: T | CallToActionBlockSelect<T>;
-        contenu?: T | ContentBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
@@ -1143,6 +1204,7 @@ export interface PagesSelect<T extends boolean = true> {
         bentoCard?: T | BentoCardBlockSelect<T>;
         contenuBlock?: T | ContentBlockSelect<T>;
         contentWithImage?: T | ContentWithImageSelect<T>;
+        contentSection?: T | ContentSectionBlockSelect<T>;
       };
   meta?:
     | T
@@ -1317,6 +1379,69 @@ export interface ContentWithImageSelect<T extends boolean = true> {
   content?: T;
   image?: T;
   imagePosition?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentSectionBlock_select".
+ */
+export interface ContentSectionBlockSelect<T extends boolean = true> {
+  images?:
+    | T
+    | {
+        image?: T;
+        alt?: T;
+        id?: T;
+      };
+  cardInfo?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+      };
+  title?: T;
+  paragraphs?:
+    | T
+    | {
+        content?: T;
+        id?: T;
+      };
+  highlight?: T;
+  button?:
+    | T
+    | {
+        text?: T;
+        href?: T;
+        icon?: T;
+      };
+  dotPatterns?:
+    | T
+    | {
+        top?:
+          | T
+          | {
+              enabled?: T;
+              className?: T;
+              rows?: T;
+              cols?: T;
+              dotSize?: T;
+              dotColor?: T;
+              gap?: T;
+            };
+        bottom?:
+          | T
+          | {
+              enabled?: T;
+              className?: T;
+              variant?: T;
+              rows?: T;
+              cols?: T;
+              dotSize?: T;
+              dotColor?: T;
+            };
+      };
+  bgClass?: T;
   id?: T;
   blockName?: T;
 }

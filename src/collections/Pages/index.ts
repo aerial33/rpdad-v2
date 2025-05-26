@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { Actu } from '@/blocks/ActuBlock/config'
 import { BentoCard } from '@/blocks/Bento/BentoCard'
 import { CallToActionBlock } from '@/blocks/CallToActionBlock/config'
+import { ContentSectionBlock } from '@/blocks/contenSection/config'
 import { ContenuBlock } from '@/blocks/ContentBlock/config'
 import { ContentWithImage } from '@/blocks/ContentWithImage/config'
 import { editorial } from '@/blocks/editorial/config'
@@ -93,6 +94,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 BentoCard,
                 ContenuBlock,
                 ContentWithImage,
+                ContentSectionBlock,
               ],
               required: true,
               admin: {

@@ -3,7 +3,6 @@ import { CallToActionBlock, Media } from '@/payload-types'
 // Composant pour le block Call to Action
 export const CallToActionBlockComponent: React.FC<CallToActionBlock> = (props) => {
   const { title, description, buttons, backgroundImage } = props
-  console.log('from call to action', props)
 
   // Vérifier si l'image est un objet Media complet ou juste un ID
   const isImagePopulated =

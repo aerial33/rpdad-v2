@@ -14,10 +14,11 @@ import { CallToActionBlock } from './CallToAction/Component'
 import { CallToActionBlockComponent } from './CallToActionBlock/Component'
 import { ContenuBlockComponent } from './ContentBlock/Component'
 import { ContentWithImage } from './ContentWithImage/Component'
+import { ContentSectionBlock } from './contenSection/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
-  contenu: ContentBlock,
+  content: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
@@ -26,6 +27,7 @@ const blockComponents = {
   callToAction: CallToActionBlockComponent,
   contenuBlock: ContenuBlockComponent,
   contentWithImage: ContentWithImage,
+  contentSection: ContentSectionBlock,
   map: MapBlock,
   actu: ActuBlock,
 }
