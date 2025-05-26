@@ -200,6 +200,9 @@ export interface Page {
     | EditorialBlock
     | MapBlock
     | ActuBlock
+    | BentoCardBlock
+    | ContentBlock
+    | ContentWithImage
   )[];
   meta?: {
     title?: string | null;
@@ -400,7 +403,38 @@ export interface User {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
-  richText?: {
+  title: string;
+  description?: string | null;
+  buttons?:
+    | {
+        label: string;
+        url: string;
+        style?: ('primary' | 'secondary' | 'outline') | null;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundImage?: (string | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'callToAction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
+  /**
+   * Titre principal du block de contenu
+   */
+  title: string;
+  /**
+   * Sous-titre optionnel
+   */
+  subtitle?: string | null;
+  /**
+   * Contenu principal en rich text
+   */
+  content: {
     root: {
       type: string;
       children: {
@@ -414,84 +448,15 @@ export interface CallToActionBlock {
       version: number;
     };
     [k: string]: unknown;
-  } | null;
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-          /**
-           * Choisissez comment le lien doit être rendu.
-           */
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  };
+  /**
+   * Alignement du contenu
+   */
+  alignment?: ('left' | 'center' | 'right') | null;
+  backgroundColor?: ('white' | 'gray-light' | 'gray-dark' | 'blue' | 'transparent') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'cta';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContentBlock".
- */
-export interface ContentBlock {
-  columns?:
-    | {
-        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-        richText?: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        enableLink?: boolean | null;
-        link?: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-          /**
-           * Choisissez comment le lien doit être rendu.
-           */
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'contenu';
+  blockType: 'contenuBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -810,6 +775,80 @@ export interface ActuBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BentoCardBlock".
+ */
+export interface BentoCardBlock {
+  title?: string | null;
+  cards?:
+    | {
+        titre: string;
+        description: string;
+        icon: 'Globe' | 'Mail' | 'FileText' | 'Calendar';
+        links?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+                /**
+                 * Choisissez comment le lien doit être rendu.
+                 */
+                appearance?: ('default' | 'outline') | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        cta: string;
+        tag?: string | null;
+        backgroundStyle?:
+          | ('bg-primary-light' | 'bg-flamingo-lighter' | 'bg-chateau-lighter' | 'bg-yellow-lighter')
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  gridLayout?: ('grid-cols-3' | 'grid-cols-4') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'bentoCard';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentWithImage".
+ */
+export interface ContentWithImage {
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image?: (string | null) | Media;
+  imagePosition?: ('Droite' | 'Gauche') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contentWithImage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1093,7 +1132,7 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        cta?: T | CallToActionBlockSelect<T>;
+        callToAction?: T | CallToActionBlockSelect<T>;
         contenu?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
@@ -1101,6 +1140,9 @@ export interface PagesSelect<T extends boolean = true> {
         editorial?: T | EditorialBlockSelect<T>;
         map?: T | MapBlockSelect<T>;
         actu?: T | ActuBlockSelect<T>;
+        bentoCard?: T | BentoCardBlockSelect<T>;
+        contenuBlock?: T | ContentBlockSelect<T>;
+        contentWithImage?: T | ContentWithImageSelect<T>;
       };
   meta?:
     | T
@@ -1121,22 +1163,17 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "CallToActionBlock_select".
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
-  richText?: T;
-  links?:
+  title?: T;
+  description?: T;
+  buttons?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-            };
+        label?: T;
+        url?: T;
+        style?: T;
         id?: T;
       };
+  backgroundImage?: T;
   id?: T;
   blockName?: T;
 }
@@ -1145,24 +1182,11 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
  * via the `definition` "ContentBlock_select".
  */
 export interface ContentBlockSelect<T extends boolean = true> {
-  columns?:
-    | T
-    | {
-        size?: T;
-        richText?: T;
-        enableLink?: T;
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-            };
-        id?: T;
-      };
+  title?: T;
+  subtitle?: T;
+  content?: T;
+  alignment?: T;
+  backgroundColor?: T;
   id?: T;
   blockName?: T;
 }
@@ -1246,6 +1270,53 @@ export interface ActuBlockSelect<T extends boolean = true> {
         id?: T;
       };
   variant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BentoCardBlock_select".
+ */
+export interface BentoCardBlockSelect<T extends boolean = true> {
+  title?: T;
+  cards?:
+    | T
+    | {
+        titre?: T;
+        description?: T;
+        icon?: T;
+        links?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                    appearance?: T;
+                  };
+              id?: T;
+            };
+        cta?: T;
+        tag?: T;
+        backgroundStyle?: T;
+        id?: T;
+      };
+  gridLayout?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentWithImage_select".
+ */
+export interface ContentWithImageSelect<T extends boolean = true> {
+  content?: T;
+  image?: T;
+  imagePosition?: T;
   id?: T;
   blockName?: T;
 }

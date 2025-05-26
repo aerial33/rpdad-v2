@@ -1,6 +1,10 @@
 import type { CollectionConfig } from 'payload'
 
 import { Actu } from '@/blocks/ActuBlock/config'
+import { BentoCard } from '@/blocks/Bento/BentoCard'
+import { CallToActionBlock } from '@/blocks/CallToActionBlock/config'
+import { ContenuBlock } from '@/blocks/ContentBlock/config'
+import { ContentWithImage } from '@/blocks/ContentWithImage/config'
 import { editorial } from '@/blocks/editorial/config'
 import { map } from '@/blocks/map/config'
 import { slugField } from '@/fields/slug'
@@ -15,7 +19,6 @@ import {
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
-import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
@@ -78,7 +81,19 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'layout',
               label: 'Structure',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, editorial, map, Actu],
+              blocks: [
+                CallToActionBlock,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+                editorial,
+                map,
+                Actu,
+                BentoCard,
+                ContenuBlock,
+                ContentWithImage,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,
