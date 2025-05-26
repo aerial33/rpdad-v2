@@ -1,6 +1,5 @@
 //todo refacto to render canvas dynamic
 //todo fetch geojson from the web
-//todo tooltips
 import * as d3 from 'd3' // Import de la bibliothèque D3.js pour la manipulation de données et la visualisation
 
 import { useEffect, useRef } from 'react' // Import des hooks React nécessaires
@@ -41,6 +40,7 @@ export const Arrondissement = ({
   onMarkerClick,
 }: ArrondissementProps) => {
   const svgRef = useRef<SVGSVGElement>(null)
+  const tooltipRef = useRef<HTMLDivElement>(null)
 
   // Données des marqueurs
   const markers: Marker[] = [
@@ -320,6 +320,9 @@ export const Arrondissement = ({
     // Ajouter les marqueurs avec design moderne
     const markerGroup = svg.append('g').attr('class', 'markers')
 
+    // Groupe pour les labels des villes
+    const labelGroup = svg.append('g').attr('class', 'city-labels')
+
     markerGroup
       .selectAll('g')
       .data(markers)
@@ -397,7 +400,7 @@ export const Arrondissement = ({
           onMarkerClick(d)
         }
       })
-      .on('mouseover', function () {
+      .on('mouseover', function (event, d) {
         const group = d3.select(this)
 
         // Animation du halo
@@ -413,6 +416,19 @@ export const Arrondissement = ({
 
         // Animation du point central
         group.select('.marker-center').transition().duration(200).attr('r', 4)
+
+        // Afficher le tooltip
+        if (tooltipRef.current) {
+          const coords = projection([d.coordinates[1], d.coordinates[0]])
+          if (coords) {
+            tooltipRef.current.style.display = 'block'
+            tooltipRef.current.style.left = `${coords[0] + 15}px`
+            tooltipRef.current.style.top = `${coords[1] - 10}px`
+            tooltipRef.current.innerHTML = `
+              <div class="font-semibold text-sm">${d.name}</div>
+            `
+          }
+        }
       })
       .on('mouseout', function () {
         const group = d3.select(this)
@@ -428,12 +444,53 @@ export const Arrondissement = ({
           .attr('filter', 'url(#dropShadow)')
 
         group.select('.marker-center').transition().duration(200).attr('r', 3)
+
+        // Masquer le tooltip
+        if (tooltipRef.current) {
+          tooltipRef.current.style.display = 'none'
+        }
       })
+
+    // Ajouter les labels des villes
+    labelGroup
+      .selectAll('text')
+      .data(markers)
+      .enter()
+      .append('text')
+      .attr('x', (d) => {
+        const coords = projection([d.coordinates[1], d.coordinates[0]])
+        return coords ? coords[0] : 0
+      })
+      .attr('y', (d) => {
+        const coords = projection([d.coordinates[1], d.coordinates[0]])
+        return coords ? coords[1] - 20 : 0
+      })
+      .attr('text-anchor', 'middle')
+      .attr('font-family', 'system-ui, -apple-system, sans-serif')
+      .attr('font-size', '11px')
+      .attr('font-weight', '600')
+      .attr('fill', '#374151')
+      .attr('stroke', '#ffffff')
+      .attr('stroke-width', '2')
+      .attr('paint-order', 'stroke fill')
+      .style('pointer-events', 'none')
+      .style('user-select', 'none')
+      .text((d) => d.name)
+      .style('opacity', 0.8)
   }, [width, height, onMarkerClick])
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <svg ref={svgRef}></svg>
+
+      {/* Tooltip */}
+      <div
+        ref={tooltipRef}
+        className="absolute z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 pointer-events-none"
+        style={{ display: 'none' }}
+      >
+        {/* Le contenu sera injecté dynamiquement */}
+      </div>
     </div>
   )
 }
