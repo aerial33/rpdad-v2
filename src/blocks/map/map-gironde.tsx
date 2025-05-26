@@ -50,9 +50,9 @@ export function MapBlock() {
               "Les CCAS et CIAS de vos communes ou intercommunalité vous proposent un service d'aide et d'accompagnement à domicile de qualité : "
             }
           </h2>
-          <p className="text-balance text-gray-500">
+          <p className="text-balance feature-paragraph font-semibold">
             {
-              "Le Réseau Public Départemental d'Aide à Domicile de la Gironde compte à ce jour 32 services membres. Il s'agit exclusivement de services publics de proximité :"
+              "Le Réseau Public Départemental d'Aide à Domicile de la Gironde compte à ce jour 33 services membres. Il s'agit exclusivement de services publics de proximité :"
             }
           </p>
           <ul className="mt-4 list-disc pl-5 text-gray-500">
