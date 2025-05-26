@@ -11,7 +11,7 @@ import { linkGroup } from '../../fields/linkGroup'
 
 export const CallToAction: Block = {
   slug: 'cta',
-  interfaceName: 'CallToActionBlock',
+  interfaceName: 'CTABlock',
   fields: [
     {
       name: 'richText',

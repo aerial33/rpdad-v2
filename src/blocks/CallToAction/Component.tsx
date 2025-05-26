@@ -1,9 +1,33 @@
 import React from 'react'
 
-import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
-
-import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
+import RichText from '@/components/RichText'
+
+// Interface temporaire pour le block CTA
+interface CTABlockProps {
+  richText?: {
+    root: {
+      type: string
+      children: any[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
+  links?: Array<{
+    link: {
+      type?: ('reference' | 'custom') | null
+      newTab?: boolean | null
+      reference?: any
+      url?: string | null
+      label: string
+      appearance?: ('default' | 'outline') | null
+    }
+    id?: string | null
+  }> | null
+}
 
 export const CallToActionBlock: React.FC<CTABlockProps> = ({ links, richText }) => {
   return (
@@ -13,7 +37,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({ links, richText }) 
           {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
         </div>
         <div className="flex flex-col gap-8">
-          {(links || []).map(({ link }, i) => {
+          {(links || []).map(({ link }, i: number) => {
             return <CMSLink key={i} size="lg" {...link} />
           })}
         </div>

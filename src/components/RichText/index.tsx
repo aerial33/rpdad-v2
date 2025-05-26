@@ -51,6 +51,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
       />
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
+    // @ts-ignore
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
   },
 })
