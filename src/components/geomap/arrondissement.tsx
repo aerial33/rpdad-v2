@@ -417,16 +417,35 @@ export const Arrondissement = ({
         // Animation du point central
         group.select('.marker-center').transition().duration(200).attr('r', 4)
 
-        // Afficher le tooltip
-        if (tooltipRef.current) {
+        // Afficher le tooltip avec positionnement précis
+        if (tooltipRef.current && svgRef.current) {
           const coords = projection([d.coordinates[1], d.coordinates[0]])
           if (coords) {
-            tooltipRef.current.style.display = 'block'
-            tooltipRef.current.style.left = `${coords[0] + 15}px`
-            tooltipRef.current.style.top = `${coords[1] - 10}px`
-            tooltipRef.current.innerHTML = `
-              <div class="font-semibold text-sm">${d.name}</div>
-            `
+            // Conversion coordonnées SVG -> coordonnées écran
+            const svg = svgRef.current
+            const pt = svg.createSVGPoint()
+            pt.x = coords[0]
+            pt.y = coords[1]
+            const screenCTM = svg.getScreenCTM()
+            if (screenCTM) {
+              const transformed = pt.matrixTransform(screenCTM)
+              // Position du SVG dans la page
+              const svgRect = svg.getBoundingClientRect()
+              // Position du conteneur parent (div relative)
+              const parentRect = svg.parentElement?.getBoundingClientRect()
+              // Décalage pour placer le tooltip à droite et au-dessus du marqueur
+              const offsetX = 18
+              const offsetY = -10
+              // Calcul de la position relative au parent
+              const left = transformed.x - (parentRect?.left || 0) + offsetX
+              const top = transformed.y - (parentRect?.top || 0) + offsetY
+              tooltipRef.current.style.display = 'block'
+              tooltipRef.current.style.left = `${left}px`
+              tooltipRef.current.style.top = `${top}px`
+              tooltipRef.current.innerHTML = `
+                <div class="font-semibold text-sm">${d.name}</div>
+              `
+            }
           }
         }
       })
@@ -481,16 +500,35 @@ export const Arrondissement = ({
 
   return (
     <div className="w-full relative">
-      <svg ref={svgRef}></svg>
+      {/* <svg ref={svgRef}></svg> */}
+      <svg
+        ref={svgRef}
+        className="w-full h-[400px] md:h-[700px] max-w-full"
+        style={{ display: 'block' }}
+      ></svg>
 
       {/* Tooltip */}
       <div
         ref={tooltipRef}
-        className="absolute z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 pointer-events-none"
+        className="absolute z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-2 md:p-3 pointer-events-none text-xs md:text-sm"
         style={{ display: 'none' }}
       >
         {/* Le contenu sera injecté dynamiquement */}
       </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .city-labels text {
+            font-size: 9px !important;
+            stroke-width: 1.2 !important;
+          }
+        }
+        @media (min-width: 769px) {
+          .city-labels text {
+            font-size: 11px !important;
+            stroke-width: 2 !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

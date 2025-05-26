@@ -39,23 +39,26 @@ export function MapBlock() {
   }
 
   return (
-    <section className="py-12">
-      <div className="center-element mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <FadeUp className="p-4">
-          <Badge variant={'outline'} className="bg-flamingo-light text-md mb-4 text-white">
+    <section className="py-8 md:py-12">
+      <div className="center-element mb-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <FadeUp className="p-2 md:p-4">
+          <Badge
+            variant={'outline'}
+            className="bg-flamingo-light text-sm md:text-md mb-2 md:mb-4 text-white px-2 md:px-4 py-1 md:py-2"
+          >
             {'les services membres'}
           </Badge>
-          <h2 className="my-4 text-xl text-balance text-gray-800 md:text-3xl">
+          <h2 className="my-2 md:my-4 text-lg md:text-3xl text-balance text-gray-800">
             {
               "Les CCAS et CIAS de vos communes ou intercommunalité vous proposent un service d'aide et d'accompagnement à domicile de qualité : "
             }
           </h2>
-          <p className="text-balance feature-paragraph font-semibold">
+          <p className="text-balance feature-paragraph font-semibold text-sm md:text-base">
             {
               "Le Réseau Public Départemental d'Aide à Domicile de la Gironde compte à ce jour 33 services membres. Il s'agit exclusivement de services publics de proximité :"
             }
           </p>
-          <ul className="mt-4 list-disc pl-5 text-gray-500">
+          <ul className="mt-2 md:mt-4 list-disc pl-5 text-gray-500 text-xs md:text-base">
             <li>{"Centres Communaux d'Action Sociale (CCAS)"}</li>
             <li>{"Centres Intercommunaux d'Action Sociale (CIAS)"}</li>
           </ul>
@@ -63,18 +66,20 @@ export function MapBlock() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-flamingo-lightest mt-4 rounded-md p-3"
+              className="bg-flamingo-lightest mt-2 md:mt-4 rounded-md p-2 md:p-3"
             >
-              <p className="text-primary-dark">
+              <p className="text-primary-dark text-sm md:text-base">
                 Ville sélectionnée: <strong>{selectedArea.name}</strong>
               </p>
 
-              <div className="mt-2">
-                <p className="text-primary-dark font-medium">Service disponible :</p>
+              <div className="mt-1 md:mt-2">
+                <p className="text-primary-dark font-medium text-xs md:text-base">
+                  Service disponible :
+                </p>
                 <div className="mt-1">
                   <Link
                     href={`/services-membres/${selectedArea.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="text-flamingo hover:text-flamingo-dark font-medium underline"
+                    className="text-flamingo hover:text-flamingo-dark font-medium underline text-xs md:text-base"
                   >
                     CCAS/CIAS de {selectedArea.name}
                   </Link>
@@ -83,23 +88,20 @@ export function MapBlock() {
             </motion.div>
           )}
         </FadeUp>
-        <div className="p-4">
-          <Arrondissement
-            onMarkerClick={(marker) => {
-              setSelectedArea({
-                id: marker.name.toLowerCase().replace(/\s+/g, '-'),
-                name: marker.name,
-                villes: [marker.name], // Pour l'instant, on met juste le nom de la ville
-              })
-            }}
-          />
-          {/* <MapGironde
-            highlightedAreaId={selectedArea?.id || null}
-            onAreaClick={handleAreaClick}
-            width={800}
-            height={800}
-            className="shadow"
-          /> */}
+        <div className="p-0 md:p-4 -mx-4 md:mx-0 overflow-x-auto">
+          <div className="min-w-[320px] md:min-w-0 w-full md:w-[800px] max-w-full">
+            <Arrondissement
+              onMarkerClick={(marker) => {
+                setSelectedArea({
+                  id: marker.name.toLowerCase().replace(/\s+/g, '-'),
+                  name: marker.name,
+                  villes: [marker.name],
+                })
+              }}
+              width={1000}
+              height={1000}
+            />
+          </div>
         </div>
       </div>
     </section>
