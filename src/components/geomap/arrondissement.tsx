@@ -3,34 +3,21 @@
 //todo tooltips
 import * as d3 from 'd3' // Import de la bibliothèque D3.js pour la manipulation de données et la visualisation
 
-import { useEffect, useState } from 'react' // Import des hooks React nécessaires
+import { useEffect, useRef } from 'react' // Import des hooks React nécessaires
 
 import arronsdissementData from '@/components/geomap/arrondissements-gironde.json' // Import des données géographiques des arrondissements
 
 // Interface définissant la structure des données géographiques
 interface GeoData {
   type: 'FeatureCollection' // Type de la collection de données
-  features: GeoFeature[] // Liste des features géographiques
-}
-
-// Interface définissant la structure d'une feature géographique
-interface GeoFeature {
-  type: 'Feature' // Type de la feature
-  id?: string // Identifiant optionnel
-  properties: { [key: string]: any } // Propriétés de la feature
-  geometry: {
-    type: 'Polygon' // Type de géométrie
-    coordinates: number[][][] // Coordonnées du polygone
-  }
-}
-
-// Interface pour les données du tooltip
-interface TooltipData {
-  x: number // Position X du tooltip
-  y: number // Position Y du tooltip
-  content: string // Contenu du tooltip
-  type?: 'marker' | 'area' // Type de tooltip (marqueur ou zone)
-  coordinates?: [number, number] // Coordonnées géographiques pour les marqueurs
+  features: Array<{
+    type: 'Feature'
+    properties: { [key: string]: any }
+    geometry: {
+      type: 'Polygon'
+      coordinates: number[][][]
+    }
+  }>
 }
 
 // Interface définissant la structure d'un marqueur
@@ -42,39 +29,21 @@ interface Marker {
 // Interface définissant les props du composant Arrondissement
 interface ArrondissementProps {
   // Données géographiques
-  geoData?: GeoData // Données géographiques optionnelles
-  markers?: Marker[] // Liste des marqueurs optionnelle
-
-  // Propriétés d'affichage
   width?: number // Largeur du composant
   height?: number // Hauteur du composant
-  propertyNameField?: string // Champ à utiliser pour le nom des arrondissements
-
-  // Couleurs et styles
-  baseColors?: string[] // Couleurs de base pour les arrondissements
-  markerColor?: string // Couleur des marqueurs
-  markerHoverColor?: string // Couleur des marqueurs au survol
-  markerSize?: number // Taille des marqueurs
-
-  // Animations
-  animateMarkers?: boolean // Activer l'animation des marqueurs
-  animationDelay?: number // Délai d'animation
-  animationDuration?: number // Durée d'animation
-
-  // Interactivité
-  enableTooltip?: boolean // Activer les tooltips
-  tooltipClassNames?: string // Classes CSS pour les tooltips
-
-  // Callbacks
   onMarkerClick?: (marker: Marker) => void // Callback au clic sur un marqueur
-  onAreaClick?: (name: string) => void // Callback au clic sur une zone
 }
 
 // Composant principal Arrondissement
 export const Arrondissement = ({
-  // Valeurs par défaut
-  geoData = arronsdissementData as unknown as GeoData, // Données géographiques par défaut
-  markers = [
+  width = 800,
+  height = 600,
+  onMarkerClick,
+}: ArrondissementProps) => {
+  const svgRef = useRef<SVGSVGElement>(null)
+
+  // Données des marqueurs
+  const markers: Marker[] = [
     { name: 'Blanquefort', coordinates: [44.916672, -0.63333] },
     { name: 'Bruges', coordinates: [44.883, -0.61667] },
     { name: 'Eysines', coordinates: [44.883, -0.65] },
@@ -108,78 +77,190 @@ export const Arrondissement = ({
     { name: 'Cestas', coordinates: [44.73, -0.683] },
     { name: 'Cadaujac', coordinates: [44.75, -0.5333] },
     { name: 'Canéjan', coordinates: [44.7667, -0.633] },
-  ],
-  width = 1000, // Largeur par défaut
-  height = 1000, // Hauteur par défaut
-  propertyNameField = 'nom', // Champ de nom par défaut
-  baseColors = [
-    // Couleurs de base par défaut
-    '#69b3a2',
-    '#e8c1a0',
-    '#f1e05b',
-    '#a1d6e2',
-    '#bcbddc',
-    '#9ecae1',
-    '#fdae61',
-    '#abd9e9',
-    '#a6bddb',
-    '#d9f0d3',
-    '#fee8c8',
-    '#ffd59a',
-    '#e5f5f9',
-    '#ffeda0',
-    '#f4a582',
-    '#92c5de',
-  ],
-  markerColor = '#000', // Couleur des marqueurs par défaut
-  markerHoverColor = 'orange', // Couleur de survol par défaut
-  markerSize = 1.5, // Taille des marqueurs par défaut
-  animateMarkers = false, // Animation désactivée par défaut
-  animationDelay = 100, // Délai d'animation par défaut
-  animationDuration = 300, // Durée d'animation par défaut
-  enableTooltip = true, // Tooltips activés par défaut
-  tooltipClassNames = 'pointer-events-none absolute z-50 max-w-xs rounded-lg bg-white shadow-xl border border-gray-200 transition-all duration-200 ease-out', // Classes CSS par défaut
-  onMarkerClick, // Callback de clic sur marqueur
-  onAreaClick, // Callback de clic sur zone
-}: ArrondissementProps) => {
-  // État pour les données du tooltip
-  const [tooltipData, setTooltipData] = useState<TooltipData | null>(null)
-  const [isTooltipVisible, setIsTooltipVisible] = useState(false)
+  ]
 
-  // Effet pour initialiser et mettre à jour la carte
   useEffect(() => {
-    // Configuration du SVG
-    const svg = d3
-      .select('#canvas')
-      .attr('width', width)
-      .attr('height', height)
-      .attr('viewBox', `0 0 ${width} ${height}`)
-      .attr('style', 'max-width: 100%; height: auto;')
+    if (!svgRef.current) return
 
-    // Nettoyage du SVG
+    const svg = d3.select(svgRef.current)
+
+    // Nettoyer le SVG
     svg.selectAll('*').remove()
 
-    // Ajout des définitions pour les filtres
+    // Configuration du SVG
+    svg.attr('width', width).attr('height', height).attr('viewBox', `0 0 ${width} ${height}`)
+
+    // Ajouter les définitions pour les filtres et dégradés
     const defs = svg.append('defs')
 
-    // Configuration du filtre d'ombre
+    // Dégradés pour les différentes zones utilisant château, picton-blue et flamingo
+
+    // Dégradé Château (vert/turquoise)
+    const chateauGradient = defs
+      .append('linearGradient')
+      .attr('id', 'chateauGradient')
+      .attr('x1', '0%')
+      .attr('y1', '0%')
+      .attr('x2', '100%')
+      .attr('y2', '100%')
+
+    chateauGradient
+      .append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', 'oklch(96% 0.0149 158.25)') // chateau-lightest
+      .attr('stop-opacity', 0.8)
+
+    chateauGradient
+      .append('stop')
+      .attr('offset', '50%')
+      .attr('stop-color', 'oklch(73.92% 0.1111 153.06)') // chateau-light
+      .attr('stop-opacity', 0.85)
+
+    chateauGradient
+      .append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', 'oklch(63.73% 0.1516 150.05)') // chateau-base
+      .attr('stop-opacity', 0.9)
+
+    // Dégradé Picton Blue (bleu)
+    const pictonBlueGradient = defs
+      .append('linearGradient')
+      .attr('id', 'pictonBlueGradient')
+      .attr('x1', '0%')
+      .attr('y1', '0%')
+      .attr('x2', '100%')
+      .attr('y2', '100%')
+
+    pictonBlueGradient
+      .append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', 'oklch(96.64% 0.0135 226.56)') // picton-blue-lightest
+      .attr('stop-opacity', 0.8)
+
+    pictonBlueGradient
+      .append('stop')
+      .attr('offset', '50%')
+      .attr('stop-color', 'oklch(77.52% 0.0951 231.52)') // picton-blue-light
+      .attr('stop-opacity', 0.85)
+
+    pictonBlueGradient
+      .append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', 'oklch(69.08% 0.1274 235.31)') // picton-blue
+      .attr('stop-opacity', 0.9)
+
+    // Dégradé Flamingo (orange)
+    const flamingoGradient = defs
+      .append('linearGradient')
+      .attr('id', 'flamingoGradient')
+      .attr('x1', '0%')
+      .attr('y1', '0%')
+      .attr('x2', '100%')
+      .attr('y2', '100%')
+
+    flamingoGradient
+      .append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', 'oklch(96.12% 0.0179 48.53)') // flamingo-lightest
+      .attr('stop-opacity', 0.8)
+
+    flamingoGradient
+      .append('stop')
+      .attr('offset', '50%')
+      .attr('stop-color', 'oklch(75.63% 0.1339 45.75)') // flamingo-light
+      .attr('stop-opacity', 0.85)
+
+    flamingoGradient
+      .append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', 'oklch(67.59% 0.1886 42.04)') // flamingo
+      .attr('stop-opacity', 0.9)
+
+    // Dégradés pour les marqueurs selon les zones
+
+    // Marqueurs Château (zone ouest)
+    const markerChateauGradient = defs
+      .append('radialGradient')
+      .attr('id', 'markerChateauGradient')
+      .attr('cx', '30%')
+      .attr('cy', '30%')
+
+    markerChateauGradient
+      .append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', 'oklch(92.27% 0.0307 155.95)') // chateau-lighter
+
+    markerChateauGradient
+      .append('stop')
+      .attr('offset', '70%')
+      .attr('stop-color', 'oklch(63.73% 0.1516 150.05)') // chateau-base
+
+    markerChateauGradient
+      .append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', 'oklch(54.13% 0.1275 150.16)') // chateau-dark
+
+    // Marqueurs Picton Blue (zone nord)
+    const markerPictonGradient = defs
+      .append('radialGradient')
+      .attr('id', 'markerPictonGradient')
+      .attr('cx', '30%')
+      .attr('cy', '30%')
+
+    markerPictonGradient
+      .append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', 'oklch(93.32% 0.0277 229.17)') // picton-blue-lighter
+
+    markerPictonGradient
+      .append('stop')
+      .attr('offset', '70%')
+      .attr('stop-color', 'oklch(69.08% 0.1274 235.31)') // picton-blue
+
+    markerPictonGradient
+      .append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', 'oklch(58.5% 0.107 235.23)') // picton-blue-dark
+
+    // Marqueurs Flamingo (zone sud/est)
+    const markerFlamingoGradient = defs
+      .append('radialGradient')
+      .attr('id', 'markerFlamingoGradient')
+      .attr('cx', '30%')
+      .attr('cy', '30%')
+
+    markerFlamingoGradient
+      .append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', 'oklch(92.59% 0.0363 48.31)') // flamingo-lighter
+
+    markerFlamingoGradient
+      .append('stop')
+      .attr('offset', '70%')
+      .attr('stop-color', 'oklch(67.59% 0.1886 42.04)') // flamingo
+
+    markerFlamingoGradient
+      .append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', 'oklch(57.18% 0.1579 42.07)') // flamingo-dark
+
+    // Filtre d'ombre portée pour les marqueurs
     const dropShadow = defs
       .append('filter')
-      .attr('id', 'drop-shadow')
+      .attr('id', 'dropShadow')
       .attr('x', '-50%')
       .attr('y', '-50%')
       .attr('width', '200%')
       .attr('height', '200%')
 
-    // Configuration de l'effet d'ombre
     dropShadow
       .append('feDropShadow')
-      .attr('dx', 0)
+      .attr('dx', 2)
       .attr('dy', 2)
-      .attr('stdDeviation', 2)
-      .attr('flood-color', 'rgba(0,0,0,0.3)')
+      .attr('stdDeviation', 3)
+      .attr('flood-color', 'rgba(0,0,0,0.2)')
 
-    // Configuration du filtre de brillance
+    // Filtre de brillance pour l'effet hover
     const glow = defs
       .append('filter')
       .attr('id', 'glow')
@@ -188,239 +269,171 @@ export const Arrondissement = ({
       .attr('width', '200%')
       .attr('height', '200%')
 
-    // Configuration de l'effet de brillance
-    glow.append('feGaussianBlur').attr('stdDeviation', 3).attr('result', 'coloredBlur')
+    const feGaussianBlur = glow
+      .append('feGaussianBlur')
+      .attr('stdDeviation', 4)
+      .attr('result', 'coloredBlur')
 
     const feMerge = glow.append('feMerge')
     feMerge.append('feMergeNode').attr('in', 'coloredBlur')
     feMerge.append('feMergeNode').attr('in', 'SourceGraphic')
 
+    const geoData = arronsdissementData as unknown as GeoData
+
     // Configuration de la projection
     const projection = d3.geoMercator().fitSize([width, height], geoData)
     const path = d3.geoPath().projection(projection)
 
-    // Configuration de l'échelle de couleurs
-    const colorScale = d3
-      .scaleOrdinal()
-      .domain(geoData.features.map((f) => f.properties[propertyNameField] || ''))
-      .range(baseColors)
+    // Fonction pour déterminer la couleur selon la position géographique
+    const getAreaColor = (feature: any) => {
+      const bounds = d3.geoBounds(feature)
+      const centerLon = (bounds[0][0] + bounds[1][0]) / 2
+      const centerLat = (bounds[0][1] + bounds[1][1]) / 2
 
-    // Dessin des arrondissements
+      // Zone Nord (Blaye, Médoc) - Picton Blue
+      if (centerLat > 44.9) {
+        return 'url(#pictonBlueGradient)'
+      }
+      // Zone Ouest (Bassin d'Arcachon, côte) - Château
+      else if (centerLon < -0.7) {
+        return 'url(#chateauGradient)'
+      }
+      // Zone Sud et Est - Flamingo
+      else {
+        return 'url(#flamingoGradient)'
+      }
+    }
+
+    // Dessiner les arrondissements avec couleurs différenciées
     svg
       .selectAll('path')
       .data(geoData.features)
       .enter()
       .append('path')
-      .attr('d', path as any)
-      .attr('fill', (d) => {
-        const id = d.properties[propertyNameField] || ''
-        return colorScale(id) as string
+      .attr('d', path)
+      .attr('fill', (d) => getAreaColor(d))
+      .attr('stroke', '#ffffff')
+      .attr('stroke-width', 2)
+      .attr('opacity', 0.9)
+      .style('transition', 'all 0.3s ease')
+
+    // Ajouter les marqueurs avec design moderne
+    const markerGroup = svg.append('g').attr('class', 'markers')
+
+    markerGroup
+      .selectAll('g')
+      .data(markers)
+      .enter()
+      .append('g')
+      .attr('transform', (d) => {
+        const coords = projection([d.coordinates[1], d.coordinates[0]])
+        const x = coords ? coords[0] : 0
+        const y = coords ? coords[1] : 0
+        return `translate(${x}, ${y})`
       })
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 1)
-      // Gestion des événements de survol
-      // .on('mouseover', function (event, d) {
-      //   if (!enableTooltip) return
+      .style('cursor', 'pointer')
+      .each(function (d) {
+        const group = d3.select(this)
 
-      //   d3.select(this)
-      //     .attr('fill', function (d) {
-      //       const feature = d as GeoFeature
-      //       const id = feature.properties[propertyNameField] || ''
-      //       return (
-      //         d3
-      //           .color(colorScale(id) as string)
-      //           ?.darker(0.3)
-      //           .toString() || '#000'
-      //       )
-      //     })
-      //     .attr('stroke-width', 2)
+        // Déterminer la couleur du marqueur selon sa position
+        const getMarkerColor = (marker: Marker) => {
+          const lat = marker.coordinates[0]
+          const lon = marker.coordinates[1]
 
-      //   const [x, y] = d3.pointer(event, svg.node())
-      //   setTooltipData({
-      //     x,
-      //     y,
-      //     content: d.properties[propertyNameField] || 'Arrondissement',
-      //   })
-      // })
-      // Gestion des événements de sortie de survol
-      // .on('mouseout', function (event, d) {
-      //   if (!enableTooltip) return
+          // Zone Nord (Blaye, Médoc) - Picton Blue
+          if (lat > 44.9) {
+            return {
+              gradient: 'url(#markerPictonGradient)',
+              halo: 'oklch(77.52% 0.0951 231.52)', // picton-blue-light
+            }
+          }
+          // Zone Ouest (Bassin d'Arcachon, côte) - Château
+          else if (lon < -0.7) {
+            return {
+              gradient: 'url(#markerChateauGradient)',
+              halo: 'oklch(73.92% 0.1111 153.06)', // chateau-light
+            }
+          }
+          // Zone Sud et Est - Flamingo
+          else {
+            return {
+              gradient: 'url(#markerFlamingoGradient)',
+              halo: 'oklch(75.63% 0.1339 45.75)', // flamingo-light
+            }
+          }
+        }
 
-      //   d3.select(this)
-      //     .attr('fill', function (d) {
-      //       const feature = d as GeoFeature
-      //       const id = feature.properties[propertyNameField] || ''
-      //       return colorScale(id) as string
-      //     })
-      //     .attr('stroke-width', 1)
+        const markerColors = getMarkerColor(d)
 
-      //   setTooltipData(null)
-      // })
-      // Gestion des événements de clic
-      .on('click', function (event: MouseEvent, d: GeoFeature) {
-        if (onAreaClick) {
-          const name = d.properties[propertyNameField] || d.properties.nom
-          console.log('click', name)
-          onAreaClick(name)
+        // Cercle extérieur (halo)
+        group
+          .append('circle')
+          .attr('r', 12)
+          .attr('fill', markerColors.halo)
+          .attr('opacity', 0.3)
+          .attr('class', 'marker-halo')
+
+        // Cercle principal
+        group
+          .append('circle')
+          .attr('r', 8)
+          .attr('fill', markerColors.gradient)
+          .attr('stroke', '#ffffff')
+          .attr('stroke-width', 3)
+          .attr('filter', 'url(#dropShadow)')
+          .attr('class', 'marker-main')
+
+        // Point central
+        group
+          .append('circle')
+          .attr('r', 3)
+          .attr('fill', '#ffffff')
+          .attr('opacity', 0.9)
+          .attr('class', 'marker-center')
+      })
+      .on('click', function (event, d) {
+        console.log('Clic sur:', d.name)
+        if (onMarkerClick) {
+          onMarkerClick(d)
         }
       })
+      .on('mouseover', function () {
+        const group = d3.select(this)
 
-    // Créer les groupes pour les marqueurs
-    if (markers && markers.length > 0) {
-      const markerGroups = svg
-        .selectAll('.marker-group')
-        .data(markers)
-        .enter()
-        .append('g')
-        .attr('class', 'marker-group')
-        .attr('transform', (d) => {
-          const coords = projection([d.coordinates[1], d.coordinates[0]])
-          return coords ? `translate(${coords[0]}, ${coords[1]})` : 'translate(0, 0)'
-        })
-        .style('opacity', animateMarkers ? 0 : 1)
-        .on('mouseover', function (event, d) {
-          if (!enableTooltip) return
+        // Animation du halo
+        group.select('.marker-halo').transition().duration(200).attr('r', 16).attr('opacity', 0.5)
 
-          d3.select(this).attr('transform', function (d) {
-            const datum = d as Marker
-            const coords = projection([datum.coordinates[1], datum.coordinates[0]])
-            return coords ? `translate(${coords[0]}, ${coords[1]}) scale(1.2)` : 'translate(0, 0)'
-          })
-
-          d3.select(this).select('path').attr('fill', markerHoverColor)
-
-          const [x, y] = d3.pointer(event, svg.node())
-          const marker = d as Marker
-          setTooltipData({
-            x: x + 15, // Décalage pour éviter que le tooltip cache le marqueur
-            y: y - 10,
-            content: marker.name,
-            type: 'marker',
-            // coordinates: marker.coordinates,
-          })
-          setIsTooltipVisible(true)
-        })
-        .on('mouseout', function () {
-          if (!enableTooltip) return
-
-          d3.select(this).attr('transform', function (d) {
-            const datum = d as Marker
-            const coords = projection([datum.coordinates[1], datum.coordinates[0]])
-            return coords ? `translate(${coords[0]}, ${coords[1]}) scale(2)` : 'translate(0, 0)'
-          })
-
-          d3.select(this).select('path').attr('fill', markerColor)
-
-          setIsTooltipVisible(false)
-          // Délai avant de supprimer les données pour permettre l'animation de sortie
-          setTimeout(() => setTooltipData(null), 200)
-        })
-        .on('click', function (event, d) {
-          if (onMarkerClick) {
-            onMarkerClick(d as Marker)
-          }
-        })
-
-      // Animation d'apparition progressive
-      if (animateMarkers) {
-        markerGroups
+        // Animation du cercle principal
+        group
+          .select('.marker-main')
           .transition()
-          .delay((d, i) => i * animationDelay)
-          .duration(animationDuration)
-          .style('opacity', 1)
-      }
+          .duration(200)
+          .attr('r', 10)
+          .attr('filter', 'url(#glow)')
 
-      // Icônes SVG personnalisées - Design moderne
-      markerGroups
-        .append('path')
-        .attr(
-          'd',
-          'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
-        )
-        .attr('fill', markerColor)
-        .attr('stroke', '#fff')
-        .attr('stroke-width', 2)
-        .attr('transform', `translate(-12, -22) scale(${markerSize})`)
-        .attr('filter', 'url(#drop-shadow)')
+        // Animation du point central
+        group.select('.marker-center').transition().duration(200).attr('r', 4)
+      })
+      .on('mouseout', function () {
+        const group = d3.select(this)
 
-      // Ajouter un point central pour plus de visibilité
-      markerGroups
-        .append('circle')
-        .attr('r', 3 * markerSize)
-        .attr('fill', '#fff')
-        .attr('stroke', markerColor)
-        .attr('stroke-width', 2)
-        .attr('transform', 'translate(0, -10)')
-        .attr('filter', 'url(#glow)')
-    }
-  }, [
-    geoData,
-    markers,
-    width,
-    height,
-    propertyNameField,
-    baseColors,
-    markerColor,
-    markerHoverColor,
-    markerSize,
-    animateMarkers,
-    animationDelay,
-    animationDuration,
-    enableTooltip,
-    onMarkerClick,
-    onAreaClick,
-  ])
+        // Retour à l'état normal
+        group.select('.marker-halo').transition().duration(200).attr('r', 12).attr('opacity', 0.3)
+
+        group
+          .select('.marker-main')
+          .transition()
+          .duration(200)
+          .attr('r', 8)
+          .attr('filter', 'url(#dropShadow)')
+
+        group.select('.marker-center').transition().duration(200).attr('r', 3)
+      })
+  }, [width, height, onMarkerClick])
 
   return (
-    <div className="relative h-auto">
-      <svg id="canvas"></svg>
-      {enableTooltip && tooltipData && (
-        <div
-          className={`${tooltipClassNames} ${
-            isTooltipVisible
-              ? 'opacity-100 scale-100 translate-y-0'
-              : 'opacity-0 scale-95 translate-y-2'
-          }`}
-          style={{
-            left: `${tooltipData.x}px`,
-            top: `${tooltipData.y}px`,
-            transform: 'translate(-50%, -100%)',
-          }}
-        >
-          {tooltipData.type === 'marker' ? (
-            <div className="p-3">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <h3 className="font-semibold text-gray-900 text-sm">{tooltipData.content}</h3>
-              </div>
-              {tooltipData.coordinates && (
-                <div className="text-xs text-gray-600 space-y-1">
-                  <div className="flex justify-between">
-                    <span className="font-medium">Latitude:</span>
-                    <span className="font-mono">{tooltipData.coordinates[0].toFixed(4)}°</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Longitude:</span>
-                    <span className="font-mono">{tooltipData.coordinates[1].toFixed(4)}°</span>
-                  </div>
-                </div>
-              )}
-              <div className="mt-2 pt-2 border-t border-gray-100">
-                <p className="text-xs text-gray-500">Cliquez pour plus d'infos</p>
-              </div>
-            </div>
-          ) : (
-            <div className="p-2">
-              <span className="text-sm font-medium text-gray-900">{tooltipData.content}</span>
-            </div>
-          )}
-          {/* Flèche du tooltip */}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2">
-            <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
-            <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-200 -mt-1"></div>
-          </div>
-        </div>
-      )}
+    <div className="w-full">
+      <svg ref={svgRef}></svg>
     </div>
   )
 }
