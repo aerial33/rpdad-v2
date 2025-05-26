@@ -204,6 +204,7 @@ export interface Page {
     | ContentBlock
     | ContentWithImage
     | ContentSectionBlock
+    | FeatureCollectionBlock
   )[];
   meta?: {
     title?: string | null;
@@ -910,6 +911,45 @@ export interface ContentSectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureCollectionBlock".
+ */
+export interface FeatureCollectionBlock {
+  title: string;
+  subtitle?: string | null;
+  badgeText?: string | null;
+  buttonText?: string | null;
+  buttonLink?: string | null;
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  populateBy?: ('collection' | 'selection') | null;
+  relationTo?: 'posts' | null;
+  categories?: (string | Category)[] | null;
+  limit?: number | null;
+  selectedDocs?:
+    | {
+        relationTo: 'posts';
+        value: string | Post;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureCollection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1205,6 +1245,7 @@ export interface PagesSelect<T extends boolean = true> {
         contenuBlock?: T | ContentBlockSelect<T>;
         contentWithImage?: T | ContentWithImageSelect<T>;
         contentSection?: T | ContentSectionBlockSelect<T>;
+        featureCollection?: T | FeatureCollectionBlockSelect<T>;
       };
   meta?:
     | T
@@ -1442,6 +1483,25 @@ export interface ContentSectionBlockSelect<T extends boolean = true> {
             };
       };
   bgClass?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureCollectionBlock_select".
+ */
+export interface FeatureCollectionBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  badgeText?: T;
+  buttonText?: T;
+  buttonLink?: T;
+  introContent?: T;
+  populateBy?: T;
+  relationTo?: T;
+  categories?: T;
+  limit?: T;
+  selectedDocs?: T;
   id?: T;
   blockName?: T;
 }

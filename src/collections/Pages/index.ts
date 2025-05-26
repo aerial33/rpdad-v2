@@ -7,6 +7,7 @@ import { ContentSectionBlock } from '@/blocks/contenSection/config'
 import { ContenuBlock } from '@/blocks/ContentBlock/config'
 import { ContentWithImage } from '@/blocks/ContentWithImage/config'
 import { editorial } from '@/blocks/editorial/config'
+import { FeatureCollection } from '@/blocks/FeatureCollection/config'
 import { map } from '@/blocks/map/config'
 import { slugField } from '@/fields/slug'
 import { hero } from '@/heros/config'
@@ -95,6 +96,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ContenuBlock,
                 ContentWithImage,
                 ContentSectionBlock,
+                FeatureCollection,
               ],
               required: true,
               admin: {

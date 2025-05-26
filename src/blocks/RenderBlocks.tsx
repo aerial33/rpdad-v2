@@ -14,6 +14,7 @@ import { CallToActionBlock } from './CallToAction/Component'
 import { CallToActionBlockComponent } from './CallToActionBlock/Component'
 import { ContenuBlockComponent } from './ContentBlock/Component'
 import { ContentWithImage } from './ContentWithImage/Component'
+import { FeatureCollectionBlockComponent } from './FeatureCollection/Component'
 import { ContentSectionBlock } from './contenSection/Component'
 
 const blockComponents = {
@@ -28,6 +29,7 @@ const blockComponents = {
   contenuBlock: ContenuBlockComponent,
   contentWithImage: ContentWithImage,
   contentSection: ContentSectionBlock,
+  featureCollection: FeatureCollectionBlockComponent,
   map: MapBlock,
   actu: ActuBlock,
 }
