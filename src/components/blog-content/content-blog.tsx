@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from 'next/link'
 
 interface ContentBlogProps {
   service?: string
@@ -12,7 +12,7 @@ export const BlogSection = ({ service }: ContentBlogProps) => {
         <aside className="top-20 mb-8 w-full self-start pt-8 md:sticky md:mr-8 md:w-fit md:min-w-[16rem] md:flex-1 lg:max-w-[18rem] lg:shrink-0 2xl:w-full">
           <div className="mb-8 flex w-full max-w-fit shrink-0 flex-col md:mb-10">
             <div className="hidden w-full md:mt-1 md:block">
-              <div className="flex w-full items-center space-x-6">
+              {/* <div className="flex w-full items-center space-x-6">
                 <Link
                   href="#"
                   className="transition-transform hover:-translate-y-0.5"
@@ -61,7 +61,7 @@ export const BlogSection = ({ service }: ContentBlogProps) => {
                     <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
                   </svg>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="border-border theme-dark:border-zinc-700 theme-dark:bg-zinc-600 flex flex-col rounded-xl border bg-zinc-100 py-6 md:py-8">
@@ -80,37 +80,35 @@ export const BlogSection = ({ service }: ContentBlogProps) => {
                 {"Horaire d'accueil"}
               </div>
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {"Du lundi au vendredi de 8h00 à 12h00 et de 14h00 à 18h00"}
+                {'Du lundi au vendredi de 8h00 à 12h00 et de 14h00 à 18h00'}
                 <br />
-                {"Le vendredi de 8h00 à 12h00 et de 14h00 à 17h00"}
+                {'Le vendredi de 8h00 à 12h00 et de 14h00 à 17h00'}
               </div>
             </div>
             <div className="border-border theme-dark:border-zinc-700 mb-5 border-t px-6 pt-5 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {"Adresse"}
-              </div>
+              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">{'Adresse'}</div>
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
                 {`${service}, Gironde`}
               </div>
             </div>
             <div className="mb-5 px-6 last:mb-0">
               <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {"Hôtel de ville"}
+                {'Hôtel de ville'}
               </div>
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {"7 rue Pierre Pauilhac – 33740 ARES"}
+                {'7 rue Pierre Pauilhac – 33740 ARES'}
               </div>
             </div>
             <div className="mb-5 px-6 last:mb-0">
               <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {"Site Internet"}
+                {'Site Internet'}
               </div>
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
                 <Link
                   href="#"
                   className="hover:text-foreground theme-dark:hover:text-zinc-300 underline"
                 >
-                  {"www.ville-ares.fr"}
+                  {'www.ville-ares.fr'}
                 </Link>
               </div>
             </div>
@@ -121,7 +119,7 @@ export const BlogSection = ({ service }: ContentBlogProps) => {
           <h2>{"Le mot d'accueil"}</h2>
           <p>
             {
-              "Vous venez de rejoindre le Service d’Aide et d’Accompagnement à Domicile d’Arès. Vous allez ainsi bénéficier des services de nos agents qualifiés. Nous vous remercions de la confiance que vous nous accordez et vous souhaitons la bienvenue !"
+              'Vous venez de rejoindre le Service d’Aide et d’Accompagnement à Domicile d’Arès. Vous allez ainsi bénéficier des services de nos agents qualifiés. Nous vous remercions de la confiance que vous nous accordez et vous souhaitons la bienvenue !'
             }
           </p>
           <p>
@@ -129,59 +127,49 @@ export const BlogSection = ({ service }: ContentBlogProps) => {
               "Rester chez soi le plus longtemps et dans les meilleures conditions possible est le vœu le  plus cher de chacun d’entre-nous. Pour répondre à ce besoin, avec beaucoup de dévouement les dix aides à domicile de notre service sont en mesure d’apporter leur soutien aussi bien pratique que psychologique à toutes  personnes pouvant bénéficier de ce service : retraités, et (ou) personnes en situation de handicap, bénéficiaires de l’ARDH (Aide au Retour à Domicile après Hospitalisation).Compenser la perte d'autonomie, maintenir le lien social, préserver les repères de la personne, tels sont les objectifs essentiels de notre service afin d’assurer un maintien à domicile de qualité et le plus pérenne possible."
             }
           </p>
-          <h2>{"Le service"}</h2>
+          <h2>{'Le service'}</h2>
           <p>
             {
               "Ce service intervient auprès de personnes retraitées ou en situation de handicap qui rencontrent des difficultés dans l'accomplissement des actes essentiels de la vie courante. Dix aides à domicile apportent soutien aussi bien pratique que psychologique aux personnes bénéficiant de ce service et ce afin d'assurer le plus longtemps possible leur maintien à domicile."
             }
           </p>
 
-          <h3>{"Vos interlocuteurs"}</h3>
+          <h3>{'Vos interlocuteurs'}</h3>
           <p>
-            {
-              " Une responsable de service est à votre écoute pour répondre à toutes vos questions."
-            }
+            {' Une responsable de service est à votre écoute pour répondre à toutes vos questions.'}
           </p>
           <ul>
-            <li>{"Une responsable équipe administrative..."}</li>
-            <li>
-              {
-                "Un agent qualifié est à votre écoute pour répondre à toutes vos questions."
-              }
-            </li>
+            <li>{'Une responsable équipe administrative...'}</li>
+            <li>{'Un agent qualifié est à votre écoute pour répondre à toutes vos questions.'}</li>
           </ul>
 
-          <h3>{"Le champ d’intervention"}</h3>
+          <h3>{'Le champ d’intervention'}</h3>
           <p>
             {
-              "Selon les plans d’aide définis, et à l’exception d’actes relevant de soins médicaux :"
+              'Selon les plans d’aide définis, et à l’exception d’actes relevant de soins médicaux :'
             }
           </p>
           <ul>
-            <li>{"Entretien du logement et travaux ménagers"}</li>
-            <li>{"Entretien du linge et repassage"}</li>
-            <li>{"Courses de proximité (uniquement sur la commune)"}</li>
+            <li>{'Entretien du logement et travaux ménagers'}</li>
+            <li>{'Entretien du linge et repassage'}</li>
+            <li>{'Courses de proximité (uniquement sur la commune)'}</li>
             <li>
               {
-                "Aide à la promenade et transports de personnes ayant des difficultés de déplacement vers les lieux de vie sociale"
+                'Aide à la promenade et transports de personnes ayant des difficultés de déplacement vers les lieux de vie sociale'
               }
             </li>
-            <li>
-              {
-                "Activités de stimulation de la mémoire, temps de parole et d’écoute"
-              }
-            </li>
-            <li>{"Soutien à l’aidant"}</li>
+            <li>{'Activités de stimulation de la mémoire, temps de parole et d’écoute'}</li>
+            <li>{'Soutien à l’aidant'}</li>
           </ul>
           <p>
             {
-              "Organisme de service à la personne enregistré sous le numéro SAP263300113 auprès de la DIRRECTE"
+              'Organisme de service à la personne enregistré sous le numéro SAP263300113 auprès de la DIRRECTE'
             }
           </p>
-          <h3>{"Le mode d’intervention"}</h3>
+          <h3>{'Le mode d’intervention'}</h3>
           <p>
             {
-              "Le service est assuré par des aides à domicile qualifiées et expérimentées. Elles sont accompagnées dans leur travail par un responsable de service."
+              'Le service est assuré par des aides à domicile qualifiées et expérimentées. Elles sont accompagnées dans leur travail par un responsable de service.'
             }
           </p>
           {/* <div>
