@@ -66,27 +66,33 @@ export function MapBlock() {
               className="bg-flamingo-lightest mt-4 rounded-md p-3"
             >
               <p className="text-primary-dark">
-                Zone sélectionnée: <strong>{selectedArea.name}</strong>
+                Ville sélectionnée: <strong>{selectedArea.name}</strong>
               </p>
 
-              {selectedArea.villes && selectedArea.villes.length > 0 && (
-                <div className="mt-2">
-                  <p className="text-primary-dark font-medium">Services disponibles :</p>
-                  <ul className="mt-1 list-disc pl-5 text-gray-700">
-                    {selectedArea.villes.map((ville, index) => (
-                      <li key={index}>
-                        {' '}
-                        <Link href={`/services-membres/${ville}`}>{ville}</Link>
-                      </li>
-                    ))}
-                  </ul>
+              <div className="mt-2">
+                <p className="text-primary-dark font-medium">Service disponible :</p>
+                <div className="mt-1">
+                  <Link
+                    href={`/services-membres/${selectedArea.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="text-flamingo hover:text-flamingo-dark font-medium underline"
+                  >
+                    CCAS/CIAS de {selectedArea.name}
+                  </Link>
                 </div>
-              )}
+              </div>
             </motion.div>
           )}
         </FadeUp>
         <div className="p-4">
-          <Arrondissement />
+          <Arrondissement
+            onMarkerClick={(marker) => {
+              setSelectedArea({
+                id: marker.name.toLowerCase().replace(/\s+/g, '-'),
+                name: marker.name,
+                villes: [marker.name], // Pour l'instant, on met juste le nom de la ville
+              })
+            }}
+          />
           {/* <MapGironde
             highlightedAreaId={selectedArea?.id || null}
             onAreaClick={handleAreaClick}
