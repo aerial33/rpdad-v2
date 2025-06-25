@@ -866,12 +866,24 @@ export interface ContentSectionBlock {
     label: string;
   };
   title: string;
-  paragraphs?:
-    | {
-        content: string;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Contenu principal de la section avec formatage riche
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   /**
    * Texte qui sera mis en évidence dans le contenu
    */
@@ -882,6 +894,10 @@ export interface ContentSectionBlock {
     icon?: ('arrow-right' | 'arrow-left' | 'external-link' | 'download' | 'none') | null;
   };
   dotPatterns?: {
+    /**
+     * Cochez pour configurer les motifs de points décoratifs
+     */
+    enablePatterns?: boolean | null;
     top?: {
       enabled?: boolean | null;
       className?: string | null;
@@ -1442,12 +1458,7 @@ export interface ContentSectionBlockSelect<T extends boolean = true> {
         label?: T;
       };
   title?: T;
-  paragraphs?:
-    | T
-    | {
-        content?: T;
-        id?: T;
-      };
+  content?: T;
   highlight?: T;
   button?:
     | T
@@ -1459,6 +1470,7 @@ export interface ContentSectionBlockSelect<T extends boolean = true> {
   dotPatterns?:
     | T
     | {
+        enablePatterns?: T;
         top?:
           | T
           | {

@@ -3,8 +3,9 @@ import { ReactNode } from 'react'
 
 import Link from 'next/link'
 
+import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/utilities/ui'
+import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 interface CardInfo {
   value: string
@@ -36,9 +37,7 @@ interface ContentSectionProps {
   dotPatternTop?: ReactNode
   dotPatternBottom?: ReactNode
   title: string
-  paragraphs: string[]
-  highlight?: string
-  highlightClass?: string
+  content: DefaultTypedEditorState
   buttonText?: string
   buttonHref?: string
   buttonIcon?: ReactNode
@@ -52,9 +51,7 @@ export function ContentSection({
   dotPatternTop,
   dotPatternBottom,
   title,
-  paragraphs,
-  highlight,
-  highlightClass = 'highlight-underline highlight-underline-flamingo',
+  content,
   buttonText,
   buttonHref,
   buttonIcon,
@@ -118,25 +115,14 @@ export function ContentSection({
           {/* Colonne texte */}
           <div className="relative !mt-[50px] w-full max-w-full flex-[0_0_auto] !px-[15px] lg:w-5/12 lg:!px-[20px] xl:w-5/12 xl:!px-[35px]">
             <h2 className="!mb-3 !leading-[1.3] font-bold">{title}</h2>
-            {paragraphs.map((text, i) =>
-              i === 0 && highlight ? (
-                <p className="feature-paragraph" key={i}>
-                  {text.split(highlight)[0]}
-                  <span className={highlightClass}>{highlight}</span>
-                  {text.split(highlight)[1]}
-                </p>
-              ) : (
-                <p
-                  className={cn(
-                    i === 0 ? 'feature-paragraph' : 'text-muted-foreground',
-                    i === paragraphs.length - 1 && 'mb-8',
-                  )}
-                  key={i}
-                >
-                  {text}
-                </p>
-              ),
-            )}
+            <div className="richtext-content">
+              <RichText
+                data={content}
+                enableGutter={false}
+                enableProse={false}
+                className="[&>*:first-child]:feature-paragraph [&>*:not(:first-child)]:text-muted-foreground [&>*:last-child]:mb-8"
+              />
+            </div>
             {buttonText && buttonHref && (
               <Button className="group !mt-8">
                 <Link href={buttonHref}>{buttonText}</Link>

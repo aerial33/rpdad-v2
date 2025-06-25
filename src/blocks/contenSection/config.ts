@@ -1,3 +1,9 @@
+import {
+  FixedToolbarFeature,
+  HeadingFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 import type { Block } from 'payload'
 
 export const ContentSectionBlock: Block = {
@@ -76,24 +82,25 @@ export const ContentSectionBlock: Block = {
       },
     },
 
-    // Paragraphes de contenu
+    // Contenu principal en RichText
     {
-      name: 'paragraphs',
-      label: 'Paragraphes',
-      type: 'array',
-      minRows: 1,
-      labels: {
-        singular: 'Paragraphe',
-        plural: 'Paragraphes',
-      },
-      fields: [
-        {
-          name: 'content',
-          label: 'Contenu',
-          type: 'textarea',
-          required: true,
+      name: 'content',
+      label: 'Contenu',
+      type: 'richText',
+      required: true,
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h3', 'h4'] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+          ]
         },
-      ],
+      }),
+      admin: {
+        description: 'Contenu principal de la section avec formatage riche',
+      },
     },
 
     // Texte à mettre en évidence
@@ -168,15 +175,35 @@ export const ContentSectionBlock: Block = {
       label: 'Motifs de points',
       type: 'group',
       fields: [
+        // Contrôle global pour activer/désactiver les motifs
+        {
+          name: 'enablePatterns',
+          label: 'Activer les motifs de points',
+          type: 'checkbox',
+          defaultValue: false,
+          admin: {
+            description: 'Cochez pour configurer les motifs de points décoratifs',
+          },
+        },
+
         // Motif du haut
         {
           name: 'top',
           label: 'Motif du haut',
           type: 'group',
+          admin: {
+            condition: (data, siblingData) => siblingData?.enablePatterns,
+            style: {
+              border: '1px solid #e5e7eb',
+              borderRadius: '6px',
+              padding: '16px',
+              marginTop: '12px',
+            },
+          },
           fields: [
             {
               name: 'enabled',
-              label: 'Activer',
+              label: 'Activer le motif du haut',
               type: 'checkbox',
               defaultValue: false,
             },
@@ -258,10 +285,19 @@ export const ContentSectionBlock: Block = {
           name: 'bottom',
           label: 'Motif du bas',
           type: 'group',
+          admin: {
+            condition: (data, siblingData) => siblingData?.enablePatterns,
+            style: {
+              border: '1px solid #e5e7eb',
+              borderRadius: '6px',
+              padding: '16px',
+              marginTop: '12px',
+            },
+          },
           fields: [
             {
               name: 'enabled',
-              label: 'Activer',
+              label: 'Activer le motif du bas',
               type: 'checkbox',
               defaultValue: false,
             },

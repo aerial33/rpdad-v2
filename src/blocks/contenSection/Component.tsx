@@ -1,64 +1,75 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Download, ExternalLink } from 'lucide-react'
 
-import { ContentSection } from '@/components/ContentSection'
+import { ContentSection } from '@/blocks/contenSection/ContentSection'
 import { DotPattern } from '@/components/DotPattern'
 import type { ContentSectionBlock as ContentSectionBlockType } from '@/payload-types'
+
+const getIconComponent = (iconType: string) => {
+  switch (iconType) {
+    case 'arrow-right':
+      return <ArrowRight />
+    case 'arrow-left':
+      return <ArrowLeft />
+    case 'external-link':
+      return <ExternalLink />
+    case 'download':
+      return <Download />
+    default:
+      return null
+  }
+}
 
 export const ContentSectionBlock: React.FC<ContentSectionBlockType> = ({
   images,
   cardInfo,
   title,
+  content,
+  button,
+  dotPatterns,
+  bgClass,
 }) => {
-  console.log('from content section', images, cardInfo, title)
+  // Transform images data from PayloadCMS
+  const transformedImages =
+    images?.map((imageItem) => ({
+      src: typeof imageItem.image === 'object' ? imageItem.image.url || '' : '',
+      alt: imageItem.alt || '',
+    })) || []
+
+  // Create dot patterns
+  const dotPatternTop = dotPatterns?.top?.enabled ? (
+    <DotPattern
+      className={dotPatterns.top.className || ''}
+      rows={dotPatterns.top.rows || 11}
+      cols={dotPatterns.top.cols || 11}
+      dotSize={dotPatterns.top.dotSize || 'md'}
+      dotColor={dotPatterns.top.dotColor || 'bg-flamingo'}
+      gap={dotPatterns.top.gap || 'md'}
+    />
+  ) : null
+
+  const dotPatternBottom = dotPatterns?.bottom?.enabled ? (
+    <DotPattern
+      className={dotPatterns.bottom.className || ''}
+      variant={dotPatterns.bottom.variant as any}
+      rows={dotPatterns.bottom.rows || 9}
+      cols={dotPatterns.bottom.cols || 9}
+      dotSize={dotPatterns.bottom.dotSize || 'sm'}
+      dotColor={dotPatterns.bottom.dotColor || 'bg-primary-dark'}
+    />
+  ) : null
+
   return (
-    <>
-      <ContentSection
-        images={[
-          {
-            src: 'https://sandbox-tailwind-template.netlify.app/assets/img/photos/g5@2x.jpg',
-            alt: 'image principale',
-          },
-          {
-            src: 'https://sandbox-tailwind-template.netlify.app/assets/img/photos/g6@2x.jpg',
-            alt: 'image secondaire',
-          },
-        ]}
-        cardInfo={{
-          value: '+ de 5 000',
-          label: 'Personnes accompagnées',
-        }}
-        dotPatternTop={
-          <DotPattern
-            className="absolute -top-10 left-5 hidden lg:flex"
-            rows={11}
-            cols={11}
-            dotSize="md"
-            dotColor="bg-flamingo"
-            gap="md"
-          />
-        }
-        dotPatternBottom={
-          <DotPattern
-            className="absolute -bottom-30 left-70 hidden lg:flex"
-            variant="dense"
-            rows={9}
-            cols={9}
-            dotSize="sm"
-            dotColor="bg-primary-dark"
-          />
-        }
-        title="Nos Services Membres"
-        paragraphs={[
-          "Créé en 2010, le Réseau Public Départemental d'Aide à Domicile de la Gironde compte à ce jour 33 services membres au 1er janvier 2025.",
-          "Il s'agit exclusivement de services publics de proximité : Centres Communaux d'Action Sociale (CCAS), Centres Intercommunaux d'Action Sociale (CIAS)",
-          "Ces services, par leur présence sur 194 communes de Gironde et leur proximité, constituent d'incontournables acteurs de l'aide à domicile. Chaque service intervient sur un périmètre géographique clairement délimité.",
-        ]}
-        highlight="services membres"
-        buttonText="Retrouvez notre réseau"
-        buttonHref="/services-membres"
-        buttonIcon={<ArrowRight />}
-        bgClass=" py-16"
-      />
-    </>
+    <ContentSection
+      images={transformedImages}
+      cardInfo={cardInfo}
+      dotPatternTop={dotPatternTop}
+      dotPatternBottom={dotPatternBottom}
+      title={title}
+      content={content}
+      buttonText={button?.text || undefined}
+      buttonHref={button?.href || undefined}
+      buttonIcon={button?.icon ? getIconComponent(button.icon) : undefined}
+      bgClass={bgClass || 'bg-primary-lightest py-10'}
+    />
   )
 }
