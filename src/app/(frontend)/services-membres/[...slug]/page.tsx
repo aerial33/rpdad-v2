@@ -1,5 +1,5 @@
 import BlogSection from '@/components/blog-content/content-blog'
-import { getServiceBySlug } from '@/lib/services'
+import { getServiceBySlug } from '@/data/services'
 
 export default async function ServiceMembrePage({ params }: { params: Promise<{ slug: string }> }) {
   // Accéder au premier élément du tableau slug

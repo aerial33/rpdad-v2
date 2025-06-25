@@ -1,6 +1,6 @@
-import Link from "next/link"
+import Link from 'next/link'
 
-import { Emploi } from "@/lib/emplois/emplois-data"
+import { Emploi } from '@/data/emplois/emplois-data'
 
 export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
   return (
@@ -10,10 +10,7 @@ export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
           <div className="mb-8 flex w-full max-w-fit flex-col pl-4 md:mb-10">
             <div className="hidden w-full md:mt-1 md:block">
               <div className="flex w-full items-center space-x-6">
-                <Link
-                  href="#"
-                  className="transition-transform hover:-translate-y-0.5"
-                >
+                <Link href="#" className="transition-transform hover:-translate-y-0.5">
                   <svg
                     className="theme-dark:text-pink-400 size-5 text-pink-600"
                     viewBox="0 0 24 24"
@@ -22,10 +19,7 @@ export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                   </svg>
                 </Link>
-                <Link
-                  href="#"
-                  className="transition-transform hover:-translate-y-0.5"
-                >
+                <Link href="#" className="transition-transform hover:-translate-y-0.5">
                   <svg
                     className="theme-dark:text-blue-500 size-5 text-blue-700"
                     viewBox="0 0 24 24"
@@ -47,9 +41,7 @@ export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
               </div>
             </div>
             <div className="mb-5 px-6 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {"Contact"}
-              </div>
+              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">{'Contact'}</div>
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
                 {`${emploi.contact.responsable}`}
                 <br />
@@ -59,16 +51,14 @@ export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
               </div>
             </div>
             <div className="border-border theme-dark:border-zinc-700 mb-5 border-t px-6 pt-5 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {"Adresse"}
-              </div>
+              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">{'Adresse'}</div>
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
                 {`${emploi.contact.adresse}`}
               </div>
             </div>
             <div className="mb-5 px-6 last:mb-0">
               <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {"Avantages"}
+                {'Avantages'}
               </div>
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
                 {`${emploi.avantages}`}
@@ -76,14 +66,14 @@ export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
             </div>
             <div className="mb-5 px-6 last:mb-0">
               <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {"Postuler"}
+                {'Postuler'}
               </div>
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
                 <Link
                   href={`mailto:${emploi.contact.email}?subject=Candidature%20${emploi.titre}%20-%20${emploi.service}`}
                   className="hover:text-foreground theme-dark:hover:text-zinc-300 underline"
                 >
-                  {"Envoyer votre candidature"}
+                  {'Envoyer votre candidature'}
                 </Link>
               </div>
             </div>
@@ -109,19 +99,10 @@ export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
 
           <h3>Missions principales</h3>
           <ul>
-            <li>
-              Aide à la personne dans les actes essentiels de la vie quotidienne
-            </li>
-            <li>
-              Aide à la personne dans les actes ordinaires de la vie quotidienne
-            </li>
-            <li>
-              Aide à la personne dans les activités sociales et relationnelles
-            </li>
-            <li>
-              Participation à la prévention de la maltraitance des personnes
-              vulnérables
-            </li>
+            <li>Aide à la personne dans les actes essentiels de la vie quotidienne</li>
+            <li>Aide à la personne dans les actes ordinaires de la vie quotidienne</li>
+            <li>Aide à la personne dans les activités sociales et relationnelles</li>
+            <li>Participation à la prévention de la maltraitance des personnes vulnérables</li>
           </ul>
 
           <h3>Compétences requises</h3>
