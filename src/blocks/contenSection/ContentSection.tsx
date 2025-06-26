@@ -1,51 +1,32 @@
 // src/components/sections/ContentSection.tsx
-import { ReactNode } from 'react'
-
 import Link from 'next/link'
+import React from 'react'
 
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
-import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
+import type { ContentSectionProps } from './types'
+import { DEFAULT_BG_CLASSES, DEFAULT_CONTAINER_CLASSES, getImageByIndex } from './utils'
 
-interface CardInfo {
-  value: string
-  label: string
-  className?: string
+const ImageDisplay: React.FC<{ image?: { src: string; alt: string } }> = ({ image }) => {
+  if (!image) return null
+
+  return <img className="rounded-xl" src={image.src} srcSet={image.src} alt={image.alt} />
 }
 
-interface ImageInfo {
-  src: string
-  alt: string
-  className?: string
-}
-
-interface DotPatternProps {
-  className?: string
-  rows: number
-  cols: number
-  dotSize?: string
-  dotColor?: string
-  gap?: string
-  variant?: string
-}
-
-interface ContentSectionProps {
-  bgClass?: string
-  containerClass?: string
-  images: ImageInfo[]
-  cardInfo: CardInfo
-  dotPatternTop?: ReactNode
-  dotPatternBottom?: ReactNode
-  title: string
-  content: DefaultTypedEditorState
-  buttonText?: string
-  buttonHref?: string
-  buttonIcon?: ReactNode
-}
+const InfoCard: React.FC<{ cardInfo: { value: string; label: string } }> = ({ cardInfo }) => (
+  <div className="card from-chateau-lighter to-chateau-lightest rounded-xl bg-gradient-to-bl !text-center">
+    <div className="card-body counter-wrapper !px-[2rem] !py-12">
+      <h3 className="!mb-2 !text-[calc(1.325rem_+_0.9vw)] !leading-none font-semibold !tracking-[normal] !whitespace-nowrap xl:!text-[2rem]">
+        {cardInfo.value}
+      </h3>
+      <p className="!mb-0 text-sm font-medium">{cardInfo.label}</p>
+    </div>
+  </div>
+)
 
 export function ContentSection({
-  bgClass = 'bg-primary-lightest py-10',
-  containerClass = 'container mx-auto px-6 pt-20 pb-16 md:pt-28 md:pb-20 lg:pt-28 lg:pb-20 xl:pt-28 xl:pb-20 2xl:px-0',
+  bgClass = DEFAULT_BG_CLASSES,
+  containerClass = DEFAULT_CONTAINER_CLASSES,
   images,
   cardInfo,
   dotPatternTop,
@@ -56,6 +37,9 @@ export function ContentSection({
   buttonHref,
   buttonIcon,
 }: ContentSectionProps) {
+  const firstImage = getImageByIndex(images, 0)
+  const secondImage = getImageByIndex(images, 1)
+
   return (
     <section className={bgClass}>
       <div className={containerClass}>
@@ -67,49 +51,21 @@ export function ContentSection({
             <div className="mx-[-15px] !mt-[-25px] flex flex-wrap md:mx-[-12.5px] lg:mx-[-12.5px] xl:mx-[-12.5px]">
               <div className="!mt-[25px] w-full max-w-full flex-[0_0_auto] px-[12.5px] md:w-6/12 lg:w-6/12 xl:w-6/12">
                 <figure className="!relative rounded-xl md:!mt-10 lg:!mt-10 xl:!mt-10">
-                  {images.find((image, index) => index === 0) && (
-                    <img
-                      className="rounded-xl"
-                      src={images.find((image, index) => index === 0)?.src}
-                      srcSet={images.find((image, index) => index === 0)?.src}
-                      alt={images.find((image, index) => index === 0)?.alt}
-                    />
-                  )}
+                  <ImageDisplay image={firstImage} />
                 </figure>
               </div>
-              {/* /column */}
               <div className="!mt-[25px] w-full max-w-full flex-[0_0_auto] px-[12.5px] md:w-6/12 lg:w-6/12 xl:w-6/12">
                 <div className="mx-[-15px] !mt-[-25px] flex flex-wrap md:mx-[-12.5px] lg:mx-[-12.5px] xl:mx-[-12.5px]">
                   <div className="!mt-[25px] w-full max-w-full flex-[0_0_auto] px-[12.5px] md:!order-2 lg:!order-2 xl:!order-2">
                     <figure className="rounded-xl">
-                      {images.find((image, index) => index === 1) && (
-                        <img
-                          className="rounded-xl"
-                          src={images.find((image, index) => index === 1)?.src}
-                          srcSet={images.find((image, index) => index === 1)?.src}
-                          alt={images.find((image, index) => index === 1)?.alt}
-                        />
-                      )}
+                      <ImageDisplay image={secondImage} />
                     </figure>
                   </div>
-                  {/* /column */}
                   <div className="!mt-[25px] w-full max-w-full flex-[0_0_auto] px-[12.5px] md:w-10/12 lg:w-10/12 xl:w-10/12">
-                    <div className="card from-chateau-lighter to-chateau-lightest rounded-xl bg-gradient-to-bl !text-center">
-                      <div className="card-body counter-wrapper !px-[2rem] !py-12">
-                        <h3 className="!mb-2 !text-[calc(1.325rem_+_0.9vw)] !leading-none font-semibold !tracking-[normal] !whitespace-nowrap xl:!text-[2rem]">
-                          {cardInfo.value}
-                        </h3>
-                        <p className="!mb-0 text-sm font-medium">{cardInfo.label}</p>
-                      </div>
-                      {/* /.card-body */}
-                    </div>
-                    {/* /.card */}
+                    <InfoCard cardInfo={cardInfo} />
                   </div>
-                  {/* /column */}
                 </div>
-                {/* /.row */}
               </div>
-              {/* /column */}
             </div>
           </div>
           {/* Colonne texte */}
