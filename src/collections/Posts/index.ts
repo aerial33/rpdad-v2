@@ -73,8 +73,13 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'title',
       type: 'text',
-      label: 'Titre',
+      label: "Titre de l'article",
       required: true,
+      admin: {
+        components: {
+          Cell: '@/components/Admin/Fields/Cell.tsx#TitleCell',
+        },
+      },
     },
     {
       type: 'tabs',

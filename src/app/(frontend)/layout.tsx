@@ -4,7 +4,7 @@ import { cn } from '@/utilities/ui'
 import { Lexend_Deca, Nunito } from 'next/font/google'
 import React from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
+import { AdminBar } from '@/components/Admin/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'

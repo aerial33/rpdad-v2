@@ -1,7 +1,9 @@
-import { cn } from '@/utilities/ui'
-import React from 'react'
+'use client'
 
 import { Card, CardPostData } from '@/components/Card'
+import { cn } from '@/utilities/ui'
+import React from 'react'
+import Masonry from 'react-masonry-css'
 
 export type Props = {
   posts: CardPostData[]
@@ -11,23 +13,35 @@ export type Props = {
 export const CollectionArchive: React.FC<Props> = (props) => {
   const { posts, relationTo = 'posts' } = props
 
-  return (
-    <div className={cn('container')}>
-      <div>
-        <div className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 gap-y-4 gap-x-4 lg:gap-y-8 lg:gap-x-8 xl:gap-x-8">
-          {posts?.map((result, index) => {
-            if (typeof result === 'object' && result !== null) {
-              return (
-                <div className="col-span-4" key={index}>
-                  <Card className="h-full" doc={result} relationTo={relationTo} showCategories />
-                </div>
-              )
-            }
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 1,
+  }
 
-            return null
-          })}
-        </div>
-      </div>
+  return (
+    <div className={cn('container mx-auto px-4 sm:px-6 lg:px-8')}>
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
+        {posts?.map((result, index) => {
+          if (typeof result === 'object' && result !== null) {
+            return (
+              <Card
+                key={index}
+                doc={result}
+                relationTo={relationTo}
+                showCategories
+                className="w-full"
+              />
+            )
+          }
+
+          return null
+        })}
+      </Masonry>
     </div>
   )
 }

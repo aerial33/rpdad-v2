@@ -28,14 +28,14 @@ export default buildConfig({
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
-      beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
-      // beforeDashboard: ['@/components/BeforeDashboard'],
+      beforeLogin: ['@/components/Admin/BeforeLogin'],
+
       graphics: {
         Logo: '/graphics/LogoRpdad/logo#Logo',
         Icon: '/graphics/LogoRpdad/logo#LogoIcon',
       },
+      beforeDashboard: [{ path: '@/components/Admin/ui/beforeDashboad.tsx#Welcome' }],
+      actions: [{ path: '@/components/Admin/ui/logout.tsx#Logout' }],
     },
     importMap: {
       baseDir: path.resolve(dirname),
