@@ -6,7 +6,7 @@ export const Welcome = ({ user }: { user: User }) => {
       <h2 className="text-4xl font-bold">Bienvenue {user.name} sur votre espace.</h2>
       <p className="text-lg">
         Vous pouvez désormais accéder à votre espace en tant que{' '}
-        <span className="font-bold">{user.roles}</span>
+        <span className="font-bold">{user.name}</span>
       </p>
     </div>
   )
