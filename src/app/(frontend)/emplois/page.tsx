@@ -1,8 +1,8 @@
 import type { Metadata } from 'next/types'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
+import { EmploiShowcase } from '@/components/emploi/EmploiShowcase'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import PageClient from './page.client'
@@ -37,42 +37,33 @@ export default async function Page() {
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <div>
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Offres d'emploi</h1>
-          <p>Découvrez les dernières opportunités professionnelles dans le réseau RPDAD en Gironde.</p>
+
+      <EmploiShowcase emplois={emplois.docs} totalDocs={emplois.totalDocs} />
+
+      {/* Pagination Section */}
+      {emplois.totalPages && emplois.totalPages > 1 && emplois.page && (
+        <div className="container mx-auto px-4 py-12">
+          <div className="flex flex-col items-center gap-8">
+            <PageRange
+              collection="emplois"
+              currentPage={emplois.page}
+              limit={12}
+              totalDocs={emplois.totalDocs}
+            />
+            <Pagination page={emplois.page} totalPages={emplois.totalPages} collection="emplois" />
+          </div>
         </div>
-      </div>
-
-      <div className="container mb-8">
-        <PageRange
-          collection="emplois"
-          currentPage={emplois.page}
-          limit={12}
-          totalDocs={emplois.totalDocs}
-        />
-      </div>
-
-      <CollectionArchive posts={emplois.docs} relationTo="emplois" />
-
-      <div className="container">
-        {emplois.totalPages > 1 && emplois.page && (
-          <Pagination
-            page={emplois.page}
-            totalPages={emplois.totalPages}
-            collection="emplois"
-          />
-        )}
-      </div>
+      )}
     </div>
   )
 }
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Offres d\'emploi - RPDAD Gironde',
-    description: 'Découvrez les dernières opportunités professionnelles dans le réseau RPDAD en Gironde.',
+    title: "Offres d'emploi - RPDAD Gironde",
+    description:
+      "Découvrez les dernières opportunités professionnelles dans le réseau RPDAD en Gironde. Rejoignez une équipe engagée dans l'aide à domicile.",
   }
 }
