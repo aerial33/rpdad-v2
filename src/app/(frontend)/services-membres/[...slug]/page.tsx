@@ -1,4 +1,4 @@
-import BlogSection from '@/components/blog-content/content-blog'
+import { MembresContent } from '@/components/blog-content'
 import { getServiceBySlug } from '@/data/services'
 
 export default async function ServiceMembrePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -16,7 +16,7 @@ export default async function ServiceMembrePage({ params }: { params: Promise<{ 
 
   return (
     <div className="container mx-auto py-8">
-      <BlogSection service={serviceName} />
+      <MembresContent service={serviceName} />
     </div>
   )
 }
