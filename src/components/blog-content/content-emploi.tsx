@@ -1,15 +1,35 @@
+import RichText from '@/components/RichText'
+import type { Emplois } from '@/payload-types'
 import Link from 'next/link'
 
-import { Emploi } from '@/data/emplois/emplois-data'
+export const BlogSection = ({ emploi }: { emploi: Emplois }) => {
+  const getCategoryLabel = (category: string) => {
+    const categoryMap = {
+      cdi: 'CDI',
+      cdd: 'CDD',
+      stage: 'Stage',
+      alternance: 'Alternance',
+      benevolat: 'Bénévolat',
+    }
+    return categoryMap[category as keyof typeof categoryMap] || category
+  }
 
-export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
+  const getWorkTimeLabel = (workTime: string) => {
+    const workTimeMap = {
+      'full-time': 'Temps plein',
+      'part-time': 'Temps partiel',
+      flexible: 'Horaires flexibles',
+    }
+    return workTimeMap[workTime as keyof typeof workTimeMap] || workTime
+  }
+
   return (
     <section>
       <div className="container mx-auto flex max-w-7xl flex-col items-center pt-4 pb-8 md:flex-row md:pt-8 md:pb-10 lg:pb-16">
         <aside className="top-20 mb-8 w-full self-start p-4 pt-8 md:sticky md:mr-8 md:w-fit md:min-w-[16rem] md:flex-1 lg:max-w-[18rem] lg:shrink-0 2xl:w-full">
           <div className="mb-8 flex w-full max-w-fit flex-col pl-4 md:mb-10">
             <div className="hidden w-full md:mt-1 md:block">
-              <div className="flex w-full items-center space-x-6">
+              {/* <div className="flex w-full items-center space-x-6">
                 <Link href="#" className="transition-transform hover:-translate-y-0.5">
                   <svg
                     className="theme-dark:text-pink-400 size-5 text-pink-600"
@@ -28,100 +48,195 @@ export const BlogSection = ({ emploi }: { emploi: Emploi }) => {
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                   </svg>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="border-border theme-dark:border-zinc-700 theme-dark:bg-zinc-600 flex flex-col rounded-xl border bg-zinc-100 py-6 md:py-8">
-            <div className="theme-dark:text-zinc-100 mb-6 px-6 leading-5 font-medium md:mb-4.5">
-              {`${emploi.service}`}
-            </div>
+            {/* Organisation */}
+            {emploi.organization && (
+              <div className="theme-dark:text-zinc-100 mb-6 px-6 leading-5 font-medium md:mb-4.5">
+                {emploi.organization}
+              </div>
+            )}
+
+            {/* Type de contrat et temps de travail */}
             <div className="mb-5 px-6 last:mb-0">
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {`${emploi.contrat} - ${emploi.temps}`}
+                {getCategoryLabel(emploi.category)}
+                {emploi.workTime && ` - ${getWorkTimeLabel(emploi.workTime)}`}
               </div>
             </div>
-            <div className="mb-5 px-6 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">{'Contact'}</div>
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {`${emploi.contact.responsable}`}
-                <br />
-                {`${emploi.contact.email}`}
-                <br />
-                {`${emploi.contact.telephone}`}
+
+            {/* Lieu */}
+            {emploi.location && (
+              <div className="mb-5 px-6 last:mb-0">
+                <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">Lieu</div>
+                <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
+                  {emploi.location}
+                </div>
               </div>
-            </div>
-            <div className="border-border theme-dark:border-zinc-700 mb-5 border-t px-6 pt-5 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">{'Adresse'}</div>
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {`${emploi.contact.adresse}`}
+            )}
+
+            {/* Salaire */}
+            {emploi.salary && (
+              <div className="mb-5 px-6 last:mb-0">
+                <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">Salaire</div>
+                <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
+                  {emploi.salary}
+                </div>
               </div>
-            </div>
-            <div className="mb-5 px-6 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {'Avantages'}
+            )}
+
+            {/* Dates */}
+            {(emploi.startDate || emploi.endDate) && (
+              <div className="border-border theme-dark:border-zinc-700 mb-5 border-t px-6 pt-5 last:mb-0">
+                {emploi.startDate && (
+                  <div className="mb-3">
+                    <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
+                      Date de début
+                    </div>
+                    <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
+                      {new Date(emploi.startDate).toLocaleDateString('fr-FR')}
+                    </div>
+                  </div>
+                )}
+                {emploi.endDate && (
+                  <div>
+                    <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
+                      Date limite candidature
+                    </div>
+                    <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
+                      {new Date(emploi.endDate).toLocaleDateString('fr-FR')}
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {`${emploi.avantages}`}
+            )}
+
+            {/* Contact */}
+            {(emploi.contactEmail || emploi.contactPhone) && (
+              <div className="border-border theme-dark:border-zinc-700 mb-5 border-t px-6 pt-5 last:mb-0">
+                <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">Contact</div>
+                <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
+                  {emploi.contactEmail && (
+                    <div className="mb-1">
+                      <a
+                        href={`mailto:${emploi.contactEmail}`}
+                        className="hover:text-foreground theme-dark:hover:text-zinc-300 underline"
+                      >
+                        {emploi.contactEmail}
+                      </a>
+                    </div>
+                  )}
+                  {emploi.contactPhone && (
+                    <div>
+                      <a
+                        href={`tel:${emploi.contactPhone}`}
+                        className="hover:text-foreground theme-dark:hover:text-zinc-300"
+                      >
+                        {emploi.contactPhone}
+                      </a>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="mb-5 px-6 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {'Postuler'}
+            )}
+
+            {/* Avantages */}
+            {emploi.benefits && emploi.benefits.length > 0 && (
+              <div className="mb-5 px-6 last:mb-0">
+                <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">Avantages</div>
+                <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
+                  <ul className="list-none space-y-1">
+                    {emploi.benefits.map((benefit, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="mr-2 text-green-500">•</span>
+                        {benefit.benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                <Link
-                  href={`mailto:${emploi.contact.email}?subject=Candidature%20${emploi.titre}%20-%20${emploi.service}`}
-                  className="hover:text-foreground theme-dark:hover:text-zinc-300 underline"
-                >
-                  {'Envoyer votre candidature'}
-                </Link>
+            )}
+
+            {/* Bouton postuler */}
+            {emploi.contactEmail && (
+              <div className="mb-5 px-6 last:mb-0">
+                <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">Postuler</div>
+                <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
+                  <Link
+                    href={`mailto:${emploi.contactEmail}?subject=Candidature%20${emploi.title}%20-%20${emploi.organization || ''}`}
+                    className="hover:text-foreground theme-dark:hover:text-zinc-300 underline"
+                  >
+                    Envoyer votre candidature
+                  </Link>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </aside>
         <article className="prose prose-sm md:prose-base theme-dark:prose-invert mx-auto px-4 pt-8">
-          <h1>{`${emploi.titre} - ${emploi.service}`}</h1>
+          <h1>{emploi.title}</h1>
 
-          <div className="mb-8 rounded-lg bg-gray-50 p-4">
-            <h2 className="mt-0">Description du poste</h2>
-            <p>{emploi.description}</p>
-          </div>
+          {/* Description du poste */}
+          {emploi.description && (
+            <div className="mb-8 rounded-lg bg-gray-50 dark:bg-gray-800 p-4">
+              <h2 className="mt-0">Description du poste</h2>
+              <RichText data={emploi.description} enableGutter={false} />
+            </div>
+          )}
 
-          <h2>Profil recherché</h2>
-          <p>{emploi.profil}</p>
+          {/* Compétences requises */}
+          {emploi.requiredSkills && emploi.requiredSkills.length > 0 && (
+            <div className="mb-8">
+              <h2>Compétences requises</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 not-prose">
+                {emploi.requiredSkills.map((skill, index) => (
+                  <div key={index} className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <h3 className="font-semibold text-sm mb-1">{skill.skill}</h3>
+                    <span className="text-xs text-gray-600 dark:text-gray-400 capitalize">
+                      Niveau{' '}
+                      {skill.level === 'beginner'
+                        ? 'débutant'
+                        : skill.level === 'intermediate'
+                          ? 'intermédiaire'
+                          : skill.level === 'experienced'
+                            ? 'expérimenté'
+                            : 'expert'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-          <h2>Le service</h2>
-          <p>
-            {
-              "Ce service intervient auprès de personnes retraitées ou en situation de handicap qui rencontrent des difficultés dans l'accomplissement des actes essentiels de la vie courante."
-            }
-          </p>
+          {/* Qualifications */}
+          {emploi.qualifications && (
+            <div className="mb-8">
+              <h2>Qualifications et expérience</h2>
+              <RichText data={emploi.qualifications} enableGutter={false} />
+            </div>
+          )}
 
-          <h3>Missions principales</h3>
-          <ul>
-            <li>Aide à la personne dans les actes essentiels de la vie quotidienne</li>
-            <li>Aide à la personne dans les actes ordinaires de la vie quotidienne</li>
-            <li>Aide à la personne dans les activités sociales et relationnelles</li>
-            <li>Participation à la prévention de la maltraitance des personnes vulnérables</li>
-          </ul>
+          {/* Processus de candidature */}
+          {emploi.applicationProcess && (
+            <div className="mb-8">
+              <h2>Comment postuler</h2>
+              <RichText data={emploi.applicationProcess} enableGutter={false} />
+            </div>
+          )}
 
-          <h3>Compétences requises</h3>
-          <ul>
-            <li>Connaissance du secteur médico-social</li>
-            <li>Sens de l'organisation et autonomie</li>
-            <li>Capacité d'adaptation</li>
-            <li>Discrétion professionnelle</li>
-            <li>Bonnes capacités relationnelles</li>
-          </ul>
-
-          <div className="mt-12 flex items-center justify-center">
-            <Link
-              href={`mailto:${emploi.contact.email}?subject=Candidature%20${emploi.titre}%20-%20${emploi.service}`}
-              className="bg-primary hover:bg-primary/90 rounded-lg px-6 py-3 text-white"
-            >
-              Postuler à cette offre
-            </Link>
-          </div>
+          {/* Bouton principal de candidature */}
+          {emploi.contactEmail && (
+            <div className="mt-12 flex items-center justify-center not-prose">
+              <Link
+                href={`mailto:${emploi.contactEmail}?subject=Candidature%20${emploi.title}%20-%20${emploi.organization || ''}`}
+                className="bg-primary hover:bg-primary/90 rounded-lg px-6 py-3 text-white font-medium transition-colors"
+              >
+                Postuler à cette offre
+              </Link>
+            </div>
+          )}
         </article>
       </div>
     </section>
