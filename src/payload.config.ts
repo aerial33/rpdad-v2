@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { Categories } from './collections/Categories'
+import { Emploi } from './collections/Emploi'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -73,7 +74,7 @@ export default buildConfig({
       fr,
     },
   },
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Emploi, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

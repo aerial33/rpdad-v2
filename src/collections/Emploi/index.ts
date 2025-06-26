@@ -7,6 +7,13 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
 import { anyone } from '../../access/anyone'
 import { authenticated } from '../../access/authenticated'
 
@@ -20,7 +27,7 @@ export const Emploi: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'publishedAt'],
+    defaultColumns: ['title', 'category', 'location', 'status', 'publishedAt'],
     group: 'Contenus',
   },
   fields: [
@@ -31,75 +38,261 @@ export const Emploi: CollectionConfig = {
       label: "Titre de l'offre",
     },
     {
-      name: 'subtitle',
-      type: 'text',
-      label: 'Sous-titre',
-    },
-    {
-      name: 'badgeText',
-      type: 'text',
-      label: 'Texte du badge',
-      defaultValue: 'Emploi',
-    },
-    {
-      name: 'featuredImage',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Image principale',
-    },
-    {
-      name: 'category',
-      type: 'select',
-      required: true,
-      options: [
+      type: 'tabs',
+      tabs: [
         {
-          label: 'CDI',
-          value: 'cdi',
+          label: 'Informations générales',
+          fields: [
+            {
+              name: 'subtitle',
+              type: 'text',
+              label: 'Sous-titre',
+            },
+            {
+              name: 'badgeText',
+              type: 'text',
+              label: 'Texte du badge',
+              defaultValue: 'Emploi',
+            },
+            {
+              name: 'featuredImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Image principale',
+            },
+            {
+              name: 'category',
+              type: 'select',
+              required: true,
+              options: [
+                {
+                  label: 'CDI',
+                  value: 'cdi',
+                },
+                {
+                  label: 'CDD',
+                  value: 'cdd',
+                },
+                {
+                  label: 'Stage',
+                  value: 'stage',
+                },
+                {
+                  label: 'Alternance',
+                  value: 'alternance',
+                },
+                {
+                  label: 'Bénévolat',
+                  value: 'benevolat',
+                },
+              ],
+              label: 'Catégorie',
+            },
+            {
+              name: 'workTime',
+              type: 'select',
+              label: 'Temps de travail',
+              options: [
+                {
+                  label: 'Temps plein',
+                  value: 'full-time',
+                },
+                {
+                  label: 'Temps partiel',
+                  value: 'part-time',
+                },
+                {
+                  label: 'Horaires flexibles',
+                  value: 'flexible',
+                },
+              ],
+              defaultValue: 'full-time',
+            },
+            {
+              name: 'location',
+              type: 'text',
+              required: true,
+              label: 'Lieu',
+            },
+            {
+              name: 'salary',
+              type: 'text',
+              label: 'Salaire',
+            },
+            {
+              name: 'organization',
+              type: 'text',
+              label: 'Organisation',
+            },
+            {
+              name: 'description',
+              type: 'richText',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                  ]
+                },
+              }),
+              label: 'Description du poste',
+              required: true,
+            },
+          ],
         },
         {
-          label: 'CDD',
-          value: 'cdd',
+          label: 'Profil recherché',
+          fields: [
+            {
+              name: 'requiredSkills',
+              type: 'array',
+              label: 'Compétences requises',
+              fields: [
+                {
+                  name: 'skill',
+                  type: 'text',
+                  required: true,
+                  label: 'Compétence',
+                },
+                {
+                  name: 'level',
+                  type: 'select',
+                  label: 'Niveau requis',
+                  options: [
+                    {
+                      label: 'Débutant',
+                      value: 'beginner',
+                    },
+                    {
+                      label: 'Intermédiaire',
+                      value: 'intermediate',
+                    },
+                    {
+                      label: 'Expérimenté',
+                      value: 'experienced',
+                    },
+                    {
+                      label: 'Expert',
+                      value: 'expert',
+                    },
+                  ],
+                  defaultValue: 'intermediate',
+                },
+              ],
+              admin: {
+                initCollapsed: true,
+              },
+            },
+            {
+              name: 'qualifications',
+              type: 'richText',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    HeadingFeature({ enabledHeadingSizes: ['h3', 'h4'] }),
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                  ]
+                },
+              }),
+              label: 'Qualifications et expérience requises',
+            },
+            {
+              name: 'benefits',
+              type: 'array',
+              label: 'Avantages du poste',
+              fields: [
+                {
+                  name: 'benefit',
+                  type: 'text',
+                  required: true,
+                  label: 'Avantage',
+                },
+              ],
+              admin: {
+                initCollapsed: true,
+              },
+            },
+          ],
         },
         {
-          label: 'Stage',
-          value: 'stage',
+          label: 'Informations pratiques',
+          fields: [
+            {
+              name: 'startDate',
+              type: 'date',
+              label: 'Date de début',
+            },
+            {
+              name: 'endDate',
+              type: 'date',
+              label: 'Date de fin de candidature',
+            },
+            {
+              name: 'contactEmail',
+              type: 'email',
+              label: 'Email de contact',
+            },
+            {
+              name: 'contactPhone',
+              type: 'text',
+              label: 'Téléphone de contact',
+            },
+            {
+              name: 'applicationProcess',
+              type: 'richText',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    HeadingFeature({ enabledHeadingSizes: ['h3', 'h4'] }),
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                  ]
+                },
+              }),
+              label: 'Processus de candidature',
+              admin: {
+                description: 'Décrivez comment postuler (documents requis, étapes, etc.)',
+              },
+            },
+          ],
         },
         {
-          label: 'Alternance',
-          value: 'alternance',
-        },
-        {
-          label: 'Bénévolat',
-          value: 'benevolat',
+          label: 'SEO',
+          name: 'meta',
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+            }),
+            MetaDescriptionField({}),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+            PreviewField({
+              hasGenerateFn: true,
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
         },
       ],
-      label: 'Catégorie',
-    },
-    {
-      name: 'location',
-      type: 'text',
-      required: true,
-      label: 'Lieu',
-    },
-    {
-      name: 'description',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
-      label: 'Description du poste',
     },
     {
       name: 'featuredJobs',
       type: 'group',
       label: 'Section emplois en vedette',
+      admin: {
+        position: 'sidebar',
+      },
       fields: [
         {
           name: 'heading',
@@ -150,36 +343,6 @@ export const Emploi: CollectionConfig = {
       ],
     },
     {
-      name: 'startDate',
-      type: 'date',
-      label: 'Date de début',
-    },
-    {
-      name: 'endDate',
-      type: 'date',
-      label: 'Date de fin de candidature',
-    },
-    {
-      name: 'salary',
-      type: 'text',
-      label: 'Salaire',
-    },
-    {
-      name: 'organization',
-      type: 'text',
-      label: 'Organisation',
-    },
-    {
-      name: 'contactEmail',
-      type: 'email',
-      label: 'Email de contact',
-    },
-    {
-      name: 'contactPhone',
-      type: 'text',
-      label: 'Téléphone de contact',
-    },
-    {
       name: 'status',
       type: 'select',
       defaultValue: 'active',
@@ -198,6 +361,9 @@ export const Emploi: CollectionConfig = {
         },
       ],
       label: 'Statut',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'publishedAt',
