@@ -10,6 +10,8 @@ import {
 export const FeatureCollection: Block = {
   slug: 'featureCollection',
   interfaceName: 'FeatureCollectionBlock',
+  imageURL: '/img/blocks/feature-collection.jpeg',
+  imageAltText: 'Feature Collection',
   fields: [
     {
       name: 'title',

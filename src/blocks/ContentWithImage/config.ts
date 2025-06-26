@@ -4,6 +4,8 @@ import { Block } from 'payload'
 export const ContentWithImage: Block = {
   slug: 'contentWithImage',
   interfaceName: 'ContentWithImage',
+  imageURL: '/img/blocks/image-with-content-preview.jpeg',
+  imageAltText: 'Contenu avec image',
   labels: {
     singular: 'Contenu avec image',
     plural: 'Contenus avec image',

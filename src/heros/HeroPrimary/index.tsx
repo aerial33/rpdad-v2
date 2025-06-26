@@ -113,7 +113,7 @@ export const HeroPrimary: React.FC<HeroPrimaryType> = ({ children, richText, lin
           </FadeUp>
         </div>
       </div>
-      <div className="bg-flamingo-lighter lg:from-primary lg:to-primary-dark absolute inset-0 top-[-188px] -bottom-4 -z-1 rounded-bl-[300px] lg:bg-gradient-to-tr shadow-2xl lg:left-[60%]"></div>
+      <div className="bg-flamingo-lighter lg:bg-gradient-to-br lg:from-primary lg:to-primary-dark absolute inset-0 top-[-188px] -bottom-4 -z-1 rounded-bl-[300px] shadow-2xl lg:left-[60%]"></div>
     </section>
   )
 }

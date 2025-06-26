@@ -10,6 +10,8 @@ import {
 export const Actu: Block = {
   slug: 'actu',
   interfaceName: 'ActuBlock',
+  imageURL: '/img/blocks/actu-evenement.jpeg',
+  imageAltText: 'Actus & Événements',
   fields: [
     {
       name: 'title',

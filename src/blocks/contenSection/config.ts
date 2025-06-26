@@ -9,7 +9,7 @@ import type { Block } from 'payload'
 export const ContentSectionBlock: Block = {
   slug: 'contentSection',
   interfaceName: 'ContentSectionBlock',
-  imageURL: '/api/blocks/content-section-preview.jpg',
+  imageURL: '/img/blocks/content-section-preview.jpeg',
   imageAltText: 'Aperçu du block Section de Contenu',
   labels: {
     singular: 'Section de Contenu',

@@ -5,6 +5,8 @@ import type { Block } from 'payload'
 export const BentoCard: Block = {
   slug: 'bentoCard',
   interfaceName: 'BentoCardBlock',
+  imageURL: '/img/blocks/bento-preview.jpeg',
+  imageAltText: 'Bento Card',
   fields: [
     {
       name: 'title',
