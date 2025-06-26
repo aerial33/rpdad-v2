@@ -1,5 +1,6 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 import { fr } from '@payloadcms/translations/languages/fr'
 import path from 'path'
@@ -104,6 +105,19 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  email: nodemailerAdapter({
+    defaultFromAddress: 'contact@rpdad.fr',
+    defaultFromName: 'RPDAD',
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    },
+  }),
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {

@@ -533,6 +533,8 @@ export interface FormBlock {
   blockType: 'formBlock';
 }
 /**
+ * Formulaire de contact
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
@@ -1074,6 +1076,15 @@ export interface Emplois {
   publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  parent?: (string | null) | Emplois;
+  breadcrumbs?:
+    | {
+        doc?: (string | null) | Emplois;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1130,10 +1141,15 @@ export interface Search {
   id: string;
   title?: string | null;
   priority?: number | null;
-  doc: {
-    relationTo: 'posts';
-    value: string | Post;
-  };
+  doc:
+    | {
+        relationTo: 'posts';
+        value: string | Post;
+      }
+    | {
+        relationTo: 'emplois';
+        value: string | Emplois;
+      };
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -1725,6 +1741,15 @@ export interface EmploisSelect<T extends boolean = true> {
   publishedAt?: T;
   slug?: T;
   slugLock?: T;
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

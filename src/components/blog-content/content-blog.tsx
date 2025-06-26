@@ -1,210 +1,280 @@
-import Link from 'next/link'
+import { Media } from '@/components/Media'
+import RichText from '@/components/RichText'
+import type { Post } from '@/payload-types'
+import { formatDateTime } from '@/utilities/formatDateTime'
 
-interface ContentBlogProps {
-  service?: string
-  // autres props existantes...
+interface PostContentProps {
+  post: Post
 }
 
-export const BlogSection = ({ service }: ContentBlogProps) => {
+export const PostContent = ({ post }: PostContentProps) => {
   return (
-    <section>
-      <div className="container mx-auto flex max-w-7xl flex-col items-center pt-4 pb-8 md:flex-row md:pt-8 md:pb-10 lg:pb-16">
-        <aside className="top-20 mb-8 w-full self-start pt-8 md:sticky md:mr-8 md:w-fit md:min-w-[16rem] md:flex-1 lg:max-w-[18rem] lg:shrink-0 2xl:w-full">
-          <div className="mb-8 flex w-full max-w-fit shrink-0 flex-col md:mb-10">
-            <div className="hidden w-full md:mt-1 md:block">
-              {/* <div className="flex w-full items-center space-x-6">
-                <Link
-                  href="#"
-                  className="transition-transform hover:-translate-y-0.5"
-                >
-                  <svg
-                    className="theme-dark:text-pink-400 size-5 text-pink-600"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                  </svg>
-                </Link>
-                <Link
-                  href="#"
-                  className="transition-transform hover:-translate-y-0.5"
-                >
-                  <svg
-                    className="theme-dark:text-blue-500 size-5 text-blue-700"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                  </svg>
-                </Link>
-                <Link
-                  href="#"
-                  className="transition-transform hover:-translate-y-0.5"
-                >
-                  <svg
-                    className="theme-dark:text-orange-400 size-5 text-orange-600"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 6.628 5.374 12 12 12 6.627 0 12-5.372 12-12 0-6.627-5.373-12-12-12zm.869 5.903l3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585l4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724l5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461l5.687.569-.099 1.127-5.687-.569.099-1.127zm-.169 2.16h5.736v1.129h-5.736v-1.129zm7.304 3.164c-1.826 0-3.64-.521-3.64-2.613 0-.097.002-.188.006-.281.01-.239.016-.498.016-.811 0-.518-.006-.97-.018-1.355h-2.307c.013.385.018.837.018 1.355 0 .313-.006.572-.016.811-.004.093-.006.184-.006.281 0 2.092-1.814 2.613-3.64 2.613-.31 0-.62-.023-.929-.068l.147-1.114c.239.031.487.046.746.046 1.229 0 1.526-.289 1.526-1.478 0-.097-.002-.191-.006-.287-.01-.236-.016-.492-.016-.799 0-.518.006-.97.018-1.355h-2.073v-1.129h5.736v1.129h-2.073c.013.385.018.837.018 1.355 0 .307-.006.563-.016.799-.004.096-.006.19-.006.287 0 1.189.297 1.478 1.526 1.478.259 0 .507-.015.746-.046l.147 1.114c-.309.045-.619.068-.929.068z" />
-                  </svg>
-                </Link>
-                <Link
-                  href="#"
-                  className="transition-transform hover:-translate-y-0.5"
-                >
-                  <svg
-                    className="theme-dark:text-sky-400 size-5 text-sky-500"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-                  </svg>
-                </Link>
-              </div> */}
+    <div className="min-h-screen ">
+      {/* Hero Section avec image de fond si disponible */}
+      {post.heroImage && (
+        <div className="relative h-[60vh] overflow-hidden">
+          <div className="absolute inset-0">
+            <Media resource={post.heroImage} className="w-full h-full object-cover" />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+            <div className="container mx-auto max-w-7xl">
+              <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight drop-shadow-2xl">
+                {post.title}
+              </h1>
+              {post.publishedAt && (
+                <div className="flex items-center gap-2 text-lg opacity-90 drop-shadow-lg">
+                  <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  {formatDateTime(post.publishedAt)}
+                </div>
+              )}
             </div>
           </div>
-          <div className="border-border theme-dark:border-zinc-700 theme-dark:bg-zinc-600 flex flex-col rounded-xl border bg-zinc-100 py-6 md:py-8">
-            <div className="theme-dark:text-zinc-100 mb-6 px-6 leading-5 font-medium md:mb-4.5">
-              {`${service}`}
-            </div>
-            <div className="mb-5 px-6 last:mb-0">
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {
-                  "Une plateforme d'astreinte téléphonique prend le relai en dehors des heures d'ouverture au public, ainsi que les week-end et jours fériés"
-                }
+        </div>
+      )}
+
+      <section className="relative">
+        <div className="container mx-auto flex max-w-7xl flex-col items-start gap-12 px-6 py-12 md:flex-row lg:gap-16">
+          {/* Sidebar moderne avec design glassmorphism */}
+          <aside className="w-full md:w-80 lg:w-96 shrink-0">
+            <div className="sticky top-8 space-y-6">
+              {/* Card principale avec effet glassmorphism */}
+              <div className="glassmorphism dark:glassmorphism-dark rounded-2xl shadow-2xl shadow-blue-500/10 p-8 hover-lift">
+                {!post.heroImage && (
+                  <div className="mb-8">
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight">
+                      {post.title}
+                    </h1>
+                  </div>
+                )}
+
+                <div className="space-y-6">
+                  {/* Date de publication avec icône */}
+                  {post.publishedAt && (
+                    <div className="flex items-start gap-3 group">
+                      <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40 transition-all duration-300 group-hover:scale-110">
+                        <svg
+                          className="w-5 h-5 text-blue-600 dark:text-blue-400"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold text-slate-900 dark:text-white text-sm mb-1">
+                          Date de publication
+                        </div>
+                        <div className="text-slate-600 dark:text-slate-300 text-sm">
+                          {formatDateTime(post.publishedAt)}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Catégories avec badges modernes */}
+                  {post.categories &&
+                    Array.isArray(post.categories) &&
+                    post.categories.length > 0 && (
+                      <div className="flex items-start gap-3 group">
+                        <div className="p-3 rounded-xl bg-purple-100 dark:bg-purple-900/30 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/40 transition-all duration-300 group-hover:scale-110">
+                          <svg
+                            className="w-5 h-5 text-purple-600 dark:text-purple-400"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-slate-900 dark:text-white text-sm mb-3">
+                            Catégories
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {post.categories?.map((category, index) => (
+                              <span
+                                key={index}
+                                className="inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 cursor-pointer"
+                              >
+                                ✨ {typeof category === 'object' ? category.title : category}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                  {/* Auteurs avec avatars */}
+                  {post.populatedAuthors &&
+                    Array.isArray(post.populatedAuthors) &&
+                    post.populatedAuthors.length > 0 && (
+                      <div className="flex items-start gap-3 group">
+                        <div className="p-3 rounded-xl bg-green-100 dark:bg-green-900/30 group-hover:bg-green-200 dark:group-hover:bg-green-800/40 transition-all duration-300 group-hover:scale-110">
+                          <svg
+                            className="w-5 h-5 text-green-600 dark:text-green-400"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-slate-900 dark:text-white text-sm mb-3">
+                            {(post.populatedAuthors?.length ?? 0) > 1 ? 'Auteurs' : 'Auteur'}
+                          </div>
+                          <div className="space-y-3">
+                            {post.populatedAuthors?.map((author, index) => (
+                              <div
+                                key={author.id}
+                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-200"
+                              >
+                                <div className="relative">
+                                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">
+                                    {author.name?.charAt(0).toUpperCase() || '?'}
+                                  </div>
+                                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-white"></div>
+                                </div>
+                                <div>
+                                  <span className="text-slate-700 dark:text-slate-300 text-sm font-semibold block">
+                                    {author.name || 'Auteur inconnu'}
+                                  </span>
+                                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                                    Contributeur
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                </div>
+              </div>
+
+              {/* Stats card */}
+              <div className="glassmorphism dark:glassmorphism-dark rounded-2xl p-6 hover-lift">
+                <div className="text-center">
+                  <div className="text-4xl mb-3">📚</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-300 font-semibold">
+                    Article de blog
+                  </div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    Lecture recommandée
+                  </div>
+                </div>
+              </div>
+
+              {/* Card de partage social */}
+              <div className="glassmorphism dark:glassmorphism-dark rounded-2xl p-6 hover-lift">
+                <div className="text-center mb-4">
+                  <div className="text-sm font-semibold text-slate-900 dark:text-white mb-2">
+                    Partager cet article
+                  </div>
+                  <div className="flex justify-center gap-3">
+                    <button className="p-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-all duration-200 hover:scale-110 shadow-lg">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                      </svg>
+                    </button>
+                    <button className="p-3 rounded-full bg-blue-700 hover:bg-blue-800 text-white transition-all duration-200 hover:scale-110 shadow-lg">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                      </svg>
+                    </button>
+                    <button className="p-3 rounded-full bg-green-600 hover:bg-green-700 text-white transition-all duration-200 hover:scale-110 shadow-lg">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.768.967-.223.331-.4.374-.719.124-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="mb-5 px-6 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {"Horaire d'accueil"}
-              </div>
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {'Du lundi au vendredi de 8h00 à 12h00 et de 14h00 à 18h00'}
-                <br />
-                {'Le vendredi de 8h00 à 12h00 et de 14h00 à 17h00'}
-              </div>
-            </div>
-            <div className="border-border theme-dark:border-zinc-700 mb-5 border-t px-6 pt-5 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">{'Adresse'}</div>
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {`${service}, Gironde`}
-              </div>
-            </div>
-            <div className="mb-5 px-6 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {'Hôtel de ville'}
-              </div>
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {'7 rue Pierre Pauilhac – 33740 ARES'}
-              </div>
-            </div>
-            <div className="mb-5 px-6 last:mb-0">
-              <div className="theme-dark:text-zinc-200 mb-2 text-xs font-semibold">
-                {'Site Internet'}
-              </div>
-              <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                <Link
-                  href="#"
-                  className="hover:text-foreground theme-dark:hover:text-zinc-300 underline"
+          </aside>
+
+          {/* Contenu principal moderne */}
+          <article className="flex-1 min-w-0 bg-white rounded-2xl shadow">
+            <div className="glassmorphism dark:glassmorphism-dark rounded-2xl shadow-2xl shadow-blue-500/5 overflow-hidden hover-lift">
+              {/* En-tête de l'article si pas d'image hero */}
+              {!post.heroImage && (
+                <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 p-8 text-white relative overflow-hidden">
+                  <div className="relative z-10">
+                    <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 drop-shadow-lg">
+                      {post.title}
+                    </h1>
+                    {post.publishedAt && (
+                      <div className="flex items-center gap-3 text-white/90">
+                        <div className="p-2 rounded-full bg-white/20 backdrop-blur-sm">
+                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                              fillRule="evenodd"
+                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                        <span className="font-medium">{formatDateTime(post.publishedAt)}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
+                </div>
+              )}
+
+              {/* Contenu de l'article */}
+              <div className="p-8 md:p-12">
+                <div
+                  className="prose prose-lg dark:prose-invert max-w-none
+                  prose-headings:text-slate-900 dark:prose-headings:text-white
+                  prose-headings:font-bold prose-headings:tracking-tight
+                  prose-h1:text-4xl prose-h1:mb-8 prose-h1:bg-gradient-to-r prose-h1:from-blue-600 prose-h1:to-purple-600 prose-h1:bg-clip-text prose-h1:text-transparent
+                  prose-h2:text-3xl prose-h2:mb-6 prose-h2:mt-12 prose-h2:text-slate-800 dark:prose-h2:text-slate-200
+                  prose-h3:text-2xl prose-h3:mb-4 prose-h3:mt-8 prose-h3:text-slate-700 dark:prose-h3:text-slate-300
+                  prose-p:text-slate-700 dark:prose-p:text-slate-300
+                  prose-p:leading-relaxed prose-p:text-lg prose-p:mb-6
+                  prose-a:text-blue-600 dark:prose-a:text-blue-400
+                  prose-a:no-underline hover:prose-a:underline prose-a:font-medium
+                  prose-strong:text-slate-900 dark:prose-strong:text-white prose-strong:font-semibold
+                  prose-code:text-pink-600 dark:prose-code:text-pink-400
+                  prose-code:bg-pink-50 dark:prose-code:bg-pink-900/20
+                  prose-code:px-2 prose-code:py-1 prose-code:rounded-md prose-code:font-medium
+                  prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50/50 dark:prose-blockquote:bg-blue-900/10
+                  prose-blockquote:italic prose-blockquote:pl-6 prose-blockquote:py-4 prose-blockquote:rounded-r-lg
+                  prose-ul:space-y-2 prose-ol:space-y-2
+                  prose-li:text-slate-700 dark:prose-li:text-slate-300 prose-li:leading-relaxed
+                  prose-img:rounded-2xl prose-img:shadow-2xl prose-img:my-8
+                "
                 >
-                  {'www.ville-ares.fr'}
-                </Link>
+                  <RichText data={post.content} enableGutter={false} />
+                </div>
               </div>
             </div>
-          </div>
-        </aside>
-        <article className="prose prose-sm theme-dark:prose-invert mx-auto pt-8">
-          <h1>{`Service d'Aide et d'Accompagnement à Domicile du ${service}`}</h1>
-          <h2>{"Le mot d'accueil"}</h2>
-          <p>
-            {
-              'Vous venez de rejoindre le Service d’Aide et d’Accompagnement à Domicile d’Arès. Vous allez ainsi bénéficier des services de nos agents qualifiés. Nous vous remercions de la confiance que vous nous accordez et vous souhaitons la bienvenue !'
-            }
-          </p>
-          <p>
-            {
-              "Rester chez soi le plus longtemps et dans les meilleures conditions possible est le vœu le  plus cher de chacun d’entre-nous. Pour répondre à ce besoin, avec beaucoup de dévouement les dix aides à domicile de notre service sont en mesure d’apporter leur soutien aussi bien pratique que psychologique à toutes  personnes pouvant bénéficier de ce service : retraités, et (ou) personnes en situation de handicap, bénéficiaires de l’ARDH (Aide au Retour à Domicile après Hospitalisation).Compenser la perte d'autonomie, maintenir le lien social, préserver les repères de la personne, tels sont les objectifs essentiels de notre service afin d’assurer un maintien à domicile de qualité et le plus pérenne possible."
-            }
-          </p>
-          <h2>{'Le service'}</h2>
-          <p>
-            {
-              "Ce service intervient auprès de personnes retraitées ou en situation de handicap qui rencontrent des difficultés dans l'accomplissement des actes essentiels de la vie courante. Dix aides à domicile apportent soutien aussi bien pratique que psychologique aux personnes bénéficiant de ce service et ce afin d'assurer le plus longtemps possible leur maintien à domicile."
-            }
-          </p>
-
-          <h3>{'Vos interlocuteurs'}</h3>
-          <p>
-            {' Une responsable de service est à votre écoute pour répondre à toutes vos questions.'}
-          </p>
-          <ul>
-            <li>{'Une responsable équipe administrative...'}</li>
-            <li>{'Un agent qualifié est à votre écoute pour répondre à toutes vos questions.'}</li>
-          </ul>
-
-          <h3>{'Le champ d’intervention'}</h3>
-          <p>
-            {
-              'Selon les plans d’aide définis, et à l’exception d’actes relevant de soins médicaux :'
-            }
-          </p>
-          <ul>
-            <li>{'Entretien du logement et travaux ménagers'}</li>
-            <li>{'Entretien du linge et repassage'}</li>
-            <li>{'Courses de proximité (uniquement sur la commune)'}</li>
-            <li>
-              {
-                'Aide à la promenade et transports de personnes ayant des difficultés de déplacement vers les lieux de vie sociale'
-              }
-            </li>
-            <li>{'Activités de stimulation de la mémoire, temps de parole et d’écoute'}</li>
-            <li>{'Soutien à l’aidant'}</li>
-          </ul>
-          <p>
-            {
-              'Organisme de service à la personne enregistré sous le numéro SAP263300113 auprès de la DIRRECTE'
-            }
-          </p>
-          <h3>{'Le mode d’intervention'}</h3>
-          <p>
-            {
-              'Le service est assuré par des aides à domicile qualifiées et expérimentées. Elles sont accompagnées dans leur travail par un responsable de service.'
-            }
-          </p>
-          {/* <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>King&#x27;s Treasury</th>
-                  <th>People&#x27;s happiness</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Empty</td>
-                  <td>Overflowing</td>
-                </tr>
-                <tr className="theme-dark:border-zinc-700 theme-dark:even:bg-zinc-800 m-0 border-t p-0 even:bg-zinc-100">
-                  <td>Modest</td>
-                  <td>Satisfied</td>
-                </tr>
-                <tr className="theme-dark:border-zinc-700 theme-dark:even:bg-zinc-800 m-0 border-t p-0 even:bg-zinc-100">
-                  <td>Full</td>
-                  <td>Ecstatic</td>
-                </tr>
-              </tbody>
-            </table>
-          </div> */}
-          <p>
-            {
-              "Besoin d'informations complémentaires ? Consultez la page du service sur la plateforme SAAD du Département de la Gironde CLIQUER ICI"
-            }
-          </p>
-        </article>
-      </div>
-    </section>
+          </article>
+        </div>
+      </section>
+    </div>
   )
 }
 
-export default BlogSection
+export default PostContent

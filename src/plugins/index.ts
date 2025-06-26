@@ -1,15 +1,15 @@
+import { revalidateRedirects } from '@/hooks/revalidateRedirects'
+import { beforeSyncWithSearch } from '@/search/beforeSync'
+import { searchFields } from '@/search/fieldOverrides'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
-import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
-import { Plugin } from 'payload'
-import { revalidateRedirects } from '@/hooks/revalidateRedirects'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
-import { searchFields } from '@/search/fieldOverrides'
-import { beforeSyncWithSearch } from '@/search/beforeSync'
+import { Plugin } from 'payload'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -48,7 +48,7 @@ export const plugins: Plugin[] = [
     },
   }),
   nestedDocsPlugin({
-    collections: ['categories'],
+    collections: ['categories', 'emplois'],
     generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
   }),
   seoPlugin({
@@ -60,6 +60,15 @@ export const plugins: Plugin[] = [
       payment: false,
     },
     formOverrides: {
+      admin: {
+        group: 'Formulaires',
+        description: 'Formulaire de contact',
+        hideAPIURL: true,
+      },
+      labels: {
+        singular: 'Formulaire',
+        plural: 'Formulaires',
+      },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'confirmationMessage') {
@@ -80,11 +89,30 @@ export const plugins: Plugin[] = [
         })
       },
     },
+    formSubmissionOverrides: {
+      slug: 'form-submissions',
+      labels: {
+        singular: 'Réponse de formulaire',
+        plural: 'Réponses des formulaires',
+      },
+      admin: {
+        group: 'Formulaires',
+        hideAPIURL: true,
+      },
+    },
   }),
   searchPlugin({
-    collections: ['posts'],
+    collections: ['posts', 'emplois'],
     beforeSync: beforeSyncWithSearch,
     searchOverrides: {
+      admin: {
+        group: 'Divers',
+        hideAPIURL: true,
+      },
+      labels: {
+        singular: 'Recherche',
+        plural: 'Recherches',
+      },
       fields: ({ defaultFields }) => {
         return [...defaultFields, ...searchFields]
       },

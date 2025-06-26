@@ -18,6 +18,7 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 
+import { slugField } from '@/fields/slug'
 import {
   MetaDescriptionField,
   MetaImageField,
@@ -25,7 +26,6 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import { slugField } from '@/fields/slug'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
@@ -49,6 +49,7 @@ export const Posts: CollectionConfig<'posts'> = {
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
+    group: 'Contenus',
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -72,6 +73,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'title',
       type: 'text',
+      label: 'Titre',
       required: true,
     },
     {
@@ -103,7 +105,7 @@ export const Posts: CollectionConfig<'posts'> = {
               required: true,
             },
           ],
-          label: 'Content',
+          label: 'Contenu',
         },
         {
           fields: [

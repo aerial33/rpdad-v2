@@ -14,6 +14,9 @@ importers:
       '@payloadcms/db-mongodb':
         specifier: latest
         version: 3.31.0(@aws-sdk/credential-providers@3.778.0)(payload@3.31.0(graphql@16.10.0)(typescript@5.7.3))
+      '@payloadcms/email-nodemailer':
+        specifier: ^3.43.0
+        version: 3.43.0(payload@3.31.0(graphql@16.10.0)(typescript@5.7.3))
       '@payloadcms/live-preview-react':
         specifier: latest
         version: 3.31.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -95,6 +98,9 @@ importers:
       next-sitemap:
         specifier: ^4.2.3
         version: 4.2.3(next@15.2.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))
+      nodemailer:
+        specifier: ^7.0.3
+        version: 7.0.3
       payload:
         specifier: latest
         version: 3.31.0(graphql@16.10.0)(typescript@5.7.3)
@@ -1042,6 +1048,12 @@ packages:
     engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
       payload: 3.31.0
+
+  '@payloadcms/email-nodemailer@3.43.0':
+    resolution: {integrity: sha512-JrdMnvL/Y5f2+bjIPFSlkpwj+FwhMzNP37jYuQylERot84m6x80LS0wFuW8pEMxETj76TE8GEkmcJdNNcldvlA==}
+    engines: {node: ^18.20.2 || >=20.9.0}
+    peerDependencies:
+      payload: 3.43.0
 
   '@payloadcms/graphql@3.31.0':
     resolution: {integrity: sha512-IJWP+eBzZm7GpQvsvx/+2kfPK6RLhshCXPebtsmLDrjXlySmx1kZOm5F185Zd1yHwMfXfQw4pc6+ipukG1l6sA==}
@@ -3694,6 +3706,10 @@ packages:
     resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
     engines: {node: '>=6.0.0'}
 
+  nodemailer@7.0.3:
+    resolution: {integrity: sha512-Ajq6Sz1x7cIK3pN6KesGTah+1gnwMnx5gKl3piQlQQE/PwyJ4Mbc8is2psWYxK3RJTVeqsDaCv8ZzXLCDHMTZw==}
+    engines: {node: '>=6.0.0'}
+
   noms@0.0.0:
     resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
 
@@ -5909,6 +5925,11 @@ snapshots:
       - supports-color
 
   '@payloadcms/email-nodemailer@3.31.0(payload@3.31.0(graphql@16.10.0)(typescript@5.7.3))':
+    dependencies:
+      nodemailer: 6.9.16
+      payload: 3.31.0(graphql@16.10.0)(typescript@5.7.3)
+
+  '@payloadcms/email-nodemailer@3.43.0(payload@3.31.0(graphql@16.10.0)(typescript@5.7.3))':
     dependencies:
       nodemailer: 6.9.16
       payload: 3.31.0(graphql@16.10.0)(typescript@5.7.3)
@@ -9055,6 +9076,8 @@ snapshots:
       whatwg-url: 5.0.0
 
   nodemailer@6.9.16: {}
+
+  nodemailer@7.0.3: {}
 
   noms@0.0.0:
     dependencies:
