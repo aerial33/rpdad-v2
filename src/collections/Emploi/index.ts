@@ -2,18 +2,18 @@ import type { CollectionConfig } from 'payload'
 
 import { slugField } from '@/fields/slug'
 import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
-import {
   MetaDescriptionField,
   MetaImageField,
   MetaTitleField,
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+import {
+  FixedToolbarFeature,
+  HeadingFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 import { anyone } from '../../access/anyone'
 import { authenticated } from '../../access/authenticated'
 
@@ -29,6 +29,7 @@ export const Emploi: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'location', 'status', 'publishedAt'],
     group: 'Contenus',
+    hideAPIURL: true,
   },
   fields: [
     {

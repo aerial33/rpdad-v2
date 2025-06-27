@@ -68,6 +68,7 @@ export const Posts: CollectionConfig<'posts'> = {
         req,
       }),
     useAsTitle: 'title',
+    hideAPIURL: true,
   },
   fields: [
     {
