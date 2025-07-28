@@ -15,10 +15,22 @@ export const getIconComponent = (iconType: string) => {
 
 export const transformImages = (images: any[]): ImageInfo[] => {
   return (
-    images?.map((imageItem) => ({
-      src: typeof imageItem.image === 'object' ? imageItem.image.url || '' : '',
-      alt: imageItem.alt || '',
-    })) || []
+    images
+      ?.map((imageItem) => {
+        const src = typeof imageItem.image === 'object' ? imageItem.image.url || '' : ''
+        const alt = imageItem.alt || ''
+
+        // Ne pas inclure les images avec des src vides
+        if (!src || src === '') {
+          return null
+        }
+
+        return {
+          src,
+          alt,
+        }
+      })
+      .filter((item): item is ImageInfo => item !== null) || []
   )
 }
 

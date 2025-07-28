@@ -8,7 +8,7 @@ import type { ContentSectionProps } from './types'
 import { DEFAULT_BG_CLASSES, DEFAULT_CONTAINER_CLASSES, getImageByIndex } from './utils'
 
 const ImageDisplay: React.FC<{ image?: { src: string; alt: string } }> = ({ image }) => {
-  if (!image) return null
+  if (!image || !image.src || image.src === '') return null
 
   return <img className="rounded-xl" src={image.src} srcSet={image.src} alt={image.alt} />
 }

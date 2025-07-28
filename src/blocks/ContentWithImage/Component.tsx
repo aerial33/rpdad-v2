@@ -1,12 +1,10 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
-import Image from 'next/image'
-
+import { Media as MediaComponent } from '@/components/Media'
 import type { ContentWithImage as ContentWithImageProps, Media } from '@/payload-types'
 
 export const ContentWithImage: React.FC<ContentWithImageProps> = (props) => {
   const { content, image, imagePosition } = props
-  console.log('console from content with image:', image)
 
   // Vérifier si l'image est un objet Media complet ou juste un ID
   const isImagePopulated = image && typeof image === 'object' && 'url' in image
@@ -24,14 +22,15 @@ export const ContentWithImage: React.FC<ContentWithImageProps> = (props) => {
 
     return (
       <div className="relative overflow-hidden rounded-lg">
-        <Image
+        {/* <Image
           src={imageData.url}
           alt={imageData.alt || 'Image'}
           width={imageData.width || 800}
           height={imageData.height || 600}
           className="h-auto w-full object-cover"
           priority // Si c'est une image importante
-        />
+        /> */}
+        <MediaComponent resource={imageData} />
       </div>
     )
   }

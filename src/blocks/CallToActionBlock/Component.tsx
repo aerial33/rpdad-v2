@@ -20,7 +20,7 @@ export const CallToActionBlockComponent: React.FC<CallToActionBlock> = (props) =
       {backgroundImage && (
         <div className="bg-opacity-50 absolute inset-0 bg-gradient-to-tr from-gray-600 to-gray-700">
           <img
-            src={imageData?.url || ''}
+            src={imageData?.url as string}
             alt={imageData?.alt || ''}
             className="h-full w-full object-cover mix-blend-overlay"
           />

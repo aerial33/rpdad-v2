@@ -83,20 +83,16 @@ export default buildConfig({
     // storage-adapter-placeholder
     s3Storage({
       collections: {
-        media: {
-          prefix: 'media',
-        },
+        media: true,
       },
-      bucket: process.env.S3_BUCKET || 'default-bucket-name',
+      bucket: process.env.S3_BUCKET || '',
       config: {
         credentials: {
           accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+          secretAccessKey: process.env.S3_SECRET || '',
         },
-        region: process.env.S3_REGION,
-        endpoint: process.env.S3_ENDPOINT,
-        forcePathStyle: true,
-        // ... Other S3 configuration
+        region: 'auto',
+        endpoint: process.env.S3_ENDPOINT || '',
       },
     }),
   ],
