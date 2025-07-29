@@ -213,7 +213,7 @@ export const PostContent = ({ post }: PostContentProps) => {
           </aside>
 
           {/* Contenu principal moderne */}
-          <article className="flex-1 min-w-0 bg-white rounded-2xl shadow">
+          <article className="flex-1 min-w-0 bg-blue-50 rounded-2xl shadow">
             <div className="glassmorphism dark:glassmorphism-dark rounded-2xl shadow-2xl shadow-blue-500/5 overflow-hidden hover-lift">
               {/* En-tête de l'article si pas d'image hero */}
               {!post.heroImage && (

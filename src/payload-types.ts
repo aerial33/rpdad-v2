@@ -938,21 +938,6 @@ export interface FeatureCollectionBlock {
   badgeText?: string | null;
   buttonText?: string | null;
   buttonLink?: string | null;
-  introContent?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
   categories?: (string | Category)[] | null;
@@ -1640,7 +1625,6 @@ export interface FeatureCollectionBlockSelect<T extends boolean = true> {
   badgeText?: T;
   buttonText?: T;
   buttonLink?: T;
-  introContent?: T;
   populateBy?: T;
   relationTo?: T;
   categories?: T;

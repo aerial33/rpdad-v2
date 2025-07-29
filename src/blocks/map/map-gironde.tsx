@@ -39,13 +39,8 @@ export function MapBlock() {
   }
 
   return (
-    <section className="py-8 md:py-12 bg-gradient-to-br from-flamingo-lightest via-pink-50 to-flamingo-lighter relative overflow-hidden">
-      {/* Fond décoratif */}
-      <div className="absolute inset-0 bg-gradient-to-r from-flamingo-lightest/30 to-transparent"></div>
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-flamingo-lighter/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-flamingo-light/10 rounded-full blur-2xl"></div>
-
-      <div className="center-element mb-8 grid grid-cols-1 lg:grid-cols-2 gap-4 relative z-10">
+    <section className="py-8 md:py-12">
+      <div className="center-element mb-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
         <FadeUp className="p-2 md:p-4">
           <Badge
             variant={'outline'}
@@ -71,7 +66,7 @@ export function MapBlock() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white/80 backdrop-blur-sm mt-2 md:mt-4 rounded-xl p-2 md:p-3 shadow-lg border border-flamingo-lighter/30"
+              className="bg-flamingo-lightest mt-2 md:mt-4 rounded-md p-2 md:p-3"
             >
               <p className="text-primary-dark text-sm md:text-base">
                 Ville sélectionnée: <strong>{selectedArea.name}</strong>
@@ -93,34 +88,20 @@ export function MapBlock() {
             </motion.div>
           )}
         </FadeUp>
-
-        {/* Container de la carte avec effet d'ombre et fond */}
-        <div className="relative p-2 md:p-4">
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-4 md:p-6 relative overflow-hidden">
-            {/* Effet de brillance */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-transparent via-white/40 to-transparent"></div>
-
-            {/* La carte */}
-            <div className="-mx-4 md:mx-0 overflow-x-auto">
-              <div className="min-w-[380px] md:min-w-0 w-full md:w-[800px] max-w-full filter drop-shadow-sm">
-                <Arrondissement
-                  onMarkerClick={(marker) => {
-                    setSelectedArea({
-                      id: marker.name.toLowerCase().replace(/\s+/g, '-'),
-                      name: marker.name,
-                      villes: [marker.name],
-                    })
-                  }}
-                  width={1000}
-                  height={1000}
-                />
-              </div>
-            </div>
+        <div className="p-0 md:p-4 -mx-4 md:mx-0 overflow-x-auto">
+          <div className="min-w-[380px] md:min-w-0 w-full md:w-[800px] max-w-full">
+            <Arrondissement
+              onMarkerClick={(marker) => {
+                setSelectedArea({
+                  id: marker.name.toLowerCase().replace(/\s+/g, '-'),
+                  name: marker.name,
+                  villes: [marker.name],
+                })
+              }}
+              width={1000}
+              height={1000}
+            />
           </div>
-
-          {/* Ombre décorative */}
-          <div className="absolute inset-2 md:inset-4 rounded-2xl bg-flamingo-light/10 blur-xl -z-10"></div>
         </div>
       </div>
     </section>

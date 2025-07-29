@@ -51,7 +51,7 @@ function FeatureGrid({
         return 'md:grid-cols-2 xl:grid-cols-4'
       case 3:
       default:
-        return 'md:grid-cols-2 xl:grid-cols-3'
+        return 'md:grid-cols-2 '
     }
   }
 

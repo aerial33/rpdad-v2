@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 
 import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
-import { PostContent } from '@/components/blog-content'
 import configPromise from '@payload-config'
 import { draftMode } from 'next/headers'
 import { getPayload } from 'payload'
 import { cache } from 'react'
 
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import SingleContent from '@/components/blog-content/single-content'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 
@@ -47,7 +47,7 @@ export default async function Post({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
+    <article className="nc-SinglePost pt-16 pb-16">
       <PageClient />
 
       {/* Allows redirects for valid pages too */}
@@ -55,7 +55,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <PostContent post={post} />
+      <SingleContent post={post} />
 
       {post.relatedPosts && post.relatedPosts.length > 0 && (
         <div className="container">

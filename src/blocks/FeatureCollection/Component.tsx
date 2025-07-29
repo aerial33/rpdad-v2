@@ -1,4 +1,3 @@
-import RichText from '@/components/RichText'
 import { FeatureGrid, FeatureGridItem } from '@/components/ui/FeatureGrid'
 import { FeatureCollectionBlock, Post } from '@/payload-types'
 import configPromise from '@payload-config'
@@ -11,7 +10,6 @@ export const FeatureCollectionBlockComponent: React.FC<
 > = async (props) => {
   const {
     selectedDocs,
-    introContent,
     categories,
     limit: limitFromProps,
     populateBy,
@@ -75,13 +73,7 @@ export const FeatureCollectionBlockComponent: React.FC<
 
   return (
     // TODO: add a container with a background color and a border radius
-    <div className="my-custom-container" id={`block-${id}`}>
-      {introContent && (
-        <div className="mon-intro-style">
-          <RichText data={introContent} />
-        </div>
-      )}
-
+    <div className="my-custom-container lg:max-w-7xl mx-auto" id={`block-${id}`}>
       <FeatureGrid
         title={title || 'Nos dernières actualités'}
         subtitle={subtitle || 'Découvrez les dernières nouvelles et mises à jour'}

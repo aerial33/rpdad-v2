@@ -19,6 +19,9 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.6",
+    "@heroicons/react": "^2.2.0",
+    "@hugeicons/react": "^1.0.5",
     "@payloadcms/admin-bar": "latest",
     "@payloadcms/db-mongodb": "latest",
     "@payloadcms/email-nodemailer": "^3.43.0",
@@ -34,6 +37,7 @@
     "@payloadcms/storage-s3": "^3.31.0",
     "@payloadcms/translations": "^3.31.0",
     "@payloadcms/ui": "latest",
+    "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^2.0.0",
