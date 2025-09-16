@@ -37,7 +37,7 @@ export const ContentWithImage: React.FC<ContentWithImageProps> = (props) => {
 
   // Composant pour le contenu texte
   const ContentComponent = () => (
-    <div className="flex min-w-[250px] flex-col gap-4">
+    <div className="flex min-w-[250px] flex-col gap-4 richtext-content">
       {content && <RichText className="m-0" data={content} />}
     </div>
   )

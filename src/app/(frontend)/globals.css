@@ -342,11 +342,14 @@
     .highlight-underline-primary::after {
       background-color: var(--color-primary-light);
     }
-
+    h2 {
+      @apply mb-6 text-6xl leading-9 font-semibold text-gray-700 md:text-4xl md:leading-10;
+      font-family: var(--font-nunito);
+    }
     /* Styles pour les titres h3 */
     h3 {
-      @apply mb-4 text-2xl leading-7 font-light text-gray-600 md:text-3xl md:leading-8;
-      font-family: var(--font-nunito);
+      @apply mb-4 text-xl leading-7 font-normal text-gray-500 md:text-2xl md:leading-8;
+      font-family: var(--font-mono);
     }
 
     /* Styles pour les paragraphes */

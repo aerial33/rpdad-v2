@@ -1,4 +1,9 @@
-import { HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  FixedToolbarFeature,
+  HeadingFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 import { Block } from 'payload'
 
 export const ContentWithImage: Block = {
@@ -16,7 +21,12 @@ export const ContentWithImage: Block = {
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
-          return [...rootFeatures, HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] })]
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+          ]
         },
       }),
     },

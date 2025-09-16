@@ -1,10 +1,12 @@
+'use client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Emplois, Media } from '@/payload-types'
 import { ArrowRight, Building2, Calendar, MapPin } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import ReactPlayer from 'react-player'
 import { FAQSection } from './FAQSection'
 import { TestimonialSection } from './TestimonialSection'
 
@@ -30,6 +32,12 @@ type EmploiShowcaseProps = {
 }
 
 export function EmploiShowcase({ emplois, totalDocs = 0 }: EmploiShowcaseProps) {
+  const [isRendered, setIsRendered] = useState(false)
+
+  useEffect(() => {
+    setIsRendered(true)
+  }, [])
+
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return 'Date non spécifiée'
     return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -49,6 +57,23 @@ export function EmploiShowcase({ emplois, totalDocs = 0 }: EmploiShowcaseProps) 
     }
     return category ? categoryLabels[category] : undefined
   }
+
+  const renderMainVideo = () => (
+    <div>
+      {isRendered ? (
+        <ReactPlayer
+          //@ts-ignore
+          url="https://youtu.be/VgYf32lPqo8?si=PlyNjXZIAKJG18fU"
+          className="absolute inset-0"
+          playing={true}
+          width="100%"
+          height="100%"
+          controls
+          muted
+        />
+      ) : null}
+    </div>
+  )
 
   return (
     <div className="w-full">
@@ -80,7 +105,7 @@ export function EmploiShowcase({ emplois, totalDocs = 0 }: EmploiShowcaseProps) 
       </section> */}
 
       {/* Section À propos du RPDAD */}
-      <section className="py-20 lg:py-32">
+      {/* <section className="py-20 lg:py-32">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -123,7 +148,27 @@ export function EmploiShowcase({ emplois, totalDocs = 0 }: EmploiShowcaseProps) 
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+      <header className="container relative py-14 lg:py-20 flex flex-col lg:flex-row lg:items-center">
+        <div className="nc-PageSingleVideo__headerWrap absolute inset-y-0 transform translate-x-1/2 end-1/2 w-screen lg:translate-x-0 lg:w-[calc(100vw/2)]  bg-gradient-to-br lg:from-primary to-primary-dark lg:rounded-e-[40px]" />
+        <div className="pb-10 lg:pb-0 lg:pr-10 relative">
+          <p>presentation</p>
+        </div>
+        <div className="relative lg:w-8/12 flex-shrink-0">
+          <div className="relative w-full aspect-video border-4 border-neutral-300 dark:border-neutral-800 shadow-2xl bg-neutral-800 rounded-3xl overflow-hidden z-0">
+            <ReactPlayer
+              //@ts-ignore
+              url="https://youtu.be/VgYf32lPqo8?si=PlyNjXZIAKJG18fU"
+              className="absolute inset-0"
+              playing={true}
+              width="100%"
+              height="100%"
+              controls
+              muted
+            />
+          </div>
+        </div>
+      </header>
 
       {/* Section Offres d'emploi */}
       <section className="py-20 lg:py-32 bg-muted/30">
