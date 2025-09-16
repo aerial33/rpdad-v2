@@ -1,5 +1,14 @@
 // blocks/CallToActionBlock.ts
+import {
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 import type { Block } from 'payload'
+import { Banner } from '../Banner/config'
+import { MediaBlock } from '../MediaBlock/config'
 
 export const CallToActionBlock: Block = {
   slug: 'callToAction',
@@ -10,11 +19,21 @@ export const CallToActionBlock: Block = {
     {
       name: 'title',
       type: 'text',
-      required: true,
     },
     {
       name: 'description',
-      type: 'textarea',
+      type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+            BlocksFeature({ blocks: [Banner, MediaBlock] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+          ]
+        },
+      }),
     },
     {
       name: 'buttons',

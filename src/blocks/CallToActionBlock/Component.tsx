@@ -1,3 +1,4 @@
+import RichText from '@/components/RichText'
 import { CallToActionBlock, Media } from '@/payload-types'
 
 // Composant pour le block Call to Action
@@ -10,9 +11,9 @@ export const CallToActionBlockComponent: React.FC<CallToActionBlock> = (props) =
   const imageData = isImagePopulated ? (backgroundImage as Media) : null
 
   const buttonStyles = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-600 text-white hover:bg-gray-700',
-    outline: 'border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white',
+    primary: 'bg-primary text-white hover:bg-primary-light',
+    secondary: 'bg-flamingo text-white hover:bg-flamingo-light',
+    outline: 'border-2 border-primary text-white hover:bg-primary-light hover:text-white',
   }
 
   return (
@@ -27,11 +28,15 @@ export const CallToActionBlockComponent: React.FC<CallToActionBlock> = (props) =
         </div>
       )}
 
-      <div className="relative z-10 container mx-auto text-center">
-        <h2 className="mb-4 text-4xl font-bold text-white">{title}</h2>
-        {description && (
-          <p className="mx-auto mb-8 max-w-2xl text-xl text-gray-100">{description}</p>
-        )}
+      <div className="relative z-10 container  mx-auto  flex flex-col items-center md:flex-row md:gap-12 md:text-left gap-6">
+        <div>
+          <h2 className="mb-4 text-4xl font-bold text-white">{title}</h2>
+          {description && (
+            <div className=" mb-8 text-xl text-white">
+              {description && <RichText className="m-0 p-0 text-white" data={description} />}
+            </div>
+          )}
+        </div>
 
         {buttons && buttons.length > 0 && (
           <div className="flex flex-wrap justify-center gap-4">
