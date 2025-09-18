@@ -25,11 +25,12 @@ export const Emploi: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
+
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'location', 'status', 'publishedAt'],
     group: 'Contenus',
-    hideAPIURL: true,
+    hideAPIURL: false,
   },
   fields: [
     {

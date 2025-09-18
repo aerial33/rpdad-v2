@@ -4,10 +4,9 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import React from 'react'
-import PageClient from './page.client'
 import { notFound } from 'next/navigation'
+import { getPayload } from 'payload'
+import PageClient from './page.client'
 
 export const revalidate = 600
 
@@ -39,6 +38,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       organization: true,
       status: true,
       publishedAt: true,
+      featuredImage: true,
       meta: true,
     },
     where: {
@@ -55,7 +55,9 @@ export default async function Page({ params: paramsPromise }: Args) {
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1>Offres d'emploi</h1>
-          <p>Découvrez les dernières opportunités professionnelles dans le réseau RPDAD en Gironde.</p>
+          <p>
+            Découvrez les dernières opportunités professionnelles dans le réseau RPDAD en Gironde.
+          </p>
         </div>
       </div>
 
@@ -72,11 +74,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       <div className="container">
         {emplois?.page && emplois?.totalPages > 1 && (
-          <Pagination
-            page={emplois.page}
-            totalPages={emplois.totalPages}
-            collection="emplois"
-          />
+          <Pagination page={emplois.page} totalPages={emplois.totalPages} collection="emplois" />
         )}
       </div>
     </div>
@@ -87,7 +85,8 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { pageNumber } = await paramsPromise
   return {
     title: `Offres d'emploi - Page ${pageNumber || ''} - RPDAD Gironde`,
-    description: 'Découvrez les dernières opportunités professionnelles dans le réseau RPDAD en Gironde.',
+    description:
+      'Découvrez les dernières opportunités professionnelles dans le réseau RPDAD en Gironde.',
   }
 }
 

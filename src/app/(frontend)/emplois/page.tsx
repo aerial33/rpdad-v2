@@ -26,6 +26,7 @@ export default async function Page() {
       organization: true,
       status: true,
       publishedAt: true,
+      featuredImage: true,
       meta: true,
     },
     where: {

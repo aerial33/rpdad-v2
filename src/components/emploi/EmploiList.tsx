@@ -1,24 +1,8 @@
-import { EmploiGrid, EmploiItem } from './EmploiGrid'
-
+import { EmploiGrid } from './EmploiGrid'
+import type { EmploiItem, EmploiListProps } from './types'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import type { Config } from 'src/payload-types'
-
-// Définition du type pour un emploi dans la collection
-type EmploiDocument = {
-  id: string
-  title: string
-  subtitle?: string
-  slug?: string
-  category?: string
-  location?: string
-  featuredImage?: {
-    url: string
-    alt: string
-    width: number
-    height: number
-  }
-}
 
 async function getEmplois(limit = 6) {
   const payload = await getPayload({ config: configPromise })
@@ -35,17 +19,18 @@ async function getEmplois(limit = 6) {
     },
   })
 
-  // Utiliser une assertion de type pour les documents retournés
-  return (emplois.docs as unknown as EmploiDocument[]).map((emploi) => {
+  return emplois.docs.map((emploi: any) => {
     const featuredImage = emploi.featuredImage
 
     return {
       id: emploi.id,
       title: emploi.title,
-      summary: emploi.subtitle,
+      subtitle: emploi.subtitle,
       slug: emploi.slug,
       category: emploi.category,
       location: emploi.location,
+      organization: emploi.organization,
+      publishedAt: emploi.publishedAt,
       image: featuredImage
         ? {
             url: featuredImage.url,
@@ -54,16 +39,13 @@ async function getEmplois(limit = 6) {
             height: featuredImage.height,
           }
         : undefined,
+      meta: {
+        description: emploi.subtitle
+      }
     } as EmploiItem
   })
 }
 
-type EmploiListProps = {
-  limit?: number
-  heading?: string
-  subheading?: string
-  badgeText?: string
-}
 
 export async function EmploiList({ limit = 6, heading, subheading, badgeText }: EmploiListProps) {
   const emplois = await getEmplois(limit)

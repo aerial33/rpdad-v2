@@ -1,29 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-
 import { Badge } from '@/components/ui/badge'
-
-export type EmploiItem = {
-  id: string
-  title: string
-  summary?: string
-  image?: {
-    url: string
-    alt: string
-    width: number
-    height: number
-  }
-  slug?: string
-  category?: string
-  location?: string
-}
-
-type EmploiGridProps = {
-  heading?: string
-  subheading?: string
-  badgeText?: string
-  emplois: EmploiItem[]
-}
+import type { EmploiItem, EmploiGridProps } from './types'
 
 export function EmploiGrid({
   heading = "Offres d'emploi",
@@ -76,7 +54,7 @@ export function EmploiGrid({
                   <h3 className="text-xl tracking-tight font-medium group-hover:text-primary transition-colors">
                     {emploi.title}
                   </h3>
-                  <p className="text-muted-foreground text-base">{emploi.summary}</p>
+                  <p className="text-muted-foreground text-base">{emploi.subtitle}</p>
                 </Link>
               </div>
             ))}

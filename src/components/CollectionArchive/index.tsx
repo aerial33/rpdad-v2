@@ -20,7 +20,7 @@ export const CollectionArchive: React.FC<Props> = (props) => {
   }
 
   return (
-    <div className={cn('container mx-auto px-4 sm:px-6 lg:px-8')}>
+    <div className={cn('container mx-auto px-4 sm:px-6 lg:px-8 border border-primary')}>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid"
