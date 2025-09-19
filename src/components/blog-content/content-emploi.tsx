@@ -25,8 +25,70 @@ export const BlogSection = ({ emploi }: { emploi: Emplois }) => {
 
   return (
     <section>
-      <div className="container mx-auto flex max-w-7xl flex-col items-center pt-4 pb-8 md:flex-row md:pt-8 md:pb-10 lg:pb-16">
-        <aside className="top-20 mb-8 w-full self-start p-4 pt-8 md:sticky md:mr-8 md:w-fit md:min-w-[16rem] md:flex-1 lg:max-w-[18rem] lg:shrink-0 2xl:w-full">
+      <div className="container mx-auto flex max-w-7xl flex-col justify-between items-center pt-4 pb-8 md:flex-row gap-8 ">
+        <article className="prose prose-sm md:prose-base lg:prose-lg theme-dark:prose-invert w-full  pt-8">
+          <h2>{emploi.title}</h2>
+
+          {/* Description du poste */}
+          {emploi.description && (
+            <div className="mb-8 ">
+              <RichText data={emploi.description} enableGutter={false} />
+            </div>
+          )}
+
+          {/* Compétences requises */}
+          {emploi.requiredSkills && emploi.requiredSkills.length > 0 && (
+            <div className="mb-8">
+              <h2>Compétences requises</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 not-prose">
+                {emploi.requiredSkills.map((skill, index) => (
+                  <div key={index} className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                    <h3 className="font-semibold text-sm mb-1">{skill.skill}</h3>
+                    <span className="text-xs text-gray-600 dark:text-gray-400 capitalize">
+                      Niveau{' '}
+                      {skill.level === 'beginner'
+                        ? 'débutant'
+                        : skill.level === 'intermediate'
+                          ? 'intermédiaire'
+                          : skill.level === 'experienced'
+                            ? 'expérimenté'
+                            : 'expert'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Qualifications */}
+          {emploi.qualifications && (
+            <div className="mb-8">
+              <h2>Qualifications et expérience</h2>
+              <RichText data={emploi.qualifications} enableGutter={false} />
+            </div>
+          )}
+
+          {/* Processus de candidature */}
+          {emploi.applicationProcess && (
+            <div className="mb-8">
+              <h2>Comment postuler</h2>
+              <RichText data={emploi.applicationProcess} enableGutter={false} />
+            </div>
+          )}
+
+          {/* Bouton principal de candidature */}
+          {emploi.contactEmail && (
+            <div className="mt-12 flex items-center justify-center not-prose">
+              <Link
+                href={`mailto:${emploi.contactEmail}?subject=Candidature%20${emploi.title}%20-%20${emploi.organization || ''}`}
+                className="bg-primary hover:bg-primary/90 rounded-lg px-6 py-3 text-white font-medium transition-colors"
+              >
+                Postuler à cette offre
+              </Link>
+            </div>
+          )}
+        </article>
+        <aside className="mt-12 w-full lg:mt-0 lg:w-2/5 lg:ps-10 xl:w-1/3 xl:ps-0 self-start lg:sticky lg:top-7 ">
           <div className="mb-8 flex w-full max-w-fit flex-col pl-4 md:mb-10">
             <div className="hidden w-full md:mt-1 md:block">
               {/* <div className="flex w-full items-center space-x-6">
@@ -51,7 +113,7 @@ export const BlogSection = ({ emploi }: { emploi: Emplois }) => {
               </div> */}
             </div>
           </div>
-          <div className="border-border theme-dark:border-zinc-700 theme-dark:bg-zinc-600 flex flex-col rounded-xl border bg-zinc-100 py-6 md:py-8">
+          <div className=" rounded-3xl bg-neutral-100  flex flex-col  py-6 md:py-8">
             {/* Organisation */}
             {emploi.organization && (
               <div className="theme-dark:text-zinc-100 mb-6 px-6 leading-5 font-medium md:mb-4.5">
@@ -175,69 +237,6 @@ export const BlogSection = ({ emploi }: { emploi: Emplois }) => {
             )}
           </div>
         </aside>
-        <article className="prose prose-sm md:prose-base theme-dark:prose-invert mx-auto px-4 pt-8">
-          <h1>{emploi.title}</h1>
-
-          {/* Description du poste */}
-          {emploi.description && (
-            <div className="mb-8 rounded-lg bg-gray-50 dark:bg-gray-800 p-4">
-              <h2 className="mt-0">Description du poste</h2>
-              <RichText data={emploi.description} enableGutter={false} />
-            </div>
-          )}
-
-          {/* Compétences requises */}
-          {emploi.requiredSkills && emploi.requiredSkills.length > 0 && (
-            <div className="mb-8">
-              <h2>Compétences requises</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 not-prose">
-                {emploi.requiredSkills.map((skill, index) => (
-                  <div key={index} className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-                    <h3 className="font-semibold text-sm mb-1">{skill.skill}</h3>
-                    <span className="text-xs text-gray-600 dark:text-gray-400 capitalize">
-                      Niveau{' '}
-                      {skill.level === 'beginner'
-                        ? 'débutant'
-                        : skill.level === 'intermediate'
-                          ? 'intermédiaire'
-                          : skill.level === 'experienced'
-                            ? 'expérimenté'
-                            : 'expert'}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Qualifications */}
-          {emploi.qualifications && (
-            <div className="mb-8">
-              <h2>Qualifications et expérience</h2>
-              <RichText data={emploi.qualifications} enableGutter={false} />
-            </div>
-          )}
-
-          {/* Processus de candidature */}
-          {emploi.applicationProcess && (
-            <div className="mb-8">
-              <h2>Comment postuler</h2>
-              <RichText data={emploi.applicationProcess} enableGutter={false} />
-            </div>
-          )}
-
-          {/* Bouton principal de candidature */}
-          {emploi.contactEmail && (
-            <div className="mt-12 flex items-center justify-center not-prose">
-              <Link
-                href={`mailto:${emploi.contactEmail}?subject=Candidature%20${emploi.title}%20-%20${emploi.organization || ''}`}
-                className="bg-primary hover:bg-primary/90 rounded-lg px-6 py-3 text-white font-medium transition-colors"
-              >
-                Postuler à cette offre
-              </Link>
-            </div>
-          )}
-        </article>
       </div>
     </section>
   )

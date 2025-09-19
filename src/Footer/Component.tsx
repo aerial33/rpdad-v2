@@ -11,7 +11,7 @@ export async function Footer() {
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="bg-flamingo-lighter rounded-t-4xl py-12 md:pt-16">
+    <footer className=" rounded-t-4xl py-12 md:pt-16">
       <div className="container flex flex-col items-center justify-between gap-10 border-t border-gray-200 text-center lg:flex-row lg:text-left">
         <div className="flex w-full max-w-96 shrink flex-col items-center justify-between gap-6 lg:items-start">
           <div>
