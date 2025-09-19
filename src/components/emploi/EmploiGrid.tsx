@@ -1,7 +1,7 @@
+import { Badge } from '@/components/ui/badge'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Badge } from '@/components/ui/badge'
-import type { EmploiItem, EmploiGridProps } from './types'
+import type { EmploiGridProps } from './types'
 
 export function EmploiGrid({
   heading = "Offres d'emploi",
@@ -31,12 +31,14 @@ export function EmploiGrid({
               <div key={emploi.id} className="flex flex-col gap-2 group">
                 <Link href={`/emplois/${emploi.slug}`} className="block">
                   <div className="bg-muted rounded-md aspect-video mb-2 overflow-hidden">
-                    {emploi.image?.url ? (
+                    {emploi.featuredImage &&
+                    typeof emploi.featuredImage === 'object' &&
+                    emploi.featuredImage.url ? (
                       <Image
-                        src={emploi.image.url}
-                        alt={emploi.image.alt || emploi.title}
-                        width={emploi.image.width || 400}
-                        height={emploi.image.height || 225}
+                        src={emploi.featuredImage.url}
+                        alt={emploi.featuredImage.alt || emploi.title}
+                        width={emploi.featuredImage.width || 400}
+                        height={emploi.featuredImage.height || 225}
                         className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
                       />
                     ) : null}
