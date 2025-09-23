@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { Banner } from '@/blocks/Banner/config'
+import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { slugField } from '@/fields/slug'
 import {
   MetaDescriptionField,
@@ -9,6 +11,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import {
+  BlocksFeature,
   FixedToolbarFeature,
   HeadingFeature,
   InlineToolbarFeature,
@@ -134,6 +137,7 @@ export const Emploi: CollectionConfig = {
                   return [
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+                    BlocksFeature({ blocks: [Banner, MediaBlock] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                   ]

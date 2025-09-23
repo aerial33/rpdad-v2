@@ -1,14 +1,14 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
 import { Media as MediaComponent } from '@/components/Media'
-import type { ContentWithImage as ContentWithImageProps, Media } from '@/payload-types'
+import type { ContentWithImage as ContentWithImageProps } from '@/payload-types'
+import { getPopulatedImageData } from '@/utils/media'
 
 export const ContentWithImage: React.FC<ContentWithImageProps> = (props) => {
   const { content, image, imagePosition } = props
 
   // Vérifier si l'image est un objet Media complet ou juste un ID
-  const isImagePopulated = image && typeof image === 'object' && 'url' in image
-  const imageData = isImagePopulated ? (image as Media) : null
+  const imageData = getPopulatedImageData(image)
 
   // Composant pour afficher l'image
   const ImageComponent = () => {
