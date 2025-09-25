@@ -115,6 +115,9 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Ombre personnalisée pour les cartes (Tailwind v4 token) */
+  --shadow-card: 0 0 0 0.05rem rgba(8, 60, 130, 0.06), 0 0 1.25rem rgba(30, 34, 40, 0.04);
 }
 
 /* ------------------------------------------------------ */
@@ -246,6 +249,26 @@
     h3 {
       @apply mb-3 text-xl leading-7 font-semibold text-gray-500 md:text-2xl md:leading-8;
     }
+  }
+
+  /* Utilitaires d'effet overlay et hover-scale pour les cartes */
+  .hover-scale {
+    --tw-translate-y: calc(var(--spacing) * 0);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+    overflow: hidden;
+  }
+
+  .overlay {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Animation de scale sur l'image interne lors du survol du parent .group */
+  .group:hover .hover-scale img {
+    scale: 1.02;
+    transition: scale 0.3s ease;
   }
 }
 

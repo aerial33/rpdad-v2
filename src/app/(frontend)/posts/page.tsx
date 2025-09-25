@@ -1,8 +1,10 @@
 import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
+import { FadeLeft } from '@/components/motion/animations'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
+import { Badge } from '@/components/ui/badge'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import PageClient from './page.client'
@@ -23,26 +25,39 @@ export default async function Page() {
       slug: true,
       categories: true,
       meta: true,
+      publishedAt: true,
+      populatedAuthors: true,
+      authors: true,
     },
   })
 
   return (
-    <div className="pt-24 pb-24 ">
+    <div className="mt-4">
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>{"L'Actualité du réseau en gironde"}</h1>
+      <header className="relative pt-16 z-10 md:py-20  shadow-xs  bg-gradient-to-tr from-flamingo-lighter to-flamingo-lightest">
+        <div className="container mx-auto relative z-10  max-w-screen-md">
+          <div className="max-w-screen-md">
+            <FadeLeft delay={0.1} duration={0.3}>
+              <div className="flex flex-wrap items-center gap-3 mb-8">
+                <Badge>
+                  {' '}
+                  <PageRange
+                    collection="posts"
+                    currentPage={posts.page}
+                    limit={12}
+                    totalDocs={posts.totalDocs}
+                  />
+                </Badge>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold  mb-10 text-balance leading-tight">
+                {"L'Actualité du réseau en gironde"}
+              </h1>
+            </FadeLeft>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <div className="container mb-8">
-        <PageRange
-          collection="posts"
-          currentPage={posts.page}
-          limit={12}
-          totalDocs={posts.totalDocs}
-        />
-      </div>
+      <div className="container mb-8"></div>
 
       <CollectionArchive posts={posts.docs} />
 

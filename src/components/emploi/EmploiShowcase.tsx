@@ -47,7 +47,7 @@ export function EmploiShowcase({ emplois, totalDocs = 0 }: EmploiShowcaseProps) 
   )
 
   return (
-    <div className="bg-white">
+    <div className="">
       {/* HEADER */}
       <div className=" w-full h-120 px-2 xl:max-w-screen-2xl mx-auto pt-12">
         <div className="relative h-full aspect-w-16 aspect-h-13 sm:aspect-h-9 lg:aspect-h-8 xl:aspect-h-5 rounded-3xl md:rounded-[40px] overflow-hidden z-0">
