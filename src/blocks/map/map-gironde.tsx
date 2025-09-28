@@ -44,7 +44,7 @@ export function MapBlock() {
         <FadeUp className="p-2 md:p-4">
           <Badge
             variant={'outline'}
-            className="bg-flamingo-light text-sm md:text-md mb-2 md:mb-4 text-white px-2 md:px-4 py-1 md:py-2"
+            className=" border-primary text-sm md:text-md text-muted-foreground"
           >
             {'les services membres'}
           </Badge>
@@ -88,8 +88,8 @@ export function MapBlock() {
             </motion.div>
           )}
         </FadeUp>
-        <div className="p-0 md:p-4 -mx-4 md:mx-0 overflow-x-auto">
-          <div className="min-w-[380px] md:min-w-0 w-full md:w-[800px] max-w-full">
+        <div className="p-0 md:p-4 -mx-4 md:mx-0 ">
+          <div className=" w-full">
             <Arrondissement
               onMarkerClick={(marker) => {
                 setSelectedArea({
@@ -98,8 +98,9 @@ export function MapBlock() {
                   villes: [marker.name],
                 })
               }}
-              width={1000}
-              height={1000}
+              width={800}
+              height={800}
+              showLabels={false}
             />
           </div>
         </div>
