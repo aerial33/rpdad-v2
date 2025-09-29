@@ -29,48 +29,33 @@ export const ArchiveBlock: React.FC<
   if (populateBy === 'collection' && relationTo) {
     const payload = await getPayload({ config: configPromise })
 
-    let whereClause = {}
-
-    // Handle filtering based on collection type
-    if (categories && categories.length > 0) {
-      const flattenedCategories = categories.map((category) => {
-        if (typeof category === 'object') return category.id
-        else return category
-      })
-
-      if (relationTo === 'posts') {
-        whereClause = {
-          categories: {
-            in: flattenedCategories,
-          },
-        }
-      } else if (relationTo === 'emplois') {
-        // For emplois, we need to filter by categories as well
-        // assuming the emploi collection will be updated to use categories relationship
-        whereClause = {
-          categories: {
-            in: flattenedCategories,
-          },
-        }
-      }
-    }
+    // Build where clause for category filtering
+    const flattenedCategories = categories && categories.length > 0
+      ? categories.map((category) =>
+          typeof category === 'object' ? category.id : category
+        )
+      : []
 
     const fetchedDocs = await payload.find({
       collection: relationTo,
       depth: 1,
       limit,
-      ...(Object.keys(whereClause).length > 0 ? { where: whereClause } : {}),
+      ...(flattenedCategories.length > 0
+        ? {
+            where: {
+              categories: {
+                in: flattenedCategories,
+              },
+            },
+          }
+        : {}),
     })
 
     documents = fetchedDocs.docs
-  } else {
-    if (selectedDocs?.length) {
-      const filteredSelectedDocs = selectedDocs.map((doc) => {
-        if (typeof doc.value === 'object') return doc.value
-      }).filter(Boolean) as (Post | Emplois)[]
-
-      documents = filteredSelectedDocs
-    }
+  } else if (selectedDocs?.length) {
+    documents = selectedDocs
+      .map((doc) => typeof doc.value === 'object' ? doc.value : null)
+      .filter((doc): doc is Post | Emplois => doc !== null)
   }
 
   return (
