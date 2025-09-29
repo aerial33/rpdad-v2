@@ -6,6 +6,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
+import { getCachedSidebarProps } from '@/utilities/getSidebar'
 
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
@@ -25,10 +26,9 @@ export const ArchiveBlock: React.FC<
   const limit = limitFromProps || 3
 
   let documents: (Post | Emplois)[] = []
+  const payload = await getPayload({ config: configPromise })
 
   if (populateBy === 'collection' && relationTo) {
-    const payload = await getPayload({ config: configPromise })
-
     // Build where clause for category filtering
     const flattenedCategories = categories && categories.length > 0
       ? categories.map((category) =>
@@ -58,6 +58,9 @@ export const ArchiveBlock: React.FC<
       .filter((doc): doc is Post | Emplois => doc !== null)
   }
 
+  // Fetch sidebar data (featured posts + categories with count)
+  const sidebarProps = await getCachedSidebarProps(relationTo || 'posts')()
+
   return (
     <div className="my-16" id={`block-${id}`}>
       {introContent && (
@@ -65,7 +68,11 @@ export const ArchiveBlock: React.FC<
           <RichText className="ms-0 max-w-[32rem]" data={introContent} enableGutter={false} />
         </div>
       )}
-      <CollectionArchive posts={documents} relationTo={relationTo || 'posts'} />
+      <CollectionArchive
+        posts={documents}
+        relationTo={relationTo || 'posts'}
+        sidebarProps={sidebarProps}
+      />
     </div>
   )
 }

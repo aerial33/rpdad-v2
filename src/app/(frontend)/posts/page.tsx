@@ -5,6 +5,7 @@ import { FadeLeft } from '@/components/motion/animations'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import { Badge } from '@/components/ui/badge'
+import { getCachedSidebarProps } from '@/utilities/getSidebar'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import PageClient from './page.client'
@@ -28,8 +29,12 @@ export default async function Page() {
       publishedAt: true,
       populatedAuthors: true,
       authors: true,
+      heroImage: true,
     },
   })
+
+  // Fetch sidebar data (featured posts + categories with count)
+  const sidebarProps = await getCachedSidebarProps('posts')()
 
   return (
     <div className="mt-4">
@@ -59,7 +64,7 @@ export default async function Page() {
 
       <div className="container mb-8"></div>
 
-      <CollectionArchive posts={posts.docs} />
+      <CollectionArchive posts={posts.docs} sidebarProps={sidebarProps} />
 
       <div className="container">
         {posts.totalPages > 1 && posts.page && (

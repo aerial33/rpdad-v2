@@ -47,7 +47,7 @@ export const SidebarWidgets: React.FC<SidebarWidgetsProps> = ({
               >
                 {post.image && (
                   <figure className="!rounded-[.4rem] float-left w-14 !h-[4.5rem]">
-                    <a href={`/blog/${post.slug}`}>
+                    <a href={`/posts/${post.slug}`}>
                       <img className="!rounded-[.4rem]" src={post.image} alt={post.title} />
                     </a>
                   </figure>
@@ -91,11 +91,11 @@ export const SidebarWidgets: React.FC<SidebarWidgetsProps> = ({
             {categories.map((category, index) => (
               <li
                 key={category.id}
-                className={`relative !pl-[1rem] before:absolute before:top-[-0.15rem] before:text-[1rem] before:content-['🤓'] before:left-0 before:font-SansSerif ${
+                className={`relative !pl-[1.5rem] before:absolute before:top-[-0.15rem] before:text-[1rem] before:content-['✔️'] before:left-0 before:font-SansSerif ${
                   index > 0 ? '!mt-[.35rem]' : ''
                 }`}
               >
-                <a className="!text-[#60697b] hover:!text-[#3f78e0]" href="#">
+                <a className="!text-muted-foreground hover:!text-gray-870" href="#">
                   {category.name} ({category.count})
                 </a>
               </li>

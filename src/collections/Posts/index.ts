@@ -173,6 +173,16 @@ export const Posts: CollectionConfig<'posts'> = {
       ],
     },
     {
+      name: 'isFeatured',
+      type: 'checkbox',
+      label: 'Article populaire',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Cocher pour afficher cet article dans la section "Articles populaires"',
+      },
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {

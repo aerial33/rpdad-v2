@@ -256,6 +256,10 @@ export interface Post {
     image?: (string | null) | Media;
     description?: string | null;
   };
+  /**
+   * Cocher pour afficher cet article dans la section "Articles populaires"
+   */
+  isFeatured?: boolean | null;
   publishedAt?: string | null;
   authors?: (string | User)[] | null;
   populatedAuthors?:
@@ -1670,6 +1674,7 @@ export interface PostsSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  isFeatured?: T;
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
