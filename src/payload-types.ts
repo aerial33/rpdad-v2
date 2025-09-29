@@ -506,18 +506,144 @@ export interface ArchiveBlock {
     [k: string]: unknown;
   } | null;
   populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
+  relationTo?: ('posts' | 'emplois') | null;
   categories?: (string | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
-    | {
-        relationTo: 'posts';
-        value: string | Post;
-      }[]
+    | (
+        | {
+            relationTo: 'posts';
+            value: string | Post;
+          }
+        | {
+            relationTo: 'emplois';
+            value: string | Emplois;
+          }
+      )[]
     | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'archive';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "emplois".
+ */
+export interface Emplois {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  badgeText?: string | null;
+  featuredImage?: (string | null) | Media;
+  categories?: (string | Category)[] | null;
+  workTime?: ('full-time' | 'part-time' | 'flexible') | null;
+  location: string;
+  salary?: string | null;
+  organization?: string | null;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  requiredSkills?:
+    | {
+        skill: string;
+        level?: ('beginner' | 'intermediate' | 'experienced' | 'expert') | null;
+        id?: string | null;
+      }[]
+    | null;
+  qualifications?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  benefits?:
+    | {
+        benefit: string;
+        id?: string | null;
+      }[]
+    | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  /**
+   * Décrivez comment postuler (documents requis, étapes, etc.)
+   */
+  applicationProcess?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  featuredJobs?: {
+    heading?: string | null;
+    subheading?: string | null;
+    badgeText?: string | null;
+    /**
+     * Vous pouvez ajouter jusqu'à 6 offres d'emploi en vedette
+     */
+    featuredJobs?:
+      | {
+          title: string;
+          image?: (string | null) | Media;
+          summary?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  status?: ('active' | 'filled' | 'expired') | null;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  parent?: (string | null) | Emplois;
+  breadcrumbs?:
+    | {
+        doc?: (string | null) | Emplois;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -965,126 +1091,6 @@ export interface FeatureCollectionBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'featureCollection';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "emplois".
- */
-export interface Emplois {
-  id: string;
-  title: string;
-  subtitle?: string | null;
-  badgeText?: string | null;
-  featuredImage?: (string | null) | Media;
-  category: 'cdi' | 'cdd' | 'stage' | 'alternance' | 'benevolat';
-  workTime?: ('full-time' | 'part-time' | 'flexible') | null;
-  location: string;
-  salary?: string | null;
-  organization?: string | null;
-  description: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  requiredSkills?:
-    | {
-        skill: string;
-        level?: ('beginner' | 'intermediate' | 'experienced' | 'expert') | null;
-        id?: string | null;
-      }[]
-    | null;
-  qualifications?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  benefits?:
-    | {
-        benefit: string;
-        id?: string | null;
-      }[]
-    | null;
-  startDate?: string | null;
-  endDate?: string | null;
-  contactEmail?: string | null;
-  contactPhone?: string | null;
-  /**
-   * Décrivez comment postuler (documents requis, étapes, etc.)
-   */
-  applicationProcess?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-  };
-  featuredJobs?: {
-    heading?: string | null;
-    subheading?: string | null;
-    badgeText?: string | null;
-    /**
-     * Vous pouvez ajouter jusqu'à 6 offres d'emploi en vedette
-     */
-    featuredJobs?:
-      | {
-          title: string;
-          image?: (string | null) | Media;
-          summary?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  status?: ('active' | 'filled' | 'expired') | null;
-  publishedAt?: string | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  parent?: (string | null) | Emplois;
-  breadcrumbs?:
-    | {
-        doc?: (string | null) | Emplois;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1687,7 +1693,7 @@ export interface EmploisSelect<T extends boolean = true> {
   subtitle?: T;
   badgeText?: T;
   featuredImage?: T;
-  category?: T;
+  categories?: T;
   workTime?: T;
   location?: T;
   salary?: T;

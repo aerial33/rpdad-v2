@@ -1,4 +1,4 @@
-import type { ArchiveBlock as ArchiveBlockProps, Post } from '@/payload-types'
+import type { ArchiveBlock as ArchiveBlockProps, Post, Emplois } from '@/payload-types'
 
 import RichText from '@/components/RichText'
 import configPromise from '@payload-config'
@@ -12,43 +12,64 @@ export const ArchiveBlock: React.FC<
     id?: string
   }
 > = async (props) => {
-  const { id, categories, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
+  const {
+    id,
+    categories,
+    introContent,
+    limit: limitFromProps,
+    populateBy,
+    relationTo = 'posts',
+    selectedDocs
+  } = props
 
   const limit = limitFromProps || 3
 
-  let posts: Post[] = []
+  let documents: (Post | Emplois)[] = []
 
-  if (populateBy === 'collection') {
+  if (populateBy === 'collection' && relationTo) {
     const payload = await getPayload({ config: configPromise })
 
-    const flattenedCategories = categories?.map((category) => {
-      if (typeof category === 'object') return category.id
-      else return category
-    })
+    let whereClause = {}
 
-    const fetchedPosts = await payload.find({
-      collection: 'posts',
+    // Handle filtering based on collection type
+    if (categories && categories.length > 0) {
+      const flattenedCategories = categories.map((category) => {
+        if (typeof category === 'object') return category.id
+        else return category
+      })
+
+      if (relationTo === 'posts') {
+        whereClause = {
+          categories: {
+            in: flattenedCategories,
+          },
+        }
+      } else if (relationTo === 'emplois') {
+        // For emplois, we need to filter by categories as well
+        // assuming the emploi collection will be updated to use categories relationship
+        whereClause = {
+          categories: {
+            in: flattenedCategories,
+          },
+        }
+      }
+    }
+
+    const fetchedDocs = await payload.find({
+      collection: relationTo,
       depth: 1,
       limit,
-      ...(flattenedCategories && flattenedCategories.length > 0
-        ? {
-            where: {
-              categories: {
-                in: flattenedCategories,
-              },
-            },
-          }
-        : {}),
+      ...(Object.keys(whereClause).length > 0 ? { where: whereClause } : {}),
     })
 
-    posts = fetchedPosts.docs
+    documents = fetchedDocs.docs
   } else {
     if (selectedDocs?.length) {
-      const filteredSelectedPosts = selectedDocs.map((post) => {
-        if (typeof post.value === 'object') return post.value
-      }) as Post[]
+      const filteredSelectedDocs = selectedDocs.map((doc) => {
+        if (typeof doc.value === 'object') return doc.value
+      }).filter(Boolean) as (Post | Emplois)[]
 
-      posts = filteredSelectedPosts
+      documents = filteredSelectedDocs
     }
   }
 
@@ -59,7 +80,7 @@ export const ArchiveBlock: React.FC<
           <RichText className="ms-0 max-w-[32rem]" data={introContent} enableGutter={false} />
         </div>
       )}
-      <CollectionArchive posts={posts} />
+      <CollectionArchive posts={documents} relationTo={relationTo || 'posts'} />
     </div>
   )
 }

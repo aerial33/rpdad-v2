@@ -78,14 +78,14 @@ export const CollectionArchive: React.FC<Props> = (props) => {
           </div>
         </div>
 
-        <aside className="xl:w-4/12 lg:w-4/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full sidebar !mt-8 xl:!mt-6 lg:!mt-6">
+        <aside className="xl:w-4/12 lg:w-4/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full sidebar !mt-8 xl:!mt-6 lg:!mt-6 self-start lg:sticky lg:top-7">
           <div className="widget">
-            <form className="search-form relative before:content-['\eca5'] before:block before:absolute before:-translate-y-2/4 before:text-[0.9rem] before:!text-[#959ca9] before:z-[9] before:right-3 before:top-2/4 font-Unicons">
+            <form className="rounded-3xl text-gray-600 bg-white/80 backdrop-blur-sm">
               <div className="form-floating relative !mb-0">
                 <input
                   id="search-form"
                   type="text"
-                  className="form-control relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset] focus-visible:!border-[rgba(63,120,224,0.5)] placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
+                  className=" relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-3xl  transition-[border-color] duration-[0.15s] ease-in-out focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset] focus-visible:!border-[rgba(63,120,224,0.5)] placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
                   placeholder=""
                 />
                 <label
@@ -97,7 +97,7 @@ export const CollectionArchive: React.FC<Props> = (props) => {
               </div>
             </form>
           </div>
-
+          {/* À propos */}
           <div className="widget !mt-[40px]">
             <h4 className="text-2xl font-bold !mb-3">{'À propos de nous'}</h4>
             <p>
@@ -105,40 +105,8 @@ export const CollectionArchive: React.FC<Props> = (props) => {
               Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget
               metus.
             </p>
-            <nav className="nav social">
-              <a
-                className=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                href="#"
-              >
-                <i className=" text-[1rem] !text-[#5daed5] before:content-['\ed59'] uil uil-twitter"></i>
-              </a>
-              <a
-                className=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                href="#"
-              >
-                <i className=" text-[1rem] !text-[#4470cf] before:content-['\eae2'] uil uil-facebook-f"></i>
-              </a>
-              <a
-                className=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                href="#"
-              >
-                <i className=" text-[1rem] !text-[#e94d88] before:content-['\eaa2'] uil uil-dribbble"></i>
-              </a>
-              <a
-                className=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                href="#"
-              >
-                <i className=" text-[1rem] !text-[#d53581] before:content-['\eb9c'] uil uil-instagram"></i>
-              </a>
-              <a
-                className=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                href="#"
-              >
-                <i className=" text-[1rem] !text-[#c8312b] before:content-['\edb5'] uil uil-youtube"></i>
-              </a>
-            </nav>
           </div>
-
+          {/* Article Populaire */}
           <div className="widget !mt-[40px]">
             <h4 className="text-2xl font-bold !mb-3">{'Articles populaires'}</h4>
             <ul className="m-0 p-0 after:content-[''] after:block after:h-0 after:clear-both after:invisible">
@@ -243,7 +211,7 @@ export const CollectionArchive: React.FC<Props> = (props) => {
               </li>
             </ul>
           </div>
-
+          {/* Categories */}
           <div className="widget !mt-[40px]">
             <h4 className="text-2xl font-bold  !mb-3">Categories</h4>
             <ul className="pl-0 list-none bullet-primary !text-inherit">
@@ -275,37 +243,6 @@ export const CollectionArchive: React.FC<Props> = (props) => {
               <li className="relative !pl-[1rem] before:absolute before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif !mt-[.35rem]">
                 <a className="!text-[#60697b] hover:!text-[#3f78e0]" href="#">
                   Business Tips (14)
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="widget !mt-[40px]">
-            <h4 className="text-2xl font-bold !mb-3">Archive</h4>
-            <ul className="pl-0 list-none bullet-primary !text-inherit">
-              <li className="relative !pl-[1rem] before:absolute before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif">
-                <a className="!text-[#60697b] hover:!text-[#3f78e0]" href="#">
-                  February 2019
-                </a>
-              </li>
-              <li className="relative !pl-[1rem] before:absolute before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif !mt-[.35rem]">
-                <a className="!text-[#60697b] hover:!text-[#3f78e0]" href="#">
-                  January 2019
-                </a>
-              </li>
-              <li className="relative !pl-[1rem] before:absolute before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif !mt-[.35rem]">
-                <a className="!text-[#60697b] hover:!text-[#3f78e0]" href="#">
-                  December 2018
-                </a>
-              </li>
-              <li className="relative !pl-[1rem] before:absolute before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif !mt-[.35rem]">
-                <a className="!text-[#60697b] hover:!text-[#3f78e0]" href="#">
-                  November 2018
-                </a>
-              </li>
-              <li className="relative !pl-[1rem] before:absolute before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif !mt-[.35rem]">
-                <a className="!text-[#60697b] hover:!text-[#3f78e0]" href="#">
-                  October 2018
                 </a>
               </li>
             </ul>

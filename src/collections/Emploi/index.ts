@@ -31,7 +31,7 @@ export const Emploi: CollectionConfig = {
 
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'location', 'status', 'publishedAt'],
+    defaultColumns: ['title', 'categories', 'location', 'status', 'publishedAt'],
     group: 'Contenus',
     hideAPIURL: false,
   },
@@ -66,32 +66,11 @@ export const Emploi: CollectionConfig = {
               label: 'Image principale',
             },
             {
-              name: 'category',
-              type: 'select',
-              required: true,
-              options: [
-                {
-                  label: 'CDI',
-                  value: 'cdi',
-                },
-                {
-                  label: 'CDD',
-                  value: 'cdd',
-                },
-                {
-                  label: 'Stage',
-                  value: 'stage',
-                },
-                {
-                  label: 'Alternance',
-                  value: 'alternance',
-                },
-                {
-                  label: 'Bénévolat',
-                  value: 'benevolat',
-                },
-              ],
-              label: 'Catégorie',
+              name: 'categories',
+              type: 'relationship',
+              hasMany: true,
+              relationTo: 'categories',
+              label: 'Catégories',
             },
             {
               name: 'workTime',

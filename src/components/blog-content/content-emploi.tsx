@@ -3,17 +3,6 @@ import type { Emplois } from '@/payload-types'
 import Link from 'next/link'
 
 export const BlogSection = ({ emploi }: { emploi: Emplois }) => {
-  const getCategoryLabel = (category: string) => {
-    const categoryMap = {
-      cdi: 'CDI',
-      cdd: 'CDD',
-      stage: 'Stage',
-      alternance: 'Alternance',
-      benevolat: 'Bénévolat',
-    }
-    return categoryMap[category as keyof typeof categoryMap] || category
-  }
-
   const getWorkTimeLabel = (workTime: string) => {
     const workTimeMap = {
       'full-time': 'Temps plein',
@@ -25,7 +14,7 @@ export const BlogSection = ({ emploi }: { emploi: Emplois }) => {
 
   return (
     <section>
-      <div className="container mx-auto flex max-w-7xl flex-col justify-between items-center pt-4 pb-8 md:flex-row gap-8 ">
+      <div className="container mx-auto flex max-w-7xl flex-col justify-between items-center pt-4 pb-8 md:flex-row gap-8 border border-red-500 ">
         <article className="prose prose-sm md:prose-base lg:prose-lg theme-dark:prose-invert w-full  pt-8">
           <h2>{emploi.title}</h2>
 
@@ -113,7 +102,7 @@ export const BlogSection = ({ emploi }: { emploi: Emplois }) => {
               </div> */}
             </div>
           </div>
-          <div className=" rounded-3xl bg-neutral-100  flex flex-col  py-6 md:py-8">
+          <div className=" theme-dark:border-zinc-700 theme-dark:bg-zinc-600 flex flex-col rounded-xl border bg-zinc-100 py-6 md:py-8">
             {/* Organisation */}
             {emploi.organization && (
               <div className="theme-dark:text-zinc-100 mb-6 px-6 leading-5 font-medium md:mb-4.5">
@@ -124,7 +113,9 @@ export const BlogSection = ({ emploi }: { emploi: Emplois }) => {
             {/* Type de contrat et temps de travail */}
             <div className="mb-5 px-6 last:mb-0">
               <div className="theme-dark:text-zinc-400 overflow-hidden text-xs text-zinc-600 md:text-sm">
-                {getCategoryLabel(emploi.category)}
+                {emploi.categories
+                  ?.map((category) => (typeof category === 'object' ? category.title : category))
+                  .join(', ') || 'Non spécifié'}
                 {emploi.workTime && ` - ${getWorkTimeLabel(emploi.workTime)}`}
               </div>
             </div>

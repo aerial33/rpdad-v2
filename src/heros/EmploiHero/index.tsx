@@ -11,7 +11,7 @@ export const EmploiHero: React.FC<{
   emploi: Emplois
 }> = ({ emploi }) => {
   const {
-    category,
+    categories,
     featuredImage,
     location,
     organization,
@@ -24,17 +24,6 @@ export const EmploiHero: React.FC<{
     endDate,
   } = emploi
 
-  const getCategoryLabel = (category: string) => {
-    const categoryMap = {
-      cdi: 'CDI',
-      cdd: 'CDD',
-      stage: 'Stage',
-      alternance: 'Alternance',
-      benevolat: 'Bénévolat',
-    }
-    return categoryMap[category as keyof typeof categoryMap] || category
-  }
-
   const getWorkTimeLabel = (workTime: string) => {
     const workTimeMap = {
       'full-time': 'Temps plein',
@@ -43,6 +32,7 @@ export const EmploiHero: React.FC<{
     }
     return workTimeMap[workTime as keyof typeof workTimeMap] || workTime
   }
+  // console.log('categories from EmploiHero', categories)
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
@@ -69,9 +59,19 @@ export const EmploiHero: React.FC<{
             {/* Badges de statut */}
             <FadeUp delay={0.3} duration={0.6}>
               <div className="flex flex-wrap items-center gap-3 mb-8">
-                <Badge variant="outline" className=" text-white font-medium backdrop-blur-sm">
-                  {getCategoryLabel(category)}
-                </Badge>
+                {categories && categories.length > 0 && (
+                  <>
+                    {categories.map((category, index) => (
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className=" text-white font-medium backdrop-blur-sm"
+                      >
+                        {typeof category === 'object' ? category.title : category}
+                      </Badge>
+                    ))}
+                  </>
+                )}
                 {workTime && (
                   <Badge variant="outline" className=" text-white font-medium  backdrop-blur-sm">
                     {getWorkTimeLabel(workTime)}
