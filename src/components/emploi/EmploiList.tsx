@@ -27,7 +27,7 @@ async function getEmplois(limit = 6) {
       title: emploi.title,
       subtitle: emploi.subtitle,
       slug: emploi.slug,
-      category: emploi.category,
+      categories: emploi.categories,
       location: emploi.location,
       organization: emploi.organization,
       publishedAt: emploi.publishedAt,

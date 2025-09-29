@@ -14,7 +14,7 @@ export type CardPostData =
   | Pick<
       Emplois,
       | 'slug'
-      | 'category'
+      | 'categories'
       | 'meta'
       | 'title'
       | 'location'
@@ -38,9 +38,8 @@ export const Card: React.FC<{
   const { slug, meta, title } = doc || {}
   const { description, image: metaImage } = meta || {}
 
-  // Handle categories for posts and category for emplois
+  // Handle categories for both posts and emplois
   const categories = doc && 'categories' in doc ? doc.categories : undefined
-  const category = doc && 'category' in doc ? doc.category : undefined
   const location = doc && 'location' in doc ? doc.location : undefined
   const organization = doc && 'organization' in doc ? doc.organization : undefined
   const status = doc && 'status' in doc ? doc.status : undefined
@@ -166,12 +165,25 @@ export const Card: React.FC<{
             </div>
           )}
 
-          {/* Category and status for emplois */}
+          {/* Categories and status for emplois */}
           {relationTo === 'emplois' && (
             <div className="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
-              <Link href={`#`} className="hover" rel="category">
-                {category && getCategoryLabel(category)}
-              </Link>
+              {categories && Array.isArray(categories) && categories.length > 0 && (
+                <>
+                  {categories.map((category, index) => {
+                    const categoryTitle = typeof category === 'object' ? category.title : category
+                    const isLast = index === categories.length - 1
+                    return (
+                      <Fragment key={index}>
+                        <Link href={`#`} className="hover" rel="category">
+                          {categoryTitle}
+                        </Link>
+                        {!isLast && <Fragment>, &nbsp;</Fragment>}
+                      </Fragment>
+                    )
+                  })}
+                </>
+              )}
               <div className="flex items-center gap-2 ml-2">{status && getStatusBadge(status)}</div>
             </div>
           )}

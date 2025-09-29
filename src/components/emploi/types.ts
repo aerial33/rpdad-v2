@@ -6,7 +6,7 @@ export interface EmploiItem {
   title: string
   slug?: string | null
   subtitle?: string | null
-  category?: Emplois['category']
+  categories?: Emplois['categories']
   location?: string | null
   organization?: string | null
   publishedAt?: string | null

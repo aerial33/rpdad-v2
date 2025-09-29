@@ -31,7 +31,7 @@ const Card11: FC<Card11Props> = ({
   hiddenAuthor = false,
   ratio = 'aspect-video',
 }) => {
-  const { title, category, id, location, slug, publishedAt, meta, featuredImage } = post
+  const { title, categories, id, location, slug, publishedAt, meta, featuredImage } = post
 
   // Vérifier si featuredImage est un objet Media complet
   const isImagePopulated =
@@ -68,10 +68,12 @@ const Card11: FC<Card11Props> = ({
       </div>
       <Link href={`/emplois/${slug || '#'}`} className="absolute inset-0"></Link>
       <span className="absolute top-3  left-4  z-10">
-        <Badge variant="outline" className="text-xs text-white">
-          {category}
-        </Badge>
-        {/* <CategoryBadgeList categories={category} /> */}
+        {categories && Array.isArray(categories) && categories.length > 0 && (
+          <Badge variant="outline" className="text-xs text-white">
+            {typeof categories[0] === 'object' ? categories[0].title : categories[0]}
+          </Badge>
+        )}
+        {/* <CategoryBadgeList categories={categories} /> */}
       </span>
 
       <div className="p-4 flex flex-col flex-1 space-y-3">

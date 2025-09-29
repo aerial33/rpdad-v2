@@ -117,9 +117,11 @@ export function EmploiShowcase({ emplois, totalDocs = 0 }: EmploiShowcaseProps) 
                     />
                   </div>
                   <span className="absolute top-3 left-4 z-10">
-                    <Badge variant="default" className="text-xs bg-primary-lighter text-primary">
-                      {emploi.category}
-                    </Badge>
+                    {emploi.categories && Array.isArray(emploi.categories) && emploi.categories.length > 0 && (
+                      <Badge variant="default" className="text-xs bg-primary-lighter text-primary">
+                        {typeof emploi.categories[0] === 'object' ? emploi.categories[0].title : emploi.categories[0]}
+                      </Badge>
+                    )}
                   </span>
                   <CardTitle className="text-xl mt-4 line-clamp-2">{emploi.title}</CardTitle>
                 </CardHeader>

@@ -44,9 +44,9 @@ export function EmploiGrid({
                     ) : null}
                   </div>
                   <div className="flex items-center gap-2 mb-1">
-                    {emploi.category && (
+                    {emploi.categories && Array.isArray(emploi.categories) && emploi.categories.length > 0 && (
                       <Badge variant="outline" className="text-xs">
-                        {emploi.category}
+                        {typeof emploi.categories[0] === 'object' ? emploi.categories[0].title : emploi.categories[0]}
                       </Badge>
                     )}
                     {emploi.location && (
