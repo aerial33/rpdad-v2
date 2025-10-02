@@ -69,7 +69,7 @@ export const HeroPrimary: React.FC<HeroPrimaryType> = ({ children, richText, lin
             </div>
           </FadeLeft>
           <FadeUp delay={0.5}>
-            <div className="relative grid grid-cols-2 gap-6">
+            <div className="hidden relative lg:grid grid-cols-2 gap-6">
               <div className="bg-muted flex aspect-square items-center justify-center overflow-hidden rounded-full">
                 <Image
                   src={'https://sandbox-tailwind-template.netlify.app/assets/img/photos/g5@2x.jpg'}

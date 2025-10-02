@@ -1,77 +1,60 @@
-import { ArrowRight, LucideIcon } from 'lucide-react'
-
+import type { StaticImageData } from 'next/image'
 import { ReactNode } from 'react'
 
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import type { BentoCardBlock } from '@/payload-types'
 import { cn } from '@/utilities/ui'
+import Link from 'next/link'
+import { Media } from '../Media'
+import { Badge } from '../ui/badge'
 
 const BentoGrid = ({ children, className }: { children: ReactNode; className?: string }) => {
+  return <div className={cn('grid w-full grid-cols-3 gap-4', className)}>{children}</div>
+}
+
+// Type d'une carte individuelle depuis PayloadCMS
+type SingleCard = NonNullable<BentoCardBlock['cards']>[number]
+
+// Extension du type PayloadCMS pour BentoCard
+interface BentoCardProps extends Omit<SingleCard, 'links' | 'image' | 'id'> {
+  href?: string // calculé depuis links
+  image?: string | StaticImageData // étendu pour supporter StaticImageData (fallback)
+}
+
+const BentoCard = ({ title, className, image, description, href, cta, tag }: BentoCardProps) => {
   return (
-    <div className={cn('grid w-full auto-rows-[22rem] grid-cols-3 gap-4', className)}>
-      {children}
+    <div
+      className={cn('relative col-span-4 rounded-[40px] p-6 h-full border border-foret', className)}
+    >
+      <div className="w-full max-w-md ml-4 flex-1 flex flex-col items-center justify-center gap-6">
+        <div>
+          {tag && (
+            <Badge variant="outline" className="text-xs font-medium mb-2 ml-auto block">
+              {tag}
+            </Badge>
+          )}
+          <h3 className="text-xl lg:text-2xl font-bold  mb-2 text-balance text-gray-700  ">
+            {title}
+          </h3>
+          <p className=" text-balance text-white">{description}</p>
+        </div>
+        {image && (
+          <Media
+            src={image}
+            alt={title || 'Image'}
+            className="max-w-md mt-4 "
+            imgClassName="w-full h-full object-cover"
+            fill
+            loading="lazy"
+          />
+        )}
+      </div>
+      {href && cta && (
+        <Link href={href} className="font-medium hover:text-primary mt-4">
+          {`${cta} →`}
+        </Link>
+      )}
     </div>
   )
 }
-
-const BentoCard = ({
-  name,
-  className,
-  background,
-  Icon,
-  description,
-  href,
-  cta,
-  tag,
-}: {
-  name: string
-  className: string
-  background: ReactNode
-  Icon: LucideIcon
-  description: string
-  href: string
-  cta: string
-  tag?: string
-}) => (
-  <div
-    key={name}
-    className={cn(
-      'group relative col-span-3 flex flex-col items-center justify-center overflow-hidden rounded-xl',
-      // light styles
-      'bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]',
-      // dark styles
-      'transform-gpu dark:bg-black dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset] dark:[border:1px_solid_rgba(255,255,255,.1)]',
-      className,
-    )}
-  >
-    <div>{background}</div>
-    <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-4 p-6 transition-all duration-300 group-hover:-translate-y-10 lg:pl-24">
-      <Icon className="h-12 w-12 origin-left transform-gpu text-gray-400 transition-all duration-300 ease-in-out group-hover:scale-75" />
-      {tag && (
-        <Badge variant={'outline'} className="text-left text-white uppercase lg:text-lg">
-          {tag}
-        </Badge>
-      )}
-      <h3 className="text-3xl font-bold text-balance text-gray-800 lg:text-4xl dark:text-neutral-300">
-        {name}
-      </h3>
-      <p className="text-balance text-neutral-700">{description}</p>
-    </div>
-
-    <div
-      className={cn(
-        'pointer-events-none absolute bottom-0 flex w-full translate-y-10 transform-gpu flex-row items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100',
-      )}
-    >
-      <Button variant="ghost" asChild size="sm" className="pointer-events-auto">
-        <a href={href}>
-          {cta}
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </a>
-      </Button>
-    </div>
-    <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
-  </div>
-)
 
 export { BentoCard, BentoGrid }

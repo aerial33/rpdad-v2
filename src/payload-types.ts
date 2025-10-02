@@ -930,9 +930,9 @@ export interface BentoCardBlock {
   title?: string | null;
   cards?:
     | {
-        titre: string;
+        title: string;
         description: string;
-        icon: 'Globe' | 'Mail' | 'FileText' | 'Calendar';
+        tag?: string | null;
         links?:
           | {
               link: {
@@ -958,14 +958,14 @@ export interface BentoCardBlock {
             }[]
           | null;
         cta: string;
-        tag?: string | null;
-        backgroundStyle?:
-          | ('bg-primary-light' | 'bg-flamingo-lighter' | 'bg-chateau-lighter' | 'bg-yellow-lighter')
-          | null;
+        image?: (string | null) | Media;
+        /**
+         * Classes Tailwind pour le style et le positionnement de la carte (ex: bg-flamingo-lighter lg:col-start-1 lg:col-end-3)
+         */
+        className?: string | null;
         id?: string | null;
       }[]
     | null;
-  gridLayout?: ('grid-cols-3' | 'grid-cols-4') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'bentoCard';
@@ -1542,9 +1542,9 @@ export interface BentoCardBlockSelect<T extends boolean = true> {
   cards?:
     | T
     | {
-        titre?: T;
+        title?: T;
         description?: T;
-        icon?: T;
+        tag?: T;
         links?:
           | T
           | {
@@ -1561,11 +1561,10 @@ export interface BentoCardBlockSelect<T extends boolean = true> {
               id?: T;
             };
         cta?: T;
-        tag?: T;
-        backgroundStyle?: T;
+        image?: T;
+        className?: T;
         id?: T;
       };
-  gridLayout?: T;
   id?: T;
   blockName?: T;
 }

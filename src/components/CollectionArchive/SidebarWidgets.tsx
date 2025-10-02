@@ -25,6 +25,7 @@ export const SidebarWidgets: React.FC<SidebarWidgetsProps> = ({
   popularPosts = [],
   categories = [],
 }) => {
+  console.log('categories:', categories)
   return (
     <aside className="xl:w-4/12 lg:w-4/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full sidebar !mt-8 xl:!mt-6 lg:!mt-6 self-start lg:sticky lg:top-7">
       <SearchWidget />
