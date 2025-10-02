@@ -55,15 +55,6 @@ export const BentoCard: Block = {
           relationTo: 'media',
           label: 'Image (optionnel)',
         },
-        {
-          name: 'className',
-          type: 'textarea',
-          label: 'Classes CSS Tailwind personnalisées',
-          admin: {
-            description:
-              'Classes Tailwind pour le style et le positionnement de la carte (ex: bg-flamingo-lighter lg:col-start-1 lg:col-end-3)',
-          },
-        },
       ],
     },
   ],

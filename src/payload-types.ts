@@ -959,10 +959,6 @@ export interface BentoCardBlock {
           | null;
         cta: string;
         image?: (string | null) | Media;
-        /**
-         * Classes Tailwind pour le style et le positionnement de la carte (ex: bg-flamingo-lighter lg:col-start-1 lg:col-end-3)
-         */
-        className?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1562,7 +1558,6 @@ export interface BentoCardBlockSelect<T extends boolean = true> {
             };
         cta?: T;
         image?: T;
-        className?: T;
         id?: T;
       };
   id?: T;

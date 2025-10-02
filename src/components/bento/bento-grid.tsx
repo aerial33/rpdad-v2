@@ -1,7 +1,6 @@
-import type { StaticImageData } from 'next/image'
 import { ReactNode } from 'react'
 
-import type { BentoCardBlock } from '@/payload-types'
+import type { BentoCardBlock, Media as MediaType } from '@/payload-types'
 import { cn } from '@/utilities/ui'
 import Link from 'next/link'
 import { Media } from '../Media'
@@ -15,9 +14,10 @@ const BentoGrid = ({ children, className }: { children: ReactNode; className?: s
 type SingleCard = NonNullable<BentoCardBlock['cards']>[number]
 
 // Extension du type PayloadCMS pour BentoCard
-interface BentoCardProps extends Omit<SingleCard, 'links' | 'image' | 'id'> {
+interface BentoCardProps extends Omit<SingleCard, 'links' | 'id'> {
   href?: string // calculé depuis links
-  image?: string | StaticImageData // étendu pour supporter StaticImageData (fallback)
+  image?: string | MediaType // Media object ou string ID depuis PayloadCMS
+  className?: string // Classes CSS Tailwind pour le design
 }
 
 const BentoCard = ({ title, className, image, description, href, cta, tag }: BentoCardProps) => {
@@ -38,14 +38,7 @@ const BentoCard = ({ title, className, image, description, href, cta, tag }: Ben
           <p className=" text-balance text-white">{description}</p>
         </div>
         {image && (
-          <Media
-            src={image}
-            alt={title || 'Image'}
-            className="max-w-md mt-4 "
-            imgClassName="w-full h-full object-cover"
-            fill
-            loading="lazy"
-          />
+          <Media resource={image} alt={title || 'Image'} className="max-w-md mt-4" loading="lazy" />
         )}
       </div>
       {href && cta && (
